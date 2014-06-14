@@ -20,9 +20,9 @@ File::open(__FILE__ + ".wav","w+b") {|file|
 
   (0...sampling_freq).each{ |i|
     if (i % (sampling_freq / tone_freq) >= ((sampling_freq / tone_freq) / 2))
-      file.write([0x90].pack("C"))
+      file.write([0xC0].pack("C"))
     else
-      file.write([0x70].pack("C"))
+      file.write([0x80].pack("C"))
     end
   }
 }

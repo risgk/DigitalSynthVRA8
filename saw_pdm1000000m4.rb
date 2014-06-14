@@ -24,7 +24,7 @@ File::open(__FILE__ + ".wav","w+b") {|file|
     tone_period = sampling_freq / tone_freq
     l = (dynamic_range - 1) * (i % tone_period) / tone_period
     (0...l).each {
-      file.write([0xA0].pack("C"))
+      file.write([0xC0].pack("C"))
     }
     (l...dynamic_range).each {
       file.write([0x80].pack("C"))

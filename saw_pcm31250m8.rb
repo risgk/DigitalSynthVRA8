@@ -1,6 +1,6 @@
 File::open(__FILE__ + ".wav","w+b") {|file|
   tone_freq = 440
-  sampling_freq = 62500
+  sampling_freq = 31250
   data_size = sampling_freq
   file_size = data_size + 36
 

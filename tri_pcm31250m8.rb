@@ -1,6 +1,6 @@
 File::open(__FILE__ + ".wav","w+b") {|file|
   tone_freq = 440
-  sampling_freq = 62500
+  sampling_freq = 31250
   data_size = sampling_freq
   file_size = data_size + 36
 
@@ -18,9 +18,17 @@ File::open(__FILE__ + ".wav","w+b") {|file|
   file.write("data")
   file.write([data_size].pack("V"))
 
-  (0...sampling_freq).each{ |i|
-    tone_period = sampling_freq / tone_freq
-    l = 0x40 * (i % tone_period) / tone_period
-    file.write([0x80 + l].pack("C"))
+  wave = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1]
+  count_per_step = sampling_freq / tone_freq / 32
+
+  step = 0
+  rest = count_per_step
+  (0...sampling_freq).each{
+    rest = rest - 1
+    if rest == 0
+      rest = count_per_step
+      step = (step + 1) % 32
+    end
+    file.write([0x80 + wave[step] * 4].pack("C"))
   }
 }
