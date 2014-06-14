@@ -29,6 +29,6 @@ File::open(__FILE__ + ".wav","w+b") {|file|
       rest = count_per_step
       step = (step + 1) % 32
     end
-    file.write([0x80 + wave[step] * 4].pack("C"))
+    file.write([0x80 + wave[step] * 2].pack("C"))
   }
 }

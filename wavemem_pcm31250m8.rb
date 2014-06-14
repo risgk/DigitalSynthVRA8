@@ -38,7 +38,7 @@ File::open(__FILE__ + ".wav","w+b") {|file|
         step = (step + 1) % wavemem_resolution
       end
       level = wavemem[step]
-      file.write([0x80 + level * 2].pack("C"))
+      file.write([0x80 + level].pack("C"))
     }
   }
 }
