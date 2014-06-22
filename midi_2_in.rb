@@ -1,147 +1,172 @@
+SAMPLE_RATE = 31250
+
+wavemem_num_steps = 32
+wavemem_free1 = [
+    0x3, 0x4, 0x4, 0x3, 0x3, 0x4, 0x5, 0x5, 0x6, 0x6, 0x7, 0x6, 0x4, 0x2, 0x1, 0xB,
+    0xB, 0xA, 0x8, 0x8, 0x9, 0xB, 0xE, 0xF, 0x4, 0x5, 0x4, 0x3, 0x3, 0x2, 0x1, 0x0, 
+]
+wavemem_triangle = [
+    0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF,
+    0xF, 0xE, 0xD, 0xC, 0xB, 0xA, 0x9, 0x8, 0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1, 0x0
+]
+wavemem_saw = [
+    0x0, 0x0, 0x1, 0x1, 0x2, 0x2, 0x3, 0x3, 0x4, 0x4, 0x5, 0x5, 0x6, 0x6, 0x7, 0x7,
+    0x8, 0x8, 0x9, 0x9, 0xA, 0xA, 0xB, 0xB, 0xC, 0xC, 0xD, 0xD, 0xE, 0xE, 0xF, 0xF
+]
+wavemem_square = [
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF
+]
+wavemem_square4 = [
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+]
+wavemem_square8 = [
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0xF, 0xF, 0xF, 0xF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+]
+wavemem_lfo = [
+    0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0xF, 0xE, 0xD, 0xC, 0xB, 0xA, 0x9, 0x8,
+    0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1, 0x0, 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7
+]
+
+note_number_to_count = [
+    0x7772, 0x70BD, 0x6A69, 0x6470, 0x5ECD, 0x597B, 0x5475, 0x4FB8,
+    0x4B3E, 0x4705, 0x4309, 0x3F46, 0x3BB9, 0x385E, 0x3534, 0x3238,
+    0x2F66, 0x2CBD, 0x2A3A, 0x27DC, 0x259F, 0x2382, 0x2184, 0x1FA3,
+    0x1DDC, 0x1C2F, 0x1A9A, 0x191C, 0x17B3, 0x165E, 0x151D, 0x13EE,
+    0x12CF, 0x11C1, 0x10C2, 0x0FD1, 0x0EEE, 0x0E17, 0x0D4D, 0x0C8E,
+    0x0BD9, 0x0B2F, 0x0A8E, 0x09F7, 0x0967, 0x08E0, 0x0861, 0x07E8,
+    0x0777, 0x070B, 0x06A6, 0x0647, 0x05EC, 0x0597, 0x0547, 0x04FB,
+    0x04B3, 0x0470, 0x0430, 0x03F4, 0x03BB, 0x0385, 0x0353, 0x0323,
+    0x02F6, 0x02CB, 0x02A3, 0x027D, 0x0259, 0x0238, 0x0218, 0x01FA,
+    0x01DD, 0x01C2, 0x01A9, 0x0191, 0x017B, 0x0165, 0x0151, 0x013E,
+    0x012C, 0x011C, 0x010C, 0x00FD, 0x00EE, 0x00E1, 0x00D4, 0x00C8,
+    0x00BD, 0x00B2, 0x00A8, 0x009F, 0x0096, 0x008E, 0x0086, 0x007E,
+    0x0077, 0x0070, 0x006A, 0x0064, 0x005E, 0x0059, 0x0054, 0x004F,
+    0x004B, 0x0047, 0x0043, 0x003F, 0x003B, 0x0038, 0x0035, 0x0032,
+    0x002F, 0x002C, 0x002A, 0x0027, 0x0025, 0x0023, 0x0021, 0x001F,
+    0x001D, 0x001C, 0x001A, 0x0019, 0x0017, 0x0016, 0x0015, 0x0013,
+]
+
+envelope_lead = [0,500,16,0]
+envelope_level_max = 16
+A = 0
+D = 1
+S = 2
+R = 3
+
 STDIN.binmode
 File::open(__FILE__ + ".wav","w+b") do |file|
-  sample_rate = 31250
+    data_size = 2 * SAMPLE_RATE * 9
+    file_size = data_size + 36
+    file.write("RIFF")
+    file.write([file_size - 8].pack("V"))
+    file.write("WAVE")
+    file.write("fmt ")
+    file.write([16].pack("V"))
+    file.write([1].pack("v"))
+    file.write([1].pack("v"))
+    file.write([SAMPLE_RATE].pack("V"))
+    file.write([SAMPLE_RATE * 2].pack("V"))
+    file.write([1 * 2].pack("v"))
+    file.write([16].pack("v"))
+    file.write("data")
+    file.write([data_size].pack("V"))
 
-  wavemem_num_steps = 32
-  wavemem_triangle = [7, 6, 5, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 15, 14, 13, 12, 11, 10, 9, 8]
-  wavemem_saw      = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15]
-  wavemem_square   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
-  wavemem_square_4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 15, 15, 15, 15, 15, 15, 15, 0, 0, 0, 0, 0, 0, 0, 0]
-  wavemem_square_8 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 15, 15, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  wavemem_lfo      = [8, 9, 10, 11, 12, 13, 14, 15, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 5, 6, 7]
+    wavemem = wavemem_square
+    wavemem_step = 0
+    envelope = envelope_lead
+    envelope_generator_level = 0
+    lfo_wavemem = wavemem_lfo
+    lfo_wavemem_step = 16
 
-  envelope_lead = [50,1000,15,250]
-  envelope_level_max = 16
-  A = 0
-  D = 1
-  S = 2
-  R = 3
+    NOTE_ON  = 0x80
+    NOTE_OFF = 0x90
 
-  # C1..B7
-  scales = [
-    30578, 28861, 27241, 25712, 24269, 22907, 21621, 20408, 19262, 18181, 17161, 16198,
-    15289, 14430, 13620, 12856, 12134, 11453, 10810, 10204, 9631, 9090, 8580, 8099,
-    7644, 7215, 6810, 6428, 6067, 5726, 5405, 5102, 4815, 4545, 4290, 4049,
-    3822, 3607, 3405, 3214, 3033, 2863, 2702, 2551, 2407, 2272, 2145, 2024,
-    1911, 1803, 1702, 1607, 1516, 1431, 1351, 1275, 1203, 1136, 1072, 1012,
-    955, 901, 851, 803, 758, 715, 675, 637, 601, 568, 536, 506,
-    477, 450, 425, 401, 379, 357, 337, 318, 300, 284, 268, 253,
-    238, 225, 212, 200, 189, 178, 168, 159, 150, 142, 134, 126,
-    119, 112, 106, 100, 94, 89, 84, 79, 75, 71, 67, 63,
-    59, 56, 53, 50, 47, 44, 42, 39, 37, 35, 33, 31,
-    29, 28, 26, 25, 23, 22, 21, 19
-  ]
+    note_number = 60
+    count_per_wavemem_step = note_number_to_count[note_number]
+    wavemem_rest = count_per_wavemem_step
+    envelope_generator_state = A
+    envelope_generator_rest = 0
+    lfo_rest = (SAMPLE_RATE * 1 / 2)
+    lfo_wavemem_step = 0
 
-  data_size = sample_rate * 8
-  file_size = data_size + 36
-  file.write("RIFF")
-  file.write([file_size - 8].pack("V"))
-  file.write("WAVE")
-  file.write("fmt ")
-  file.write([16].pack("V"))
-  file.write([1].pack("v"))
-  file.write([1].pack("v"))
-  file.write([sample_rate].pack("V"))
-  file.write([sample_rate].pack("V"))
-  file.write([1].pack("v"))
-  file.write([8].pack("v"))
-  file.write("data")
-  file.write([data_size].pack("V"))
+    prev = 0xFF
+    pprev = 0xFF
+    while(str = STDIN.read(1)) do
+        c = str.ord
 
-  wavemem = wavemem_saw
-  wavemem_step = 0
-  envelope = envelope_lead
-  envelope_generator_level = 0
-  lfo_wavemem = wavemem_lfo
-  lfo_wavemem_step = 16
-
-  NOTE_ON  = 0x80
-  NOTE_OFF = 0x90
-
-  note_number = 60
-  count_per_wavemem_step = scales[note_number]
-  wavemem_current_step_rest = count_per_wavemem_step
-  envelope_generator_state = A
-  envelope_generator_rest = 0
-  lfo_rest = (sample_rate * 1 / 2)
-  lfo_wavemem_step = 0
-
-  prev = 0xFF
-  pprev = 0xFF
-  while(str = STDIN.read(1)) do
-    c = str.ord
-
-    if pprev == NOTE_ON && prev <= 0x7F && c <= 0x7F
-      note_number = prev
-      count_per_wavemem_step = scales[note_number]
-      wavemem_current_step_rest = count_per_wavemem_step
-      envelope_generator_state = A
-      envelope_generator_rest = envelope[envelope_generator_state]
-      lfo_rest = (sample_rate * 1 / 2)
-      lfo_wavemem_step = 0
-    end
-    if pprev == NOTE_OFF && prev <= 0x7F && c <= 0x7F
-      envelope_generator_state = R
-      envelope_generator_rest = envelope[envelope_generator_state]
-    end
-    pprev = prev
-    prev = c
-
-    (0...10).each do
-      lfo_rest -= 1
-      while (lfo_rest <= 0)
-        lfo_rest = lfo_rest + (sample_rate / 16 / 4)
-        lfo_wavemem_step += 1
-        lfo_wavemem_step %= wavemem_num_steps
-      end
-
-      wavemem_current_step_rest -= 256
-      while (wavemem_current_step_rest <= 0)
-        wavemem_current_step_rest = wavemem_current_step_rest + 
-                                    count_per_wavemem_step *
-                                    (lfo_wavemem[lfo_wavemem_step] - 8 + 1024) / 1024.0
-        wavemem_step += 1
-        wavemem_step %= wavemem_num_steps
-      end
-
-      envelope_generator_rest -= 1
-      case envelope_generator_state
-      when A
-        if envelope_generator_rest <= 0
-          if envelope_generator_level < envelope_level_max
-            envelope_generator_level += 1
+        if pprev == NOTE_ON && prev <= 0x7F && c <= 0x7F
+            note_number = prev
+            count_per_wavemem_step = note_number_to_count[note_number]
+            wavemem_step = 0
+            wavemem_rest = count_per_wavemem_step
+            envelope_generator_state = A
             envelope_generator_rest = envelope[envelope_generator_state]
-          else
-            envelope_generator_state = D
-            envelope_generator_rest = envelope[envelope_generator_state]
-          end
+            lfo_rest = (SAMPLE_RATE * 1 / 2)
+            lfo_wavemem_step = 0
         end
-      when D
-        if envelope_generator_rest <= 0
-          if envelope_generator_level > envelope[2]
-            envelope_generator_level -= 1
+        if pprev == NOTE_OFF && prev <= 0x7F && c <= 0x7F
+            envelope_generator_state = R
             envelope_generator_rest = envelope[envelope_generator_state]
-          else
-            envelope_generator_state = S
-            envelope_generator_rest = 9999
-          end
         end
-      when S
-      when R
-        if envelope_generator_rest <= 0
-          if envelope_generator_level > 0
-            envelope_generator_level -= 1
-            envelope_generator_rest = envelope[envelope_generator_state]
-          else
-            envelope_generator_level = 0
-            envelope_generator_rest = 9999
-          end
-        end
-      end
+        pprev = prev
+        prev = c
 
-      level = wavemem[wavemem_step] *
-              envelope_generator_level / envelope_level_max
-      file.write([0x80 + level * 2].pack("C"))
+        (0...10).each do
+            lfo_rest -= 1
+            while (lfo_rest <= 0)
+                lfo_rest = lfo_rest + (SAMPLE_RATE / 32 / 4)
+                lfo_wavemem_step += 1
+                lfo_wavemem_step %= wavemem_num_steps
+            end
+
+            wavemem_rest -= 256
+            while (wavemem_rest <= 0)
+                wavemem_rest = wavemem_rest + count_per_wavemem_step * (lfo_wavemem[lfo_wavemem_step] - 8 + 1024) / 1024.0
+                wavemem_step += 1
+                wavemem_step %= wavemem_num_steps
+                level = wavemem[wavemem_step] * envelope_generator_level / envelope_level_max
+            end
+
+            envelope_generator_rest -= 1
+            case envelope_generator_state
+            when A
+                if envelope_generator_rest <= 0
+                    if envelope_generator_level < envelope_level_max
+                        envelope_generator_level += 1
+                        envelope_generator_rest = envelope[envelope_generator_state]
+                    else
+                        envelope_generator_state = D
+                        envelope_generator_rest = envelope[envelope_generator_state]
+                    end
+                end
+            when D
+                if envelope_generator_rest <= 0
+                    if envelope_generator_level > envelope[2]
+                        envelope_generator_level -= 1
+                        envelope_generator_rest = envelope[envelope_generator_state]
+                    else
+                        envelope_generator_state = S
+                        envelope_generator_rest = 9999
+                    end
+                end
+            when S
+            when R
+                if envelope_generator_rest <= 0
+                    if envelope_generator_level > 0
+                        envelope_generator_level -= 1
+                        envelope_generator_rest = envelope[envelope_generator_state]
+                    else
+                        envelope_generator_level = 0
+                        envelope_generator_rest = 9999
+                    end
+                end
+            end
+
+            level = wavemem[wavemem_step] * envelope_generator_level / envelope_level_max
+            file.write([level * 2 * 256].pack("S"))
+        end
     end
-  end
 end
