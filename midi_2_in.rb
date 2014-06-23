@@ -92,6 +92,9 @@ File::open(__FILE__ + ".wav","w+b") do |file|
     lfo_rest = (SAMPLE_RATE * 1 / 2)
     lfo_wavemem_step = 0
 
+    old1 = 0
+    old2 = 0
+    old3 = 0
     prev = 0xFF
     pprev = 0xFF
     while(str = STDIN.read(1)) do
@@ -165,8 +168,17 @@ File::open(__FILE__ + ".wav","w+b") do |file|
                 end
             end
 
-            level = wavemem[wavemem_step] * envelope_generator_level / envelope_level_max
-            file.write([level * 2 * 256].pack("S"))
+            if wavemem_rest < 256
+                level = ((wavemem[wavemem_step] * wavemem_rest / 256.0 +
+                          wavemem[(wavemem_step + 1) % 32] * (256 - wavemem_rest) / 256.0) * 128 *
+                         envelope_generator_level / envelope_level_max).to_i
+            else
+                level = 128 * wavemem[wavemem_step] * envelope_generator_level / envelope_level_max
+            end
+            file.write([level + old1 + old2 + old3].pack("S"))
+            old3 = old2
+            old2 = old1
+            old1 = level
         end
     end
 end
