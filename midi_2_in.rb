@@ -74,7 +74,7 @@ File::open(__FILE__ + ".wav","w+b") do |file|
     file.write("data")
     file.write([data_size].pack("V"))
 
-    wavemem = wavemem_square
+    wavemem = wavemem_saw
     wavemem_step = 0
     envelope = envelope_lead
     envelope_generator_level = 0
@@ -92,9 +92,13 @@ File::open(__FILE__ + ".wav","w+b") do |file|
     lfo_rest = (SAMPLE_RATE * 1 / 2)
     lfo_wavemem_step = 0
 
-    old1 = 0
-    old2 = 0
-    old3 = 0
+    x_1, x_2, y_1, y_2 = 0, 0, 0, 0
+#   b0_a0, b1_a0, b2_a0, a0_a0, a1_a0, a2_a0 = 19, 37, 19, 64,    0, 11 # f0 = 31500 /  4,   Q = 0.7071
+#   b0_a0, b1_a0, b2_a0, a0_a0, a1_a0, a2_a0 =  6, 12,  6, 64,  -60, 21 # f0 = 31500 /  8,   Q = 0.7071
+    b0_a0, b1_a0, b2_a0, a0_a0, a1_a0, a2_a0 =  2,  4,  2, 64,  -93, 37 # f0 = 31500 / 16,   Q = 0.7071
+#   b0_a0, b1_a0, b2_a0, a0_a0, a1_a0, a2_a0 =  1,  2,  1, 64, -107, 46 # f0 = 31500 / 26.7, Q = 0.7071
+#   b0_a0, b1_a0, b2_a0, a0_a0, a1_a0, a2_a0 =  1,  2,  1, 64, -120, 59 # f0 = 31500 / 26.7, Q = 2.8284
+
     prev = 0xFF
     pprev = 0xFF
     while(str = STDIN.read(1)) do
@@ -170,15 +174,22 @@ File::open(__FILE__ + ".wav","w+b") do |file|
 
             if wavemem_rest < 256
                 level = ((wavemem[wavemem_step] * wavemem_rest / 256.0 +
-                          wavemem[(wavemem_step + 1) % 32] * (256 - wavemem_rest) / 256.0) * 128 *
-                         envelope_generator_level / envelope_level_max).to_i
+                          wavemem[(wavemem_step + 1) % 32] * (256 - wavemem_rest) / 256.0) *
+                         envelope_generator_level).to_i
             else
-                level = 128 * wavemem[wavemem_step] * envelope_generator_level / envelope_level_max
+                level = wavemem[wavemem_step] * envelope_generator_level
             end
-            file.write([level + old1 + old2 + old3].pack("S"))
-            old3 = old2
-            old2 = old1
-            old1 = level
+
+            # filter
+            x_0 = level
+            y_0 = ((b0_a0 * x_0) + (b1_a0 * x_1) + (b2_a0 * x_2) - (a1_a0 * y_1) - (a2_a0 * y_2)) / 64;
+            y_0 = 0 if y_0 < 0
+            x_2 = x_1;
+            x_1 = x_0;
+            y_2 = y_1;
+            y_1 = y_0;
+#           file.write([level * 32].pack("S"))
+            file.write([y_0 * 32].pack("S"))
         end
     end
 end
