@@ -4,7 +4,7 @@ PWM_RATE = 62500
 AUDIO_RATE = 15625
 CONTROL_PERIOD = 260 # CONTROL_RATE = 60.1
 
-note_number_to_count = [
+pitch_to_period = [
   0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF,
   0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF,
   0x0EEE, 0x0E17, 0x0D4D, 0x0C8E, 0x0BD9, 0x0B2F, 0x0A8E, 0x09F7, 0x0967, 0x08E0, 0x0861, 0x07E8, # C1 - B1
@@ -18,7 +18,6 @@ note_number_to_count = [
   0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF, 0x3FFF,
 ]
 
-osc_waveform_num_steps = 32
 osc_waveform_saw = [
   0xF, 0xF, 0xE, 0xE, 0xD, 0xD, 0xC, 0xC, 0xB, 0xB, 0xA, 0xA, 0x9, 0x9, 0x8, 0x8,
   0x7, 0x7, 0x6, 0x6, 0x5, 0x5, 0x4, 0x4, 0x3, 0x3, 0x2, 0x2, 0x1, 0x1, 0x0, 0x0,
@@ -45,29 +44,29 @@ osc_waveform_lfo = [
 ]
 osc_waveform = osc_waveform_saw
 
-envelope_lead = [5,15000,15,10]
+envelope_lead = [0,0,15,0]
 envelope_level_max = 15
 A = 0
 D = 1
 S = 2
 R = 3
 
-osc_waveform_index = 0
+osc_phase = 0
 envelope = envelope_lead
 eg_level = 0
 lfo_osc_waveform = osc_waveform_lfo
-lfo_osc_waveform_index = 16
+lfo_phase = 16
 
 NOTE_ON  = 0x80
 NOTE_OFF = 0x90
 
-note_number = 60
-count_per_osc_waveform_index = note_number_to_count[note_number]
-osc_rest = count_per_osc_waveform_index
+pitch = 60
+period = pitch_to_period[pitch]
+osc_rest = period
 eg_state = A
 eg_rest = 0
 lfo_rest = (AUDIO_RATE * 1 / 2)
-lfo_osc_waveform_index = 0
+lfo_phase = 0
 
 class LPF
   attr_accessor :x_0, :x_1, :x_2
@@ -80,14 +79,15 @@ lpf = LPF.new
 lpf.x_0, lpf.x_1, lpf.x_2, lpf.y_0, lpf.y_1, lpf.y_2 = 0, 0, 0, 0, 0, 0
 
 # lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 = 63,127, 63,  127, 63 # f_cutoff = AUDIO_RATE /  2.01, Q = 0.7071
+# lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 = 30, 60, 30,   40, 15 # f_cutoff = AUDIO_RATE /  3,    Q = 0.7071
   lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 = 19, 37, 19,    0, 11 # f_cutoff = AUDIO_RATE /  4,    Q = 0.7071
 # lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 =  6, 12,  6,  -60, 21 # f_cutoff = AUDIO_RATE /  8,    Q = 0.7071
 # lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 =  2,  4,  2,  -93, 37 # f_cutoff = AUDIO_RATE / 16,    Q = 0.7071
 # lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 =  1,  2,  1, -107, 46 # f_cutoff = AUDIO_RATE / 26.7,  Q = 0.7071
 # lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 =  1,  2,  1, -120, 59 # f_cutoff = AUDIO_RATE / 26.7,  Q = 2.8284
 
-prev = 0xFF
-pprev = 0xFF
+midi_in_prev = 0xFF
+midi_in_pprev = 0xFF
 
 STDIN.binmode
 File::open(__FILE__ + ".wav","w+b") do |file|
@@ -107,45 +107,46 @@ File::open(__FILE__ + ".wav","w+b") do |file|
   file.write("data")
   file.write([data_size].pack("V"))
 
-  while(str = STDIN.read(1)) do
-    c = str.ord
+  while(c = STDIN.read(1)) do
+    b = c.ord
 
-    if (pprev == NOTE_ON && prev <= 0x7F && c <= 0x7F)
-      note_number = prev
-      count_per_osc_waveform_index = note_number_to_count[note_number]
-      osc_waveform_index = 0
-      osc_rest = count_per_osc_waveform_index
+    if (midi_in_pprev == NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
+      pitch = midi_in_prev
+      period = pitch_to_period[pitch]
+      osc_phase = 0
+      osc_rest = period
       eg_state = A
       eg_rest = envelope[eg_state]
       lfo_rest = (AUDIO_RATE * 1 / 2)
-      lfo_osc_waveform_index = 0
+      lfo_phase = 0
     end
-    if (pprev == NOTE_OFF && prev <= 0x7F && c <= 0x7F)
+    if (midi_in_pprev == NOTE_OFF && midi_in_prev <= 0x7F && b <= 0x7F)
       eg_state = R
       eg_rest = envelope[eg_state]
     end
-    pprev = prev
-    prev = c
+    midi_in_pprev = midi_in_prev
+    midi_in_prev = b
 
-    (0..4).each do
+    for i in (0...5) do
+
+      # LFO
       lfo_rest -= 1
-      while (lfo_rest <= 0)
+      if (lfo_rest <= 0)
         lfo_rest = lfo_rest + (AUDIO_RATE / 32 / 4)
-        lfo_osc_waveform_index += 1
-        lfo_osc_waveform_index %= osc_waveform_num_steps
+        lfo_phase += 1
+        lfo_phase &= 0x1F
       end
 
-      osc_rest -= 256
-      while (osc_rest <= 0)
-        osc_rest = osc_rest + count_per_osc_waveform_index * (lfo_osc_waveform[lfo_osc_waveform_index] - 8 + 1024) / 1024
-        osc_waveform_index += 1
-        osc_waveform_index %= osc_waveform_num_steps
-      end
-
-      if (osc_rest < 256)
-        level = (osc_waveform[osc_waveform_index] * (osc_rest / 16) + osc_waveform[(osc_waveform_index + 1) % 32] * (16 - (osc_rest / 16)))
-      else
-        level = osc_waveform[osc_waveform_index] * 16
+      # OSC
+      level = 0
+      for i in (0...16) do
+        level += osc_waveform[osc_phase]
+        osc_rest -= 16
+        if (osc_rest <= 0)
+          osc_rest += period * (lfo_osc_waveform[lfo_phase] + 1016) >> 10
+          osc_phase += 1
+          osc_phase &= 0x1F
+        end
       end
 
       # EG
@@ -184,11 +185,11 @@ File::open(__FILE__ + ".wav","w+b") do |file|
         end
       end
 
-      # Amp
-      level = level * eg_level / 16
+      # AMP
+      level = level * eg_level / 15
 
-      # Mixer
-      level = (level / 4) * 4
+      # MIXER
+      level = level / 4 * 4
 
       # LPF
       lpf.x_0 = level
@@ -201,7 +202,8 @@ File::open(__FILE__ + ".wav","w+b") do |file|
       lpf.y_2 = lpf.y_1;
       lpf.y_1 = lpf.y_0;
 
-      # AudioOut
+      # PWM
+#     file.write([level * 32].pack("S"))
       file.write([lpf.y_0 * 32].pack("S"))
     end
   end
