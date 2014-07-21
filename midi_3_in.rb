@@ -65,7 +65,7 @@ freq = pitch_to_freq[pitch]
 osc_phase = 0
 eg_state = A
 eg_rest = 0
-lfo_rest = (AUDIO_RATE * 1 / 2)
+lfo_wait = (AUDIO_RATE * 1 / 2)
 lfo_phase = 0
 
 class LPF
@@ -110,11 +110,10 @@ File::open(__FILE__ + ".wav","w+b") do |file|
       pitch = midi_in_prev
       freq = pitch_to_freq[pitch]
       osc_phase = 0
-      osc_phase = 0
       eg_state = A
       eg_level = 0
       eg_rest = envelope[eg_state]
-      lfo_rest = (AUDIO_RATE * 1 / 2)
+      lfo_wait = (AUDIO_RATE * 1 / 2)
       lfo_phase = 0
     end
     if (midi_in_pprev == NOTE_OFF && midi_in_prev <= 0x7F && b <= 0x7F)
@@ -127,11 +126,11 @@ File::open(__FILE__ + ".wav","w+b") do |file|
     for i in (0...10) do
 
       # LFO
-      lfo_rest -= 1
-      if (lfo_rest <= 0)
-        lfo_rest = lfo_rest + (AUDIO_RATE / 32 / 4)
-        lfo_phase += 1
-        lfo_phase &= 0x1F
+      if (lfo_wait > 0)
+        lfo_wait -= 1
+      else
+        lfo_phase += 0xCCC
+        lfo_phase %= 0x10000
       end
 
       # OSC
@@ -139,7 +138,7 @@ File::open(__FILE__ + ".wav","w+b") do |file|
       next_index = (index + 1) % 32
       ratio = (osc_phase >> 7) & 0x0F
       level = osc_waveform[index] * (0x10 - ratio) + osc_waveform[next_index] * ratio
-      osc_phase += freq
+      osc_phase += freq * (osc_waveform_triangle[lfo_phase >> 11] + 1016) / 1024
       osc_phase %= 0x10000
 
       # EG
