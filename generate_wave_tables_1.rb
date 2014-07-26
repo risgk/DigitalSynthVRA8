@@ -36,8 +36,10 @@ end
 
 def generate_triangle_table(max)
   generate_table(max, "triangle") do |index, overtone|
-    if overtone % 2 == 1
+    if overtone % 4 == 1
       Math::sin((2.0 * Math::PI) * index * overtone / 256) / (overtone ** 2)
+    elsif overtone % 4 == 3
+      -Math::sin((2.0 * Math::PI) * index * overtone / 256) / (overtone ** 2)
     else
       0
     end
