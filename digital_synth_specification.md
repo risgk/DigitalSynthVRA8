@@ -1,55 +1,69 @@
-# Digital Synth (Tentative) Specification
+# Digital Synth VA-8 Specification
 
-2014-07-23 risgk
+Version 0.00: 2014-07-26 risgk
 
 ## Concept
 
-- 8-bit Virtual Analog (VA) Synthesizer
+- 8-bit Virtual Analog Synth
 
-## Features
+## Keywords
 
-- Monophonic Synthesizer
+- Monophonic Synth
 - Arduino Uno
-- Piezo buzzer (or audio jack)
-- Serial MIDI (31250 bps)
-- Ruby programming language (for MIDI controller)
+- Piezo Buzzer (or 3.5mm Audio Jack)
+- Serial MIDI
+- Controller App
 
 ## Sound Quality
 
-- PWM rate: 31250 Hz
-- Audio rate: 31250 Hz
-- Bit depth: 8 bits
-- Waveform memory: 256 samples, 8 bits
-    - Notes 0-58 include the 128th overtones
-    - Notes 59-70 include the 32nd overtones
-    - Notes 71-82 include the 16th overtones
-    - Notes 83-94 include the 8th overtones
+- PWM Rate: 31250 Hz
+- Audio Rate: 31250 Hz
+- Bit Depth: 8 bits
+- Note Number: 28-96
+- Waveform Memory:
+    - 256 Bytes for Notes 28-46 Include the 128th Overtones
+    - 256 Bytes for Notes 47-58 Include the 64th Overtones
+    - 256 Bytes for Notes 59-70 Include the 32nd Overtones
+    - 256 Bytes for Notes 71-82 Include the 16th Overtones
+    - 256 Bytes for Notes 83-96 Include the 8th Overtones
+- Exponential envelope
 
 ## Synth Modules
 
-- UART
-- CTRL
-- OSC 1, OSC 2, OSC 3, OSC 4
-    - WAVEFORM
+- OSC1:
+    - WAVE
+    - PITCH: [-2400, -1200, -500, -6, 0, +6, +700, +1200, +2400]
+    - LEVEL: [0, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1]
+- OSC2:
+    - WAVE
     - PITCH
-    - TUNE
     - LEVEL
-- FILTER
-    - CUTOFF
-    - RESO
-    - ENV
+- OSC3:
+    - WAVE
+    - PITCH
+    - LEVEL
+- LPF:
+    - CUTOFF: [1875, ..., 3750, ..., 7500, ..., 15000]
+    - RESO: [OFF, ON]
+    - ENV: [OFF, ON]
+- AMP:
+    - LEVEL: [0, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1]
+    - ENV: [OFF, ON]
+- ENV:
     - A
     - D
     - S
     - R
-- AMP
-    - ENV
-    - A
-    - D
-    - S
-    - R
-- PWM
-    - VOLUME
+
+## Waveforms
+
+- Saw
+- Square (Pulse 50%)
+- Triangle
+- Sine
+- Pulse 25%
+- Pulse 12.5%
+- Pseudo Triangle
 
 ## Preset Programs
 
@@ -59,18 +73,6 @@
 - Square Lead
 - Synth Brass
 
-## Waveform
+## MIDI Implementation Chart
 
-- 0x00: Saw
-- 0x01: Pulse 12.5%
-- 0x02: Pulse 25%
-- 0x03: Pulse 37.5%
-- 0x04: Square (Pulse 50%)
-- 0x05: Triangle
-- 0x06: Sine
-
-## MIDI Implementation Chart [TODO]
-
-- CC #120: All Sound Off
-- CC #121: Reset All Controllers
-- CC #123: All Notes Off
+    TODO
