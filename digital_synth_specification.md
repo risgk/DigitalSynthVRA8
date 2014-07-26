@@ -19,9 +19,9 @@ Version 0.00: 2014-07-26 risgk
 - PWM Rate: 31250 Hz
 - Audio Rate: 31250 Hz
 - Bit Depth: 8 bits
-- Note Number: 28-96
+- Note Number: 24-96
 - Waveform Memory:
-    - 256 Bytes for Notes 28-46 Include the 128th Overtones
+    - 256 Bytes for Notes 24-46 Include the 128th Overtones
     - 256 Bytes for Notes 47-58 Include the 64th Overtones
     - 256 Bytes for Notes 59-70 Include the 32nd Overtones
     - 256 Bytes for Notes 71-82 Include the 16th Overtones
@@ -58,11 +58,11 @@ Version 0.00: 2014-07-26 risgk
 ## Waveforms
 
 - Saw
-- Square (Pulse 50%)
+- Square (Pulse 1/2)
 - Triangle
 - Sine
-- Pulse 25%
-- Pulse 12.5%
+- Pulse 1/4
+- Pulse 1/8
 - Pseudo Triangle
 
 ## Preset Programs
