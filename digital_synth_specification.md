@@ -26,7 +26,7 @@ Version 0.00: 2014-07-26 risgk
     - 256 Bytes for Notes 59-70 Include the 32nd Overtones
     - 256 Bytes for Notes 71-82 Include the 16th Overtones
     - 256 Bytes for Notes 83-96 Include the 8th Overtones
-- Exponential envelope
+- Exponential Envelope
 
 ## Synth Modules
 
