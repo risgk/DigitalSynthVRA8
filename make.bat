@@ -1,1 +1,2 @@
-@for /f %%a in ('dir /b ".\*.rb"') do ruby %%a
+ruby controller_prototype.rb
+ruby digital_synth_prototype.rb < midi_stream.bin
