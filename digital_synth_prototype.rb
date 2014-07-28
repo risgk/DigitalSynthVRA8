@@ -1,4 +1,5 @@
-require './digital_synth_tables'
+require './wave_tables'
+require './other_tables'
 
 PWM_RATE = 62500
 AUDIO_RATE = 31250
@@ -6,10 +7,8 @@ AUDIO_RATE = 31250
 WAVE_SAW        = 0x00
 WAVE_SQUARE     = 0x01
 WAVE_TRIANGLE   = 0x02
-WAVE_SINE       = 0x03
-WAVE_PULSE_1_4  = 0x04
-WAVE_PULSE_1_8  = 0x05
-WAVE_PSEUDO_TRI = 0x06
+WAVE_PULSE_1_4  = 0x03
+WAVE_PULSE_1_8  = 0x04
 
 def high_byte(us)
   us >> 8
@@ -22,7 +21,7 @@ end
 class OSC
   def initialize
     @wave_table = $wave_tables[WAVE_SAW]
-    @freq = $note_to_freq[60]
+    @freq = $note_number_to_freq[60]
     @phase = 0
   end
 
@@ -30,8 +29,8 @@ class OSC
     @wave_table = $wave_tables[wave]
   end
 
-  def set_note(note)
-    @freq = $note_to_freq[note]
+  def set_note(note_number)
+    @freq = $note_number_to_freq[note_number]
   end
 
   def reset
@@ -56,7 +55,7 @@ class OSC
 end
 
 osc = [OSC.new, OSC.new, OSC.new]
-osc[0].set_wave(WAVE_SAW)
+osc[0].set_wave(WAVE_PULSE_1_8)
 osc[1].set_wave(WAVE_SQUARE)
 osc[2].set_wave(WAVE_TRIANGLE)
 
@@ -114,8 +113,8 @@ File::open("a.wav","w+b") do |file|
     b = c.ord
 
     if (midi_in_pprev == NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
-      note = midi_in_prev
-      osc[0].set_note(note)
+      note_number = midi_in_prev
+      osc[0].set_note(note_number)
 #     osc[0].reset
       eg_state = A
       eg_level = 0

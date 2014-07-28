@@ -1,6 +1,6 @@
 # Digital Synth VA-8 Specification
 
-Version 0.00: 2014-07-26 risgk
+Version 0.00: 2014-07-28 risgk
 
 ## Concept
 
@@ -10,7 +10,7 @@ Version 0.00: 2014-07-26 risgk
 
 - Monophonic Synth
 - Arduino Uno
-- Piezo Buzzer (or 3.5mm Audio Jack)
+- Buzzer/Speaker
 - Serial MIDI
 - Controller App
 
@@ -32,7 +32,7 @@ Version 0.00: 2014-07-26 risgk
 
 - OSC1:
     - WAVE
-    - PITCH: [-2400, -1200, -500, -6, 0, +6, +700, +1200, +2400]
+    - PITCH: [-1200, -500, -10, 0, +10, +700, +1200]
     - LEVEL: [0, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1]
 - OSC2:
     - WAVE
@@ -60,10 +60,8 @@ Version 0.00: 2014-07-26 risgk
 - Saw
 - Square (Pulse 1/2)
 - Triangle
-- Sine
 - Pulse 1/4
 - Pulse 1/8
-- Pseudo Triangle
 
 ## Preset Programs
 
