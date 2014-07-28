@@ -58,10 +58,8 @@ Version 0.00: 2014-07-28 risgk
 ## Waveforms
 
 - Saw
-- Square (Pulse 1/2)
+- Square
 - Triangle
-- Pulse 1/4
-- Pulse 1/8
 
 ## Preset Programs
 

@@ -7,8 +7,6 @@ AUDIO_RATE = 31250
 WAVE_SAW        = 0x00
 WAVE_SQUARE     = 0x01
 WAVE_TRIANGLE   = 0x02
-WAVE_PULSE_1_4  = 0x03
-WAVE_PULSE_1_8  = 0x04
 
 def high_byte(us)
   us >> 8
@@ -55,7 +53,7 @@ class OSC
 end
 
 osc = [OSC.new, OSC.new, OSC.new]
-osc[0].set_wave(WAVE_PULSE_1_8)
+osc[0].set_wave(WAVE_SAW)
 osc[1].set_wave(WAVE_SQUARE)
 osc[2].set_wave(WAVE_TRIANGLE)
 
