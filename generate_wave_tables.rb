@@ -46,6 +46,16 @@ def generate_wave_table_triangle(max)
   end
 end
 
+def generate_wave_table_sine(max)
+  generate_wave_table(max, "sine") do |t, k|
+    if k == 1
+      (Math::PI / 2) * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k))
+    else
+      0
+    end
+  end
+end
+
 [128, 64, 32, 16, 8].each do |max|
   generate_wave_table_saw(max)
 end
@@ -56,6 +66,10 @@ end
 
 [128, 64, 32, 16, 8].each do |max|
   generate_wave_table_triangle(max)
+end
+
+[128, 64, 32, 16, 8].each do |max|
+  generate_wave_table_sine(max)
 end
 
 print <<EOS
@@ -95,9 +109,22 @@ $wave_table_triangle = [
   $wave_table_triangle_m8,
 ]
 
+$wave_table_sine = [
+  $wave_table_sine_m128,
+  $wave_table_sine_m64,
+  $wave_table_sine_m32,
+  $wave_table_sine_m32,
+  $wave_table_sine_m16,
+  $wave_table_sine_m16,
+  $wave_table_sine_m16,
+  $wave_table_sine_m16,
+  $wave_table_sine_m8,
+]
+
 $wave_tables = [
   $wave_table_saw,
   $wave_table_square,
   $wave_table_triangle,
+  $wave_table_sine,
 ]
 EOS

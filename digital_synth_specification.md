@@ -1,6 +1,6 @@
 # Digital Synth VA-8 Specification
 
-Version 0.00: 2014-07-28 risgk
+Version 0.00: 2014-07-29 risgk
 
 ## Concept
 
@@ -10,7 +10,8 @@ Version 0.00: 2014-07-28 risgk
 
 - Monophonic Synth
 - Arduino Uno
-- Buzzer/Speaker
+- Buzzer
+- PWM Audio
 - Serial MIDI
 - Controller App
 
@@ -60,14 +61,15 @@ Version 0.00: 2014-07-28 risgk
 - Saw
 - Square
 - Triangle
+- Sine
 
 ## Preset Programs
 
 - Synth Lead
+- Synth Brass
 - Synth Bass
 - Saw Lead
 - Square Lead
-- Synth Brass
 
 ## MIDI Implementation Chart
 

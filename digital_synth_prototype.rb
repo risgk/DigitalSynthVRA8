@@ -1,12 +1,13 @@
-require './wave_tables'
+require './wave_tables_'
 require './other_tables'
 
 PWM_RATE = 62500
 AUDIO_RATE = 31250
 
-WAVE_SAW        = 0x00
-WAVE_SQUARE     = 0x01
-WAVE_TRIANGLE   = 0x02
+WAVE_SAW      = 0x00
+WAVE_SQUARE   = 0x01
+WAVE_TRIANGLE = 0x02
+WAVE_SINE     = 0x03
 
 def high_byte(us)
   us >> 8
