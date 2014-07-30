@@ -20,7 +20,7 @@ end
 
 def generate_wave_table_saw(max)
   generate_wave_table(max, "saw") do |t, k|
-    ((-1 ** k) * Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / k)
+    (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / k)
   end
 end
 
