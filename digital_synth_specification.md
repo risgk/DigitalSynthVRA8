@@ -1,4 +1,4 @@
-# Digital Synth VA-8 Specification
+# ISGK VA-8 Specification
 
 Version 0.00: 2014-07-29 risgk
 
@@ -8,6 +8,7 @@ Version 0.00: 2014-07-29 risgk
 
 ## Keywords
 
+- Digital Synth
 - Monophonic Synth
 - Arduino Uno
 - Buzzer
@@ -20,13 +21,13 @@ Version 0.00: 2014-07-29 risgk
 - PWM Rate: 31250 Hz
 - Audio Rate: 31250 Hz
 - Bit Depth: 8 bits
-- Note Number: 24-96
+- Recommended Note Range: 35-94
 - Waveform Memory:
-    - 256 Bytes for Notes 24-46 Include the 128th Overtones
+    - 256 Bytes for Notes 0-46 Include the 128th Overtones
     - 256 Bytes for Notes 47-58 Include the 64th Overtones
     - 256 Bytes for Notes 59-70 Include the 32nd Overtones
     - 256 Bytes for Notes 71-82 Include the 16th Overtones
-    - 256 Bytes for Notes 83-96 Include the 8th Overtones
+    - 256 Bytes for Notes 83-127 Include the 8th Overtones
 - Exponential Envelope
 
 ## Synth Modules
@@ -58,7 +59,7 @@ Version 0.00: 2014-07-29 risgk
 
 ## Waveforms
 
-- Saw
+- Sawtooth
 - Square
 - Triangle
 - Sine

@@ -4,10 +4,10 @@ require './other_tables'
 PWM_RATE = 62500
 AUDIO_RATE = 31250
 
-WAVE_SAW      = 0x00
-WAVE_SQUARE   = 0x01
-WAVE_TRIANGLE = 0x02
-WAVE_SINE     = 0x03
+WAVE_SAWTOOTH = 0
+WAVE_SQUARE   = 1
+WAVE_TRIANGLE = 2
+WAVE_SINE     = 3
 
 def high_byte(us)
   us >> 8
@@ -19,7 +19,7 @@ end
 
 class OSC
   def initialize
-    @wave_table = $wave_tables[WAVE_SAW]
+    @wave_table = $wave_tables[WAVE_SAWTOOTH]
     @freq = $note_number_to_freq[60]
     @phase = 0
   end
@@ -54,7 +54,7 @@ class OSC
 end
 
 osc = [OSC.new, OSC.new, OSC.new]
-osc[0].set_wave(WAVE_SAW)
+osc[0].set_wave(WAVE_SAWTOOTH)
 osc[1].set_wave(WAVE_SQUARE)
 osc[2].set_wave(WAVE_TRIANGLE)
 
