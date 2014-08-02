@@ -9,22 +9,22 @@ WAVE_SQUARE = 1
 WAVE_SINE   = 2
 
 def high_byte(us)
-  us >> 8
+  return (us >> 8)
 end
 
 def low_byte(us)
-  us & 0xFF
+  return (us & 0xFF)
 end
 
 class OSC
   def initialize
-    @wave_table = $wave_tables[WAVE_SAW]
+    @wave_tables = $wave_tables[WAVE_SAW]
     @freq = 0x0000
     @phase = 0x0000
   end
 
   def set_wave(wave)
-    @wave_table = $wave_tables[wave]
+    @wave_tables = $wave_tables[wave]
   end
 
   def set_freq(freq)
@@ -36,18 +36,28 @@ class OSC
   end
 
   def clock
-    @phase += @freq
-    @phase &= 0xFFFF
-    curr_index = high_byte(@phase)
-    next_index = curr_index + 1
-    next_index &= 0xFF
-    next_weight = low_byte(@phase)
-    curr_weight = 0x100 - next_weight
-    table_id = high_byte(@freq)
-    if (table_id & 0xF0) != 0
-      table_id = 16
+    freq = @freq
+    phase = @phase
+    phase += freq
+    phase &= 0xFFFF
+    @phase = phase
+
+    table_sel = high_byte(freq)
+    if ((table_sel & 0xF0) != 0)
+      table_sel = 0x10
     end
-    level = high_byte(@wave_table[table_id][curr_index] * curr_weight + @wave_table[table_id][next_index] * next_weight)
+    wave_table = @wave_tables[table_sel]
+
+    curr_index = high_byte(phase)
+    next_index = curr_index + 0x01
+    next_index &= 0xFF
+    curr_level = wave_table[curr_index]
+    next_level = wave_table[next_index]
+
+    next_weight = low_byte(phase) >> 1
+    curr_weight = 0x80 - next_weight
+    level = high_byte(curr_level * curr_weight + next_level * next_weight) << 1
+
     return level
   end
 end
@@ -134,8 +144,8 @@ File::open("a.wav","w+b") do |file|
       eg_rest -= 1
       case (eg_state)
       when A
-        if eg_rest <= 0
-          if eg_level < envelope_level_max
+        if (eg_rest <= 0)
+          if (eg_level < envelope_level_max)
             eg_level += 1
             eg_rest = envelope[eg_state]
           else
@@ -144,8 +154,8 @@ File::open("a.wav","w+b") do |file|
           end
         end
       when D
-        if eg_rest <= 0
-          if eg_level > envelope[2]
+        if (eg_rest <= 0)
+          if (eg_level > envelope[2])
             eg_level -= 1
             eg_rest = envelope[eg_state]
           else
@@ -155,8 +165,8 @@ File::open("a.wav","w+b") do |file|
         end
       when S
       when R
-        if eg_rest <= 0
-          if eg_level > 0
+        if (eg_rest <= 0)
+          if (eg_level > 0)
             eg_level -= 1
             eg_rest = envelope[eg_state]
           else
@@ -184,7 +194,7 @@ File::open("a.wav","w+b") do |file|
       lpf.y_1 = lpf.y_0;
 
       # PWM
-      file.write([(level - 128)* 32].pack("S"))
+      file.write([(level - 128) * 32].pack("S"))
 #     file.write([(lpf.y_0 - 128) * 32].pack("S"))
     end
   end
