@@ -1,5 +1,5 @@
 require './wave_tables_'
-require './other_tables'
+require './other_tables_'
 
 PWM_RATE = 62500
 AUDIO_RATE = 31250
@@ -17,18 +17,36 @@ def low_byte(us)
 end
 
 class OSC
+  TUNE_NORMAL = 0
+  TUNE_PLUS   = 1
+  TUNE_MINUS  = 2
+
   def initialize
     @wave_tables = $wave_tables[WAVE_SAW]
-    @freq = 0x0000
     @phase = 0x0000
+    @note_number = 0x00
+    @tune = TUNE_NORMAL
+    @freq = $freq_tables[@tune][@note_number]
   end
 
   def set_wave(wave)
     @wave_tables = $wave_tables[wave]
   end
 
-  def set_freq(freq)
-    @freq = freq
+  def set_note_number(note_number)
+    @note_number = note_number
+    @freq = $freq_tables[@tune][@note_number]
+  end
+
+  def set_fine_tune(fine_tune)
+    if (fine_tune > 0x40)
+      @tune = TUNE_PLUS
+    elsif (fine_tune < 0x40)
+      @tune = TUNE_MINUS
+    else
+      @tune = TUNE_NORMAL
+    end
+    @freq = $freq_tables[@tune][@note_number]
   end
 
   def reset
@@ -51,12 +69,12 @@ class OSC
     curr_index = high_byte(phase)
     next_index = curr_index + 0x01
     next_index &= 0xFF
-    curr_level = wave_table[curr_index]
-    next_level = wave_table[next_index]
+    curr_data = wave_table[curr_index]
+    next_data = wave_table[next_index]
 
     next_weight = low_byte(phase) >> 1
     curr_weight = 0x80 - next_weight
-    level = high_byte(curr_level * curr_weight + next_level * next_weight) << 1
+    level = (high_byte(curr_data * curr_weight + next_data * next_weight)) << 1
 
     return level
   end
@@ -64,8 +82,10 @@ end
 
 osc = [OSC.new, OSC.new, OSC.new]
 osc[0].set_wave(WAVE_SAW)
-osc[1].set_wave(WAVE_SQUARE)
-osc[2].set_wave(WAVE_SINE)
+osc[1].set_wave(WAVE_SAW)
+osc[2].set_wave(WAVE_SAW)
+osc[1].set_fine_tune(0x4A)
+osc[2].set_fine_tune(0x36)
 
 envelope_lead = [0,40,256,0]
 envelope_level_max = 256
@@ -122,8 +142,12 @@ File::open("a.wav","w+b") do |file|
 
     if (midi_in_pprev == NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
       note_number = midi_in_prev
-      osc[0].set_freq($note_number_to_freq[note_number])
+      osc[0].set_note_number(note_number)
+      osc[1].set_note_number(note_number)
+      osc[2].set_note_number(note_number)
 #     osc[0].reset
+#     osc[1].reset
+#     osc[2].reset
       eg_state = A
       eg_level = 0
       eg_rest = envelope[eg_state]
@@ -138,7 +162,10 @@ File::open("a.wav","w+b") do |file|
     for i in (0...10) do
 
       # OSC
-      level = osc[0].clock
+      level_osc0 = (osc[0].clock >> 2)
+      level_osc1 = (osc[1].clock >> 2)
+      level_osc2 = (osc[2].clock >> 2)
+      level = level_osc0 + level_osc1 + level_osc2 + 0x20
 
       # EG
       eg_rest -= 1

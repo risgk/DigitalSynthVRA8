@@ -6,8 +6,9 @@ def generate_wave_table(max, name)
       level += yield(t, k)
     end
     level = ((level + 2) * 64).to_i
-      printf("0x%02X,", level)
-    if t % 256 == 255
+    printf("0x%02X,", level)
+
+    if t == 255
       printf("\n")
     elsif t % 16 == 15
       printf("\n  ")
