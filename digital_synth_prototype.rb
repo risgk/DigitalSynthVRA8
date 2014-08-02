@@ -4,10 +4,9 @@ require './other_tables'
 PWM_RATE = 62500
 AUDIO_RATE = 31250
 
-WAVE_SAWTOOTH = 0
-WAVE_SQUARE   = 1
-WAVE_TRIANGLE = 2
-WAVE_SINE     = 3
+WAVE_SAW    = 0
+WAVE_SQUARE = 1
+WAVE_SINE   = 2
 
 def high_byte(us)
   us >> 8
@@ -19,8 +18,8 @@ end
 
 class OSC
   def initialize
-    @wave_table = $wave_tables[WAVE_SAWTOOTH]
-    @freq = $note_number_to_freq[60]
+    @wave_table = $wave_tables[WAVE_SAW]
+    @freq = $note_number_to_freq[28]
     @phase = 0
   end
 
@@ -44,9 +43,9 @@ class OSC
     next_index &= 0xFF
     next_weight = low_byte(@phase)
     curr_weight = 0x100 - next_weight
-    table_id = @freq >> 8
-    if table_id > 8
-      table_id = 8
+    table_id = high_byte(@freq)
+    if (table_id & 0xF0) != 0
+      table_id = 16
     end
     level = high_byte(@wave_table[table_id][curr_index] * curr_weight + @wave_table[table_id][next_index] * next_weight)
     return level
@@ -54,9 +53,9 @@ class OSC
 end
 
 osc = [OSC.new, OSC.new, OSC.new]
-osc[0].set_wave(WAVE_SAWTOOTH)
+osc[0].set_wave(WAVE_SAW)
 osc[1].set_wave(WAVE_SQUARE)
-osc[2].set_wave(WAVE_TRIANGLE)
+osc[2].set_wave(WAVE_SINE)
 
 envelope_lead = [0,40,256,0]
 envelope_level_max = 256

@@ -20,26 +20,14 @@ end
 
 def generate_wave_table_saw(max)
   generate_wave_table(max, "saw") do |t, k|
-    (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / k)
+    Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / k
   end
 end
 
 def generate_wave_table_square(max)
   generate_wave_table(max, "square") do |t, k|
     if k % 2 == 1
-      2.0 * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / k)
-    else
-      0
-    end
-  end
-end
-
-def generate_wave_table_triangle(max)
-  generate_wave_table(max, "triangle") do |t, k|
-    if k % 4 == 1
-      (4 / Math::PI) * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / +(k ** 2))
-    elsif k % 4 == 3
-      (4 / Math::PI) * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / -(k ** 2))
+      2.0 * Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / k
     else
       0
     end
@@ -49,26 +37,24 @@ end
 def generate_wave_table_sine(max)
   generate_wave_table(max, "sine") do |t, k|
     if k == 1
-      (Math::PI / 2) * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k))
+      (Math::PI / 2) * Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k)
     else
       0
     end
   end
 end
 
-[128, 64, 32, 16, 8].each do |max|
+overtones = [128, 64, 42, 32, 25, 21, 18, 16, 14, 12, 11, 10, 9, 8, 7]
+
+overtones.each do |max|
   generate_wave_table_saw(max)
 end
 
-[128, 64, 32, 16, 8].each do |max|
+overtones.each do |max|
   generate_wave_table_square(max)
 end
 
-[128, 64, 32, 16, 8].each do |max|
-  generate_wave_table_triangle(max)
-end
-
-[128, 64, 32, 16, 8].each do |max|
+overtones.each do |max|
   generate_wave_table_sine(max)
 end
 
@@ -76,55 +62,66 @@ print <<EOS
 $wave_table_saw = [
   $wave_table_saw_m128,
   $wave_table_saw_m64,
+  $wave_table_saw_m42,
   $wave_table_saw_m32,
-  $wave_table_saw_m32,
+  $wave_table_saw_m25,
+  $wave_table_saw_m21,
+  $wave_table_saw_m18,
   $wave_table_saw_m16,
-  $wave_table_saw_m16,
-  $wave_table_saw_m16,
-  $wave_table_saw_m16,
+  $wave_table_saw_m14,
+  $wave_table_saw_m12,
+  $wave_table_saw_m11,
+  $wave_table_saw_m10,
+  $wave_table_saw_m9,
+  $wave_table_saw_m9,
   $wave_table_saw_m8,
+  $wave_table_saw_m8,
+  $wave_table_saw_m7,
 ]
 
 $wave_table_square = [
   $wave_table_square_m128,
   $wave_table_square_m64,
+  $wave_table_square_m42,
   $wave_table_square_m32,
-  $wave_table_square_m32,
+  $wave_table_square_m25,
+  $wave_table_square_m21,
+  $wave_table_square_m18,
   $wave_table_square_m16,
-  $wave_table_square_m16,
-  $wave_table_square_m16,
-  $wave_table_square_m16,
+  $wave_table_square_m14,
+  $wave_table_square_m12,
+  $wave_table_square_m11,
+  $wave_table_square_m10,
+  $wave_table_square_m9,
+  $wave_table_square_m9,
   $wave_table_square_m8,
-]
-
-$wave_table_triangle = [
-  $wave_table_triangle_m128,
-  $wave_table_triangle_m64,
-  $wave_table_triangle_m32,
-  $wave_table_triangle_m32,
-  $wave_table_triangle_m16,
-  $wave_table_triangle_m16,
-  $wave_table_triangle_m16,
-  $wave_table_triangle_m16,
-  $wave_table_triangle_m8,
+  $wave_table_square_m8,
+  $wave_table_square_m7,
 ]
 
 $wave_table_sine = [
   $wave_table_sine_m128,
   $wave_table_sine_m64,
+  $wave_table_sine_m42,
   $wave_table_sine_m32,
-  $wave_table_sine_m32,
+  $wave_table_sine_m25,
+  $wave_table_sine_m21,
+  $wave_table_sine_m18,
   $wave_table_sine_m16,
-  $wave_table_sine_m16,
-  $wave_table_sine_m16,
-  $wave_table_sine_m16,
+  $wave_table_sine_m14,
+  $wave_table_sine_m12,
+  $wave_table_sine_m11,
+  $wave_table_sine_m10,
+  $wave_table_sine_m9,
+  $wave_table_sine_m9,
   $wave_table_sine_m8,
+  $wave_table_sine_m8,
+  $wave_table_sine_m7,
 ]
 
 $wave_tables = [
   $wave_table_saw,
   $wave_table_square,
-  $wave_table_triangle,
   $wave_table_sine,
 ]
 EOS

@@ -1,6 +1,6 @@
 # ISGK VA-8 Specification
 
-Version 0.00: 2014-07-29 risgk
+Version 0.00: 2014-08-02 risgk
 
 ## Concept
 
@@ -21,7 +21,7 @@ Version 0.00: 2014-07-29 risgk
 - PWM Rate: 31250 Hz
 - Audio Rate: 31250 Hz
 - Bit Depth: 8 bits
-- Recommended Note Range: 35-94
+- Recommended Note Range: 28-96
 - Waveform Memory:
     - 256 Bytes for Notes 0-46 Include the 128th Overtones
     - 256 Bytes for Notes 47-58 Include the 64th Overtones
@@ -61,7 +61,6 @@ Version 0.00: 2014-07-29 risgk
 
 - Sawtooth
 - Square
-- Triangle
 - Sine
 
 ## Preset Programs
