@@ -145,9 +145,9 @@ File::open("a.wav","w+b") do |file|
       osc[0].set_note_number(note_number)
       osc[1].set_note_number(note_number)
       osc[2].set_note_number(note_number)
-#     osc[0].reset
-#     osc[1].reset
-#     osc[2].reset
+      osc[0].reset
+      osc[1].reset
+      osc[2].reset
       eg_state = A
       eg_level = 0
       eg_rest = envelope[eg_state]

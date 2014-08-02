@@ -1,13 +1,9 @@
 def generate_freq_table(fine_tune, name)
   printf("$freq_table%s = [\n  ", name)
   (0..127).each do |note_number|
-    if (24..96).include?(note_number)
-      cent = (note_number * 100.0) - 6900.0 + fine_tune
-      hz = 440.0 * (2.0 ** (cent / 1200.0))
-      freq = (hz * 256.0 * 256.0 / 31250.0).truncate
-    else
-      freq = 0
-    end
+    cent = (note_number * 100.0) - 6900.0 + fine_tune
+    hz = 440.0 * (2.0 ** (cent / 1200.0))
+    freq = (hz * 256.0 * 256.0 / 31250.0).truncate
 
     printf("0x%04X,", freq)
     if note_number == 127
