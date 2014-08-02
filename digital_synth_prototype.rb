@@ -221,8 +221,8 @@ File::open("a.wav","w+b") do |file|
       lpf.y_1 = lpf.y_0;
 
       # PWM
-      file.write([(level - 128) * 32].pack("S"))
-#     file.write([(lpf.y_0 - 128) * 32].pack("S"))
+      file.write([(level - 128) * 64].pack("S"))
+#     file.write([(lpf.y_0 - 128) * 64].pack("S"))
     end
   end
 end
