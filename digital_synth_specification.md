@@ -21,7 +21,7 @@ Version 0.00: 2014-08-02 risgk
 - PWM Rate: 31250 Hz
 - Audio Rate: 31250 Hz
 - Bit Depth: 8 bits
-- Recommended Note Range: 28-96
+- Recommended Note Range: 24-96
 - Waveform Memory:
     - 256 Bytes for Notes 0-46 Include the 128th Overtones
     - 256 Bytes for Notes 47-58 Include the 64th Overtones

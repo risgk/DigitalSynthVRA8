@@ -19,20 +19,20 @@ end
 class OSC
   def initialize
     @wave_table = $wave_tables[WAVE_SAW]
-    @freq = $note_number_to_freq[28]
-    @phase = 0
+    @freq = 0x0000
+    @phase = 0x0000
   end
 
   def set_wave(wave)
     @wave_table = $wave_tables[wave]
   end
 
-  def set_note(note_number)
-    @freq = $note_number_to_freq[note_number]
+  def set_freq(freq)
+    @freq = freq
   end
 
   def reset
-    @phase = 0
+    @phase = 0x0000
   end
 
   def clock
@@ -112,7 +112,7 @@ File::open("a.wav","w+b") do |file|
 
     if (midi_in_pprev == NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
       note_number = midi_in_prev
-      osc[0].set_note(note_number)
+      osc[0].set_freq($note_number_to_freq[note_number])
 #     osc[0].reset
       eg_state = A
       eg_level = 0
