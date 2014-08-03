@@ -96,10 +96,18 @@ class OSC
     curr_data = wave_table[curr_index]
     next_data = wave_table[next_index]
 
-    gain = 0x08 - (@volume >> 4)
     next_weight = low_byte(phase) >> 1
     curr_weight = 0x80 - next_weight
-    level = (high_byte(curr_data * curr_weight + next_data * next_weight) >> gain) + 0x20 - (0x40 >> gain)
+    level_15 = (curr_data * curr_weight) + (next_data * next_weight)
+    level = ((high_byte(level_15) << 1) & 0xFF) + ((low_byte(level_15) >> 7) & 0xFF)
+
+    reduction = 0x03 - (@volume >> 5)
+    if (reduction == 0x03)
+      level = 0x80
+    else
+      level = (level >> reduction) + 0x80 - (0x80 >> reduction)
+    end
+
     return level
   end
 end
@@ -176,9 +184,15 @@ File::open("a.wav","w+b") do |file|
     for i in (0...10) do
 
       # OSC
-      level = osc[0].clock + osc[1].clock + osc[2].clock + 0x20
+      osc0_output = osc[0].clock
+      osc1_output = osc[1].clock
+      osc2_output = osc[2].clock
 
-      # EG
+      # MIX
+      mix_input = osc0_output + osc1_output + osc2_output + 0x80
+      level = ((high_byte(mix_input) << 6) & 0xFF) + ((low_byte(mix_input) >> 2) & 0xFF)
+
+      # ENV
       eg_rest -= 1
       case (eg_state)
       when A
