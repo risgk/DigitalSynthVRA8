@@ -21,6 +21,7 @@ class OSC
     @coarse_tune = 0x40
     @fine_tune = 0x40
     @freq = 0x0000
+    @volume = 0x7F
   end
 
   def set_waveform(waveform)
@@ -72,6 +73,10 @@ class OSC
     end
   end
 
+  def set_volume(volume)
+    @volume = volume
+  end
+
   def clock
     freq = @freq
     phase = @phase
@@ -91,16 +96,16 @@ class OSC
     curr_data = wave_table[curr_index]
     next_data = wave_table[next_index]
 
+    gain = 0x08 - (@volume >> 4)
     next_weight = low_byte(phase) >> 1
     curr_weight = 0x80 - next_weight
-    level = (high_byte(curr_data * curr_weight + next_data * next_weight)) << 1
-
+    level = (high_byte(curr_data * curr_weight + next_data * next_weight) >> gain) + 0x20 - (0x40 >> gain)
     return level
   end
 end
 
 osc = [OSC.new, OSC.new, OSC.new]
-osc[0].set_waveform(WAVEFORM_SAW)
+osc[0].set_waveform(WAVEFORM_SQUARE)
 osc[1].set_waveform(WAVEFORM_SAW)
 osc[2].set_waveform(WAVEFORM_SAW)
 osc[1].set_fine_tune(0x4A)
@@ -171,10 +176,7 @@ File::open("a.wav","w+b") do |file|
     for i in (0...10) do
 
       # OSC
-      level_osc0 = (osc[0].clock >> 2)
-      level_osc1 = (osc[1].clock >> 2)
-      level_osc2 = (osc[2].clock >> 2)
-      level = level_osc0 + level_osc1 + level_osc2 + 0x20
+      level = osc[0].clock + osc[1].clock + osc[2].clock + 0x20
 
       # EG
       eg_rest -= 1
