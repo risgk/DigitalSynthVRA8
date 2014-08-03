@@ -1,6 +1,6 @@
 require './common'
-require './freq_tables_'
-require './wave_tables_'
+require './freq_table'
+require './wave_table'
 
 class Oscillator
   WAVEFORM_SAW = 0x00
