@@ -3,6 +3,7 @@ require './wave_tables_'
 
 AUDIO_RATE = 31250; PWM_RATE = 31250
 WAVEFORM_SAW = 0x00; WAVEFORM_SQUARE = 0x01; WAVEFORM_SINE = 0x02
+MIDI_NOTE_ON = 0x80; MIDI_NOTE_OFF = 0x90
 
 def high_byte(us)
   return (us >> 8)
@@ -129,8 +130,8 @@ class LPF
 #   @b1_a0, @b2_a0, @a1_a0, @a2_a0 =  4,  2, -93, 37 # cutoff = AUDIO_RATE / 16, Q = 0.7071
   end
 
-  def clock(input)
-    @x_0 = input
+  def clock(a, k)
+    @x_0 = a
     @y_0 = ((@b2_a0 * @x_0) + (@b1_a0 * @x_1) + (@b2_a0 * @x_2) - (@a1_a0 * @y_1) - (@a2_a0 * @y_2)) / 64;
     if (@y_0 < 0)
       @y_0 = 0
@@ -143,33 +144,92 @@ class LPF
   end
 end
 
+class AMP
+  def initialize
+    # todo
+  end
+
+  def clock(a, k)
+    # todo
+    return a
+  end
+end
+
+class ENVG
+  STATE_A = 0
+  STATE_D = 1
+  STATE_S = 2
+  STATE_R = 3
+
+  def initialize
+    @level = 0
+    @state = STATE_A
+    @rest = 0
+    @envelope_table = [0,40,256,0]
+  end
+
+  def note_on
+    @state = STATE_A
+    @level = 0
+    @rest = @envelope_table[@state]
+  end
+
+  def note_off
+    @state = STATE_R
+    @rest = @envelope_table[@state]
+  end
+
+  def clock
+    @rest -= 1
+    case (@state)
+    when STATE_A
+      if (@rest <= 0)
+        if (@level < 255)
+          @level += 1
+          @rest = @envelope_table[@state]
+        else
+          @state = STATE_D
+          @rest = @envelope_table[@state]
+        end
+      end
+    when STATE_D
+      if (@rest <= 0)
+        if (@level > @envelope_table[2])
+          @level -= 1
+          @rest = @envelope_table[@state]
+        else
+          @state = STATE_S
+          @rest = 9999
+        end
+      end
+    when STATE_S
+    when STATE_R
+      if (@rest <= 0)
+        if (@level > 0)
+          @level -= 1
+          @rest = @envelope_table[@state]
+        else
+          @level = 0
+          @rest = 9999
+        end
+      end
+    end
+  end
+end
+
 osc1 = OSC.new
 osc2 = OSC.new
 osc3 = OSC.new
 mix = MIX.new
 lpf = LPF.new
+amp = AMP.new
+env = ENVG.new
 
 osc1.set_waveform(WAVEFORM_SQUARE)
 osc2.set_waveform(WAVEFORM_SAW)
 osc3.set_waveform(WAVEFORM_SAW)
 osc1.set_fine_tune(0x4A)
 osc2.set_fine_tune(0x36)
-
-envelope_lead = [0,40,256,0]
-envelope_level_max = 256
-A = 0
-D = 1
-S = 2
-R = 3
-
-envelope = envelope_lead
-eg_level = 0
-
-NOTE_ON  = 0x80
-NOTE_OFF = 0x90
-
-eg_state = A
-eg_rest = 0
 
 midi_in_prev = 0xFF
 midi_in_pprev = 0xFF
@@ -185,71 +245,28 @@ File::open("a.wav","w+b") do |file|
   while(c = STDIN.read(1)) do
     b = c.ord
 
-    if (midi_in_pprev == NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
+    if (midi_in_pprev == MIDI_NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
       note_number = midi_in_prev
       osc1.note_on(note_number)
       osc2.note_on(note_number)
       osc3.note_on(note_number)
-      eg_state = A
-      eg_level = 0
-      eg_rest = envelope[eg_state]
+      env.note_on
     end
-    if (midi_in_pprev == NOTE_OFF && midi_in_prev <= 0x7F && b <= 0x7F)
-      osc1.note_off()
-      osc2.note_off()
-      osc3.note_off()
-      eg_state = R
-      eg_rest = envelope[eg_state]
+    if (midi_in_pprev == MIDI_NOTE_OFF && midi_in_prev <= 0x7F && b <= 0x7F)
+      osc1.note_off
+      osc2.note_off
+      osc3.note_off
+      env.note_on
     end
     midi_in_pprev = midi_in_prev
     midi_in_prev = b
 
     for i in (0...10) do
       level = mix.clock(osc1.clock, osc2.clock, osc3.clock, 0x80)
+      env_level = env.clock
+      level = lpf.clock(level, env_level)
+#     level = amp.clock(level, env_level)
 
-      # ENV
-      eg_rest -= 1
-      case (eg_state)
-      when A
-        if (eg_rest <= 0)
-          if (eg_level < envelope_level_max)
-            eg_level += 1
-            eg_rest = envelope[eg_state]
-          else
-            eg_state = D
-            eg_rest = envelope[eg_state]
-          end
-        end
-      when D
-        if (eg_rest <= 0)
-          if (eg_level > envelope[2])
-            eg_level -= 1
-            eg_rest = envelope[eg_state]
-          else
-            eg_state = S
-            eg_rest = 9999
-          end
-        end
-      when S
-      when R
-        if (eg_rest <= 0)
-          if (eg_level > 0)
-            eg_level -= 1
-            eg_rest = envelope[eg_state]
-          else
-            eg_level = 0
-            eg_rest = 9999
-          end
-        end
-      end
-
-      # AMP
-      level = level
-
-      # LPF
-      level = lpf.clock(level)
-
-      # PWM
       file.write([(level - 128) * 64].pack("S"))
     end
   end
