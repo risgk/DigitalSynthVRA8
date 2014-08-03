@@ -17,14 +17,14 @@ def generate_freq_table(fine_tune, name)
   printf("]\n\n")
 end
 
-generate_freq_table(0.0, "")
-generate_freq_table(10.0, "_plus_tune")
-generate_freq_table(-10.0, "_minus_tune")
+generate_freq_table(-10.0, "_fine_tune_minus_10")
+generate_freq_table(0.0, "_fine_tune_normal")
+generate_freq_table(10.0, "_fine_tune_plus_10")
 
 print <<EOS
 $freq_tables = [
-  $freq_table,
-  $freq_table_plus_tune,
-  $freq_table_minus_tune,
+  $freq_table_fine_tune_minus_10,
+  $freq_table_fine_tune_normal,
+  $freq_table_fine_tune_plus_10,
 ]
 EOS

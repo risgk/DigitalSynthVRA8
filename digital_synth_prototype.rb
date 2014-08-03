@@ -1,12 +1,8 @@
 require './freq_tables_'
 require './wave_tables_'
 
-PWM_RATE = 62500
-AUDIO_RATE = 31250
-
-WAVE_SAW    = 0
-WAVE_SQUARE = 1
-WAVE_SINE   = 2
+AUDIO_RATE = 31250; PWM_RATE = 31250
+WAVEFORM_SAW = 0x00; WAVEFORM_SQUARE = 0x01; WAVEFORM_SINE = 0x02
 
 def high_byte(us)
   return (us >> 8)
@@ -17,40 +13,63 @@ def low_byte(us)
 end
 
 class OSC
-  TUNE_NORMAL = 0
-  TUNE_PLUS   = 1
-  TUNE_MINUS  = 2
-
   def initialize
-    @wave_tables = $wave_tables[WAVE_SAW]
+    @wave_tables = $wave_tables[WAVEFORM_SAW]
     @phase = 0x0000
+    @note_on = false
     @note_number = 0x00
-    @tune = TUNE_NORMAL
-    @freq = $freq_tables[@tune][@note_number]
+    @coarse_tune = 0x40
+    @fine_tune = 0x40
+    @freq = 0x0000
   end
 
-  def set_wave(wave)
-    @wave_tables = $wave_tables[wave]
+  def set_waveform(waveform)
+    @wave_tables = $wave_tables[waveform]
   end
 
-  def set_note_number(note_number)
+  def note_on(note_number)
+    @phase = 0x0000
+    @note_on = true
     @note_number = note_number
-    @freq = $freq_tables[@tune][@note_number]
+    update_freq
+  end
+
+  def note_off()
+    @phase = 0x0000
+    @note_on = false
+    update_freq
+  end
+
+  def set_coarse_tune(coarse_tune)
+    @coarse_tune = coarse_tune
+    update_freq
   end
 
   def set_fine_tune(fine_tune)
-    if (fine_tune > 0x40)
-      @tune = TUNE_PLUS
-    elsif (fine_tune < 0x40)
-      @tune = TUNE_MINUS
-    else
-      @tune = TUNE_NORMAL
-    end
-    @freq = $freq_tables[@tune][@note_number]
+    @fine_tune = fine_tune
+    update_freq
   end
 
-  def reset
-    @phase = 0x0000
+  def update_freq
+    note_on = @note_on
+    note_number = @note_number
+    coarse_tune = @coarse_tune
+    fine_tune = @fine_tune
+
+    if (fine_tune < 0x40)
+      freq_table_sel = 0x00
+    elsif (fine_tune == 0x40)
+      freq_table_sel = 0x01
+    else
+      freq_table_sel = 0x02
+    end
+
+    pitch = note_number + coarse_tune
+    if (note_on && pitch >= 0x40 && pitch <= 0xBF)
+      @freq = $freq_tables[freq_table_sel][pitch - 0x40]
+    else
+      @freq = 0
+    end
   end
 
   def clock
@@ -60,11 +79,11 @@ class OSC
     phase &= 0xFFFF
     @phase = phase
 
-    table_sel = high_byte(freq)
-    if ((table_sel & 0xF0) != 0)
-      table_sel = 0x10
+    wave_table_sel = high_byte(freq)
+    if ((wave_table_sel & 0xF0) != 0)
+      wave_table_sel = 0x10
     end
-    wave_table = @wave_tables[table_sel]
+    wave_table = @wave_tables[wave_table_sel]
 
     curr_index = high_byte(phase)
     next_index = curr_index + 0x01
@@ -81,9 +100,9 @@ class OSC
 end
 
 osc = [OSC.new, OSC.new, OSC.new]
-osc[0].set_wave(WAVE_SAW)
-osc[1].set_wave(WAVE_SAW)
-osc[2].set_wave(WAVE_SAW)
+osc[0].set_waveform(WAVEFORM_SAW)
+osc[1].set_waveform(WAVEFORM_SAW)
+osc[2].set_waveform(WAVEFORM_SAW)
 osc[1].set_fine_tune(0x4A)
 osc[2].set_fine_tune(0x36)
 
@@ -121,38 +140,28 @@ midi_in_pprev = 0xFF
 
 STDIN.binmode
 File::open("a.wav","w+b") do |file|
-  data_size = 2 * AUDIO_RATE * 25
+  data_size = AUDIO_RATE * 2 * 30
   file_size = data_size + 36
-  file.write("RIFF")
-  file.write([file_size - 8].pack("V"))
-  file.write("WAVE")
-  file.write("fmt ")
-  file.write([16].pack("V"))
-  file.write([1].pack("v"))
-  file.write([1].pack("v"))
-  file.write([AUDIO_RATE].pack("V"))
-  file.write([AUDIO_RATE * 2].pack("V"))
-  file.write([1 * 2].pack("v"))
-  file.write([16].pack("v"))
-  file.write("data")
-  file.write([data_size].pack("V"))
+  file.write("RIFF"); file.write([file_size - 8].pack("V")); file.write("WAVE"); file.write("fmt ")
+  file.write([16].pack("V")); file.write([1, 1].pack("v*")); file.write([AUDIO_RATE, AUDIO_RATE * 2].pack("V*"))
+  file.write([2, 16].pack("v*")); file.write("data"); file.write([data_size].pack("V"))
 
   while(c = STDIN.read(1)) do
     b = c.ord
 
     if (midi_in_pprev == NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
       note_number = midi_in_prev
-      osc[0].set_note_number(note_number)
-      osc[1].set_note_number(note_number)
-      osc[2].set_note_number(note_number)
-      osc[0].reset
-      osc[1].reset
-      osc[2].reset
+      osc[0].note_on(note_number)
+      osc[1].note_on(note_number)
+      osc[2].note_on(note_number)
       eg_state = A
       eg_level = 0
       eg_rest = envelope[eg_state]
     end
     if (midi_in_pprev == NOTE_OFF && midi_in_prev <= 0x7F && b <= 0x7F)
+      osc[0].note_off()
+      osc[1].note_off()
+      osc[2].note_off()
       eg_state = R
       eg_rest = envelope[eg_state]
     end
