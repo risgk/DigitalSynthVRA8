@@ -10,7 +10,7 @@ class EG
     @level = 0
     @state = STATE_A
     @rest = 0
-    @envelope_table = [10,40,200,20]
+    @envelope_table = [1,1,255,1]
   end
 
   def note_on

@@ -3,12 +3,12 @@ require './freq_table'
 require './wave_table'
 
 class Oscillator
-  WAVEFORM_SAW = 0x00
-  WAVEFORM_SQUARE = 0x01
-  WAVEFORM_SINE = 0x02
+  SAW = 0x00
+  SQUARE = 0x01
+  SINE = 0x02
 
   def initialize
-    @wave_tables = $wave_tables[WAVEFORM_SAW]
+    @wave_tables = $wave_tables[SAW]
     @phase = 0x0000
     @note_number = 0x00
     @coarse_tune = 0x40
