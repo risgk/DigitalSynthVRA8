@@ -1,5 +1,5 @@
+require './freq_tables_'
 require './wave_tables_'
-require './other_tables_'
 
 PWM_RATE = 62500
 AUDIO_RATE = 31250
