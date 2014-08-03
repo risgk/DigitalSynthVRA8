@@ -1,6 +1,6 @@
-# ISGK VA-8 Specification
+# Digital Synth ISGK VA-8 Specification
 
-Version 0.00: 2014-08-02 risgk
+Version 0.00: 2014-08-03 risgk
 
 ## Concept
 
@@ -22,54 +22,41 @@ Version 0.00: 2014-08-02 risgk
 - Audio Rate: 31250 Hz
 - Bit Depth: 8 bits
 - Recommended Note Range: 24-96
-- Waveform Memory:
-    - 256 Bytes for Notes 0-46 Include the 128th Overtones
-    - 256 Bytes for Notes 47-58 Include the 64th Overtones
-    - 256 Bytes for Notes 59-70 Include the 32nd Overtones
-    - 256 Bytes for Notes 71-82 Include the 16th Overtones
-    - 256 Bytes for Notes 83-127 Include the 8th Overtones
 - Exponential Envelope
 
 ## Synth Modules
 
 - OSC1:
-    - WAVE
-    - PITCH: [-1200, -500, -10, 0, +10, +700, +1200]
-    - LEVEL: [0, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1]
+    - WAVE: [SAW, SQUARE, SINE]
 - OSC2:
-    - WAVE
-    - PITCH
-    - LEVEL
+    - WAVE: [SAW, SQUARE, SINE]
+    - TUNE: [-1200, -500, 0, +700, +1200]
+    - FINE: [-10, 0, +10]
+    - VOL: [0, 1/4, 1/2, 1]
 - OSC3:
-    - WAVE
-    - PITCH
-    - LEVEL
+    - WAVE: [SAW, SQUARE, SINE]
+    - TUNE: [-1200, -500, 0, +700, +1200]
+    - FINE: [-10, 0, +10]
+    - VOL: [0, 1/4, 1/2, 1]
 - LPF:
     - CUTOFF: [1875, ..., 3750, ..., 7500, ..., 15000]
     - RESO: [OFF, ON]
     - ENV: [OFF, ON]
 - AMP:
-    - LEVEL: [0, 1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1]
+    - VOL: [0, 1/4, 1/2, 1]
     - ENV: [OFF, ON]
 - ENV:
-    - A
-    - D
-    - S
-    - R
-
-## Waveforms
-
-- Sawtooth
-- Square
-- Sine
+    - A: [???, ..., ???]
+    - D: [???, ..., ???]
+    - S: [0, 1/4, 1/2, 1]
+    - R: [???, ..., ???]
 
 ## Preset Programs
 
-- Synth Lead
 - Synth Brass
-- Synth Bass
 - Saw Lead
 - Square Lead
+- Synth Bass
 
 ## MIDI Implementation Chart
 
