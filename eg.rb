@@ -10,7 +10,7 @@ class EG
     @level = 0
     @state = STATE_A
     @rest = 0
-    @envelope_table = [0,40,256,0]
+    @envelope_table = [10,40,200,20]
   end
 
   def note_on
@@ -48,6 +48,7 @@ class EG
         end
       end
     when STATE_S
+      # do nothing
     when STATE_R
       if (@rest <= 0)
         if (@level > 0)
@@ -59,5 +60,7 @@ class EG
         end
       end
     end
+
+    return @level
   end
 end

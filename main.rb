@@ -46,7 +46,7 @@ File::open("a.wav","w+b") do |file|
       oscillator1.note_off
       oscillator2.note_off
       oscillator3.note_off
-      eg.note_on
+      eg.note_off
     end
     midi_in_pprev = midi_in_prev
     midi_in_prev = b
@@ -55,7 +55,7 @@ File::open("a.wav","w+b") do |file|
       level = mixer.clock(oscillator1.clock, oscillator2.clock, oscillator3.clock, 0x80)
       eg_output = eg.clock
       level = filter.clock(level, eg_output)
-#     level = amplifier.clock(level, eg_output)
+      level = amplifier.clock(level, eg_output)
 
       file.write([(level - 128) * 64].pack("S"))
     end

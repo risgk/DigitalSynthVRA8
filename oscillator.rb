@@ -10,7 +10,6 @@ class Oscillator
   def initialize
     @wave_tables = $wave_tables[WAVEFORM_SAW]
     @phase = 0x0000
-    @note_on = false
     @note_number = 0x00
     @coarse_tune = 0x40
     @fine_tune = 0x40
@@ -24,15 +23,12 @@ class Oscillator
 
   def note_on(note_number)
     @phase = 0x0000
-    @note_on = true
     @note_number = note_number
     update_freq
   end
 
-  def note_off()
-    @phase = 0x0000
-    @note_on = false
-    update_freq
+  def note_off
+    # do noshing
   end
 
   def set_coarse_tune(coarse_tune)
@@ -46,7 +42,6 @@ class Oscillator
   end
 
   def update_freq
-    note_on = @note_on
     note_number = @note_number
     coarse_tune = @coarse_tune
     fine_tune = @fine_tune
@@ -60,7 +55,7 @@ class Oscillator
     end
 
     pitch = note_number + coarse_tune
-    if (note_on && pitch >= 0x40 && pitch <= 0xBF)
+    if (pitch >= 0x40 && pitch <= 0xBF)
       @freq = $freq_tables[freq_table_sel][pitch - 0x40]
     else
       @freq = 0
