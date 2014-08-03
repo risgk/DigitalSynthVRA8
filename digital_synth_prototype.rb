@@ -112,12 +112,48 @@ class OSC
   end
 end
 
-osc = [OSC.new, OSC.new, OSC.new]
-osc[0].set_waveform(WAVEFORM_SQUARE)
-osc[1].set_waveform(WAVEFORM_SAW)
-osc[2].set_waveform(WAVEFORM_SAW)
-osc[1].set_fine_tune(0x4A)
-osc[2].set_fine_tune(0x36)
+class MIX
+  def clock(a, b, c, d)
+    level_10 = a + b + c + d
+    level = ((high_byte(level_10) << 6) & 0xFF) + ((low_byte(level_10) >> 2) & 0xFF)
+    return level
+  end
+end
+
+class LPF
+  def initialize
+    @x_0, @x_1, @x_2 = 0, 0, 0
+    @y_0, @y_1, @y_2 = 0, 0, 0
+    @b1_a0, @b2_a0, @a1_a0, @a2_a0 = 37, 19,   0, 11 # cutoff = AUDIO_RATE /  4, Q = 0.7071
+#   @b1_a0, @b2_a0, @a1_a0, @a2_a0 = 12,  6, -60, 21 # cutoff = AUDIO_RATE /  8, Q = 0.7071
+#   @b1_a0, @b2_a0, @a1_a0, @a2_a0 =  4,  2, -93, 37 # cutoff = AUDIO_RATE / 16, Q = 0.7071
+  end
+
+  def clock(input)
+    @x_0 = input
+    @y_0 = ((@b2_a0 * @x_0) + (@b1_a0 * @x_1) + (@b2_a0 * @x_2) - (@a1_a0 * @y_1) - (@a2_a0 * @y_2)) / 64;
+    if (@y_0 < 0)
+      @y_0 = 0
+    end
+    @x_2 = @x_1;
+    @x_1 = @x_0;
+    @y_2 = @y_1;
+    @y_1 = @y_0;
+    return @y_0
+  end
+end
+
+osc1 = OSC.new
+osc2 = OSC.new
+osc3 = OSC.new
+mix = MIX.new
+lpf = LPF.new
+
+osc1.set_waveform(WAVEFORM_SQUARE)
+osc2.set_waveform(WAVEFORM_SAW)
+osc3.set_waveform(WAVEFORM_SAW)
+osc1.set_fine_tune(0x4A)
+osc2.set_fine_tune(0x36)
 
 envelope_lead = [0,40,256,0]
 envelope_level_max = 256
@@ -135,19 +171,6 @@ NOTE_OFF = 0x90
 eg_state = A
 eg_rest = 0
 
-class LPF
-  attr_accessor :x_0, :x_1, :x_2, :y_0, :y_1, :y_2
-  attr_accessor :b0_a0, :b1_a0, :b2_a0, :a1_a0, :a2_a0
-end
-
-lpf = LPF.new
-
-lpf.x_0, lpf.x_1, lpf.x_2, lpf.y_0, lpf.y_1, lpf.y_2 = 0, 0, 0, 0, 0, 0
-
-  lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 = 19, 37, 19,   0, 11 # f_cutoff = AUDIO_RATE /  4, Q = 0.7071
-# lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 =  6, 12,  6, -60, 21 # f_cutoff = AUDIO_RATE /  8, Q = 0.7071
-# lpf.b0_a0, lpf.b1_a0, lpf.b2_a0, lpf.a1_a0, lpf.a2_a0 =  2,  4,  2, -93, 37 # f_cutoff = AUDIO_RATE / 16, Q = 0.7071
-
 midi_in_prev = 0xFF
 midi_in_pprev = 0xFF
 
@@ -164,17 +187,17 @@ File::open("a.wav","w+b") do |file|
 
     if (midi_in_pprev == NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
       note_number = midi_in_prev
-      osc[0].note_on(note_number)
-      osc[1].note_on(note_number)
-      osc[2].note_on(note_number)
+      osc1.note_on(note_number)
+      osc2.note_on(note_number)
+      osc3.note_on(note_number)
       eg_state = A
       eg_level = 0
       eg_rest = envelope[eg_state]
     end
     if (midi_in_pprev == NOTE_OFF && midi_in_prev <= 0x7F && b <= 0x7F)
-      osc[0].note_off()
-      osc[1].note_off()
-      osc[2].note_off()
+      osc1.note_off()
+      osc2.note_off()
+      osc3.note_off()
       eg_state = R
       eg_rest = envelope[eg_state]
     end
@@ -182,15 +205,7 @@ File::open("a.wav","w+b") do |file|
     midi_in_prev = b
 
     for i in (0...10) do
-
-      # OSC
-      osc0_output = osc[0].clock
-      osc1_output = osc[1].clock
-      osc2_output = osc[2].clock
-
-      # MIX
-      mix_input = osc0_output + osc1_output + osc2_output + 0x80
-      level = ((high_byte(mix_input) << 6) & 0xFF) + ((low_byte(mix_input) >> 2) & 0xFF)
+      level = mix.clock(osc1.clock, osc2.clock, osc3.clock, 0x80)
 
       # ENV
       eg_rest -= 1
@@ -231,23 +246,11 @@ File::open("a.wav","w+b") do |file|
       # AMP
       level = level
 
-      # MIXER
-      level = level
-
       # LPF
-      lpf.x_0 = level
-      lpf.y_0 = ((lpf.b0_a0 * lpf.x_0) + (lpf.b1_a0 * lpf.x_1) + (lpf.b2_a0 * lpf.x_2) - (lpf.a1_a0 * lpf.y_1) - (lpf.a2_a0 * lpf.y_2)) / 64;
-      if (lpf.y_0 < 0)
-        lpf.y_0 = 0
-      end
-      lpf.x_2 = lpf.x_1;
-      lpf.x_1 = lpf.x_0;
-      lpf.y_2 = lpf.y_1;
-      lpf.y_1 = lpf.y_0;
+      level = lpf.clock(level)
 
       # PWM
       file.write([(level - 128) * 64].pack("S"))
-#     file.write([(lpf.y_0 - 128) * 64].pack("S"))
     end
   end
 end
