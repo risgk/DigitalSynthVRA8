@@ -55,7 +55,7 @@ overtones.each do |max|
   generate_wave_table_square(max)
 end
 
-overtones.each do |max|
+[1].each do |max|
   generate_wave_table_sine(max)
 end
 
@@ -101,23 +101,23 @@ $wave_table_square = [
 ]
 
 $wave_table_sine = [
-  $wave_table_sine_m128,
-  $wave_table_sine_m64,
-  $wave_table_sine_m42,
-  $wave_table_sine_m32,
-  $wave_table_sine_m25,
-  $wave_table_sine_m21,
-  $wave_table_sine_m18,
-  $wave_table_sine_m16,
-  $wave_table_sine_m14,
-  $wave_table_sine_m12,
-  $wave_table_sine_m11,
-  $wave_table_sine_m10,
-  $wave_table_sine_m9,
-  $wave_table_sine_m9,
-  $wave_table_sine_m8,
-  $wave_table_sine_m8,
-  $wave_table_sine_m7,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
+  $wave_table_sine_m1,
 ]
 
 $wave_tables = [
