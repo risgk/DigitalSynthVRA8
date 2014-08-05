@@ -87,14 +87,13 @@ class Oscillator
 
     next_weight = low_byte(phase) >> 1
     curr_weight = 0x80 - next_weight
-    level_15 = (curr_data * curr_weight) + (next_data * next_weight)
-    level = ((high_byte(level_15) << 1) & 0xFF) + ((low_byte(level_15) >> 7) & 0xFF)
+    level = high_byte((curr_data * curr_weight) + (next_data * next_weight))
 
     reduction = 0x03 - (@volume >> 5)
     if (reduction == 0x03)
-      level = 0x80
+      level = 0
     else
-      level = (level >> reduction) + 0x80 - (0x80 >> reduction)
+      level = level >> reduction
     end
 
     return level

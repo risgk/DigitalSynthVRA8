@@ -6,13 +6,17 @@ class Amplifier
   end
 
   def clock(a, k)
-    level = high_byte(a * k) + 0x80 - high_byte(0x80 * k)
+    if (k == 0x7F)
+      level = a
+    else
+      level = high_byte(a * (k << 1))
+    end
 
     reduction = 0x03 - (@volume >> 5)
     if (reduction == 0x03)
-      level = 0x80
+      level = 0
     else
-      level = (level >> reduction) + 0x80 - (0x80 >> reduction)
+      level = level >> reduction
     end
 
     return level

@@ -24,15 +24,15 @@ File::open("a.wav","w+b") do |file|
   amplifier = Amplifier.new
   eg = EG.new
 
-  oscillator1.set_waveform(Oscillator::SAW)
-  oscillator2.set_waveform(Oscillator::SAW)
-  oscillator2.set_coarse_tune(0x47)
-  oscillator2.set_fine_tune(0x4A)
-  oscillator2.set_volume(0x5F)
-  oscillator3.set_waveform(Oscillator::SQUARE)
-  oscillator3.set_coarse_tune(0x34)
+# oscillator1.set_waveform(Oscillator::SAW)
+# oscillator2.set_waveform(Oscillator::SAW)
+# oscillator2.set_coarse_tune(0x47)
+# oscillator2.set_fine_tune(0x4A)
+# oscillator2.set_volume(0x5F)
+# oscillator3.set_waveform(Oscillator::SQUARE)
+# oscillator3.set_coarse_tune(0x34)
 # oscillator3.set_fine_tune(0x36)
-  oscillator3.set_volume(0x5F)
+# oscillator3.set_volume(0x5F)
 
   midi_in_prev = 0xFF
   midi_in_pprev = 0xFF
@@ -56,12 +56,12 @@ File::open("a.wav","w+b") do |file|
     midi_in_prev = b
 
     for i in (0...10) do
-      level = mixer.clock(oscillator1.clock, oscillator2.clock, oscillator3.clock, 0x80)
+      level = mixer.clock(oscillator1.clock, oscillator2.clock, oscillator3.clock, 0)
       eg_output = eg.clock
       level = filter.clock(level, eg_output)
       level = amplifier.clock(level, eg_output)
 
-      file.write([(level - 128) * 64].pack("S"))
+      file.write([level * 128].pack("S"))
     end
   end
 end

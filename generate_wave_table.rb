@@ -5,8 +5,8 @@ def generate_wave_table(max, name)
     (1..max).each do |k|
       level += yield(t, k)
     end
-    level = ((level + 2) * 64).to_i
-    printf("0x%02X,", level)
+    level = (level * 64).round.to_i
+    printf("%+3d,", level)
 
     if t == 255
       printf("\n")
