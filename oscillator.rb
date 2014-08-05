@@ -42,19 +42,15 @@ class Oscillator
   end
 
   def update_freq
-    note_number = @note_number
-    coarse_tune = @coarse_tune
-    fine_tune = @fine_tune
-
-    if (fine_tune < 0x40)
+    if (@fine_tune < 0x40)
       freq_table_sel = 0x00
-    elsif (fine_tune == 0x40)
+    elsif (@fine_tune == 0x40)
       freq_table_sel = 0x01
     else
       freq_table_sel = 0x02
     end
 
-    pitch = note_number + coarse_tune
+    pitch = @note_number + @coarse_tune
     if (pitch >= 0x40 && pitch <= 0xBF)
       @freq = $freq_tables[freq_table_sel][pitch - 0x40]
     else
@@ -63,37 +59,35 @@ class Oscillator
   end
 
   def set_volume(volume)
-    @volume = volume
+    @volume = round_table_128_to_5[volume]
   end
 
   def clock
-    freq = @freq
-    phase = @phase
-    phase += freq
-    phase &= 0xFFFF
-    @phase = phase
+    @phase += @freq
+    @phase &= 0xFFFF
 
-    wave_table_sel = high_byte(freq)
+    wave_table_sel = high_byte(@freq)
     if ((wave_table_sel & 0xF0) != 0)
       wave_table_sel = 0x10
     end
     wave_table = @wave_tables[wave_table_sel]
 
-    curr_index = high_byte(phase)
+    curr_index = high_byte(@phase)
     next_index = curr_index + 0x01
     next_index &= 0xFF
     curr_data = wave_table[curr_index]
     next_data = wave_table[next_index]
 
-    next_weight = low_byte(phase) >> 1
+    next_weight = low_byte(@phase) >> 1
     curr_weight = 0x80 - next_weight
     level = high_byte((curr_data * curr_weight) + (next_data * next_weight))
 
-    reduction = 0x03 - (@volume >> 5)
-    if (reduction == 0x03)
+    if (@volume != 0x7F)
+      level = level
+    elsif (@volume == 0x00)
       level = 0
     else
-      level = level >> reduction
+      level = high_byte(level * (@volume << 1))
     end
 
     return level

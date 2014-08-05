@@ -5,18 +5,25 @@ class Amplifier
     @volume = 0x7F
   end
 
+  def set_volume(volume)
+    @volume = round_table_128to_5[volume]
+  end
+
   def clock(a, k)
     if (k == 0x7F)
       level = a
+    elsif (k == 0x00)
+      level = 0
     else
       level = high_byte(a * (k << 1))
     end
 
-    reduction = 0x03 - (@volume >> 5)
-    if (reduction == 0x03)
+    if (@volume != 0x7F)
+      level = level
+    elsif (@volume == 0x00)
       level = 0
     else
-      level = level >> reduction
+      level = high_byte(level * (@volume << 1))
     end
 
     return level
