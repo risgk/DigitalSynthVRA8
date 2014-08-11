@@ -1,4 +1,5 @@
 require './common'
+require './env_table'
 
 class Amp
   def initialize
