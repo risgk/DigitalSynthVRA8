@@ -51,7 +51,7 @@ class Oscillator
     end
 
     pitch = @note_number + @coarse_tune
-    if (pitch >= 0x40 && pitch <= 0xBF)
+    if (pitch >= 0x40 && pitch <= 0xB8)
       @freq = $freq_tables[freq_table_sel][pitch - 0x40]
     else
       @freq = 0
