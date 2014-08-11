@@ -10,7 +10,7 @@ class EG
     @level = 0
     @state = STATE_A
     @rest = 0
-    @envelope_table = [1,1,255,1]
+    @envelope_table = [1,1,128,1]
   end
 
   def note_on
@@ -29,7 +29,7 @@ class EG
     case (@state)
     when STATE_A
       if (@rest <= 0)
-        if (@level < 255)
+        if (@level < 128)
           @level += 1
           @rest = @envelope_table[@state]
         else

@@ -75,13 +75,17 @@ class Oscillator
     curr_data = wave_table[curr_index]
     next_data = wave_table[next_index]
 
-    next_weight = low_byte(@phase) >> 1
-    curr_weight = 0x80 - next_weight
-    level = high_byte((curr_data * curr_weight) + (next_data * next_weight))
+    next_weight = low_byte(@phase)
+    if (next_weight == 0)
+      level = curr_data
+    else
+      curr_weight = 0x100 - next_weight
+      level = high_byte((curr_data * curr_weight) + (next_data * next_weight))
+    end
 
-    if (@volume != 0x7F)
+    if (@volume != 127)
       level = level
-    elsif (@volume == 0x00)
+    elsif (@volume == 0)
       level = 0
     else
       level = high_byte(level * (@volume << 1))
