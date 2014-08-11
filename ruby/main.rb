@@ -1,12 +1,9 @@
 require './common'
-require './oscillator'
+require './osc'
 require './mixer'
 require './filter'
-require './amplifier'
+require './amp'
 require './eg'
-
-AUDIO_RATE = 31250; PWM_RATE = 31250
-MIDI_NOTE_ON = 0x80; MIDI_NOTE_OFF = 0x90
 
 STDIN.binmode
 File::open("a.wav","w+b") do |file|
@@ -16,23 +13,23 @@ File::open("a.wav","w+b") do |file|
   file.write([16].pack("V")); file.write([1, 1].pack("v*")); file.write([AUDIO_RATE, AUDIO_RATE * 2].pack("V*"))
   file.write([2, 16].pack("v*")); file.write("data"); file.write([data_size].pack("V"))
 
-  oscillator1 = Oscillator.new
-  oscillator2 = Oscillator.new
-  oscillator3 = Oscillator.new
+  osc1 = Osc.new
+  osc2 = Osc.new
+  osc3 = Osc.new
   mixer = Mixer.new
   filter = Filter.new
-  amplifier = Amplifier.new
+  amp = Amp.new
   eg = EG.new
 
-  oscillator1.set_waveform(Oscillator::SAW)
-  oscillator2.set_waveform(Oscillator::SAW)
-  oscillator2.set_coarse_tune(64 + 0)
-  oscillator2.set_fine_tune(64 + 10)
-  oscillator2.set_volume(127)
-  oscillator3.set_waveform(Oscillator::SAW)
-  oscillator3.set_coarse_tune(64 - 0)
-  oscillator3.set_fine_tune(64 - 10)
-  oscillator3.set_volume(127)
+  osc1.set_waveform(Osc::SAW)
+  osc2.set_waveform(Osc::SAW)
+  osc2.set_coarse_tune(64 + 0)
+  osc2.set_fine_tune(64 + 10)
+  osc2.set_volume(63)
+  osc3.set_waveform(Osc::SQUARE)
+  osc3.set_coarse_tune(64 - 12)
+  osc3.set_fine_tune(64 - 0)
+  osc3.set_volume(63)
 
   midi_in_prev = 0xFF
   midi_in_pprev = 0xFF
@@ -41,25 +38,25 @@ File::open("a.wav","w+b") do |file|
 
     if (midi_in_pprev == MIDI_NOTE_ON && midi_in_prev <= 0x7F && b <= 0x7F)
       note_number = midi_in_prev
-      oscillator1.note_on(note_number)
-      oscillator2.note_on(note_number)
-      oscillator3.note_on(note_number)
+      osc1.note_on(note_number)
+      osc2.note_on(note_number)
+      osc3.note_on(note_number)
       eg.note_on
     end
     if (midi_in_pprev == MIDI_NOTE_OFF && midi_in_prev <= 0x7F && b <= 0x7F)
-      oscillator1.note_off
-      oscillator2.note_off
-      oscillator3.note_off
+      osc1.note_off
+      osc2.note_off
+      osc3.note_off
       eg.note_off
     end
     midi_in_pprev = midi_in_prev
     midi_in_prev = b
 
     for i in (0...10) do
-      level = mixer.clock(oscillator1.clock, oscillator2.clock, oscillator3.clock, 0)
+      level = mixer.clock(osc1.clock, osc2.clock, osc3.clock, 0)
       eg_output = eg.clock
       level = filter.clock(level, eg_output)
-      level = amplifier.clock(level, eg_output)
+      level = amp.clock(level, eg_output)
 
       file.write([level * 128].pack("S"))
     end

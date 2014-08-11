@@ -2,7 +2,7 @@ require './common'
 require './freq_table'
 require './wave_table'
 
-class Oscillator
+class Osc
   SAW = 0
   SQUARE = 1
   SINE = 2

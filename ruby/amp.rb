@@ -1,6 +1,6 @@
 require './common'
 
-class Amplifier
+class Amp
   def initialize
     @volume = 127
   end
