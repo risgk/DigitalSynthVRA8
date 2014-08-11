@@ -5,7 +5,7 @@ def generate_freq_table(fine_tune, name)
     hz = 440.0 * (2.0 ** (cent / 1200.0))
     freq = (hz * 256.0 * 256.0 / 31250.0).floor
 
-    printf("0x%04X,", freq)
+    printf("%5d,", freq)
     if note_number == 127
       printf("\n")
     elsif note_number % 12 == 11
