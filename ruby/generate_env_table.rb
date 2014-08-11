@@ -16,11 +16,11 @@ printf("]\n")
 printf("\n")
 
 printf("$env_table_attack = [\n  ")
-(0..127).each do |i|
-  level = 128 - (128 * (0.5 ** ((i + 1) / 16.0))).round.to_i
+(0..254).each do |i|
+  level = 256 - (256 * (0.5 ** ((i + 1) / 32.0))).round.to_i
 
   printf("%3d,", level)
-  if i == 127
+  if i == 254
     printf("\n")
   elsif i % 16 == 15
     printf("\n  ")
@@ -33,11 +33,11 @@ printf("]\n")
 printf("\n")
 
 printf("$env_table_decay_release = [\n  ")
-(0..127).each do |i|
-  level = (128 * (0.5 ** ((i + 1) / 16.0))).round.to_i
+(0..254).each do |i|
+  level = (256 * (0.5 ** ((i + 1) / 32.0))).round.to_i
 
   printf("%3d,", level)
-  if i == 127
+  if i == 254
     printf("\n")
   elsif i % 16 == 15
     printf("\n  ")
