@@ -24,12 +24,13 @@ File::open("a.wav","w+b") do |file|
   osc1.set_waveform(Osc::SAW)
   osc2.set_waveform(Osc::SAW)
   osc2.set_coarse_tune(64 + 0)
-  osc2.set_fine_tune(64 + 10)
-  osc2.set_volume(63)
-  osc3.set_waveform(Osc::SQUARE)
-  osc3.set_coarse_tune(64 - 12)
+  osc2.set_fine_tune(64 + 0)
+  osc2.set_volume(127)
+  osc3.set_waveform(Osc::SAW)
+  osc3.set_coarse_tune(64 - 0)
   osc3.set_fine_tune(64 - 0)
-  osc3.set_volume(63)
+  osc3.set_volume(127)
+  eg.set_adsr(63, 127, 0, 0)
 
   midi_in_prev = 0xFF
   midi_in_pprev = 0xFF

@@ -19,7 +19,7 @@ class Amp
       level = high_byte(a * (k << 1))
     end
 
-    if (@volume != 127)
+    if (@volume == 127)
       level = level
     elsif (@volume == 0)
       level = 0

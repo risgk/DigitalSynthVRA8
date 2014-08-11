@@ -1,64 +1,81 @@
 require './common'
+require './env_table'
 
 class EG
   STATE_A = 0
   STATE_D = 1
   STATE_S = 2
   STATE_R = 3
+  STATE_IDLE = 4
 
   def initialize
+    @as = 256
+    @ds = 256
+    @sl = 127
+    @rs = 256
+    @state = STATE_IDLE
+    @count = 0
     @level = 0
-    @state = STATE_A
-    @rest = 0
-    @envelope_table = [1,1,128,1]
+    @note_off_level = 0
+  end
+
+  def set_adsr(a, d, s, r)
+    @as = $env_table_speed_from_time[a]
+    @ds = $env_table_speed_from_time[d]
+    @sl = $rounding_table_128_to_5[s]
+    @rs = $env_table_speed_from_time[s]
   end
 
   def note_on
     @state = STATE_A
+    @count = 0
     @level = 0
-    @rest = @envelope_table[@state]
+    @note_off_level = 0
   end
 
   def note_off
-    @state = STATE_R
-    @rest = @envelope_table[@state]
+    case (@state)
+    when STATE_A, STATE_D, STATE_S
+      @state = STATE_R
+      @count = 0
+      @note_off_level = @level
+    end
   end
 
   def clock
-    @rest -= 1
     case (@state)
     when STATE_A
-      if (@rest <= 0)
-        if (@level < 128)
-          @level += 1
-          @rest = @envelope_table[@state]
-        else
-          @state = STATE_D
-          @rest = @envelope_table[@state]
-        end
+      @count += @as
+      if (@count < 0x8000)
+        @level = $env_table_attack[high_byte(@count)]
+      else
+        @state = STATE_D
+        @count = 0
+        @level = 127
       end
     when STATE_D
-      if (@rest <= 0)
-        if (@level > @envelope_table[2])
-          @level -= 1
-          @rest = @envelope_table[@state]
-        else
-          @state = STATE_S
-          @rest = 9999
-        end
+      @count += @ds
+      if (@count < 0x8000)
+        @level = high_byte($env_table_decay_release[high_byte(@count)] * (127 - @sl)) + @sl
+      else
+        @state = STATE_S
+        @count = 0
+        @level = @sl
       end
     when STATE_S
-      # do nothing
+      @level = @sl
     when STATE_R
-      if (@rest <= 0)
-        if (@level > 0)
-          @level -= 1
-          @rest = @envelope_table[@state]
-        else
-          @level = 0
-          @rest = 9999
-        end
+      @count += @rs
+      if (@count < 0x8000)
+        @level = $env_table_decay_release[high_byte(@count)]
+        @level = 0
+      else
+        @state = STATE_IDLE
+        @count = 0
+        @level = 0
       end
+    when STATE_IDLE
+      @level = 0
     end
 
     return @level
