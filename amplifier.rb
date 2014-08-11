@@ -6,7 +6,7 @@ class Amplifier
   end
 
   def set_volume(volume)
-    @volume = round_table_128to_5[volume]
+    @volume = $rounding_table_128_to_5[volume]
   end
 
   def clock(a, k)
