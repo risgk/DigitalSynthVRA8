@@ -1,3 +1,5 @@
+require './common'
+
 $c4_to_b4 = []
 (0..11).each do |i|
   note_number = i + 60
@@ -5,7 +7,7 @@ $c4_to_b4 = []
 
   cent = (note_number * 100.0) - 6900.0 + fine_tune
   hz = 440.0 * (2.0 ** (cent / 1200.0))
-  freq = (hz * 256.0 * 256.0 / 31250.0 / 4.0).round * 4
+  freq = (hz * 256.0 * 256.0 / AUDIO_RATE.to_f / 4.0).round * 4
   $c4_to_b4[i] = freq
 end
 
