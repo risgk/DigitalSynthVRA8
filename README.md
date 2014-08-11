@@ -1,22 +1,21 @@
-# ISGK VRA-8 Series
+# Digital Synthesizer ISGK VRA-8 Series
 
 Version 0.00: 2014-08-11 risgk
 
 ## Concept
 
-- 8-bit Virtual Analog Synth
-- Digital Synth
+- 8-bit Virtual Analog Synthesizer
 
-## ISGK VRA-8A Specification
+## ISGK VRA-8A Features
 
 - Arduino Uno, Buzzer, Serial MIDI
 - Audio Rate: 31250 Hz
 - PWM Audio (PWM Rate: 31250 Hz)
 
-## ISGK VRA-8R Specification
+## ISGK VRA-8R Features
 
 - Prototype of VRA-8A
-- Soft Synth (for Windows)
+- Soft Synthesizer for Windows
 - Ruby (win32-sound, unimidi)
 - Audio Rate: 32000 Hz
 
@@ -27,7 +26,7 @@ Version 0.00: 2014-08-11 risgk
 - Recommended Note Range: 36-84
 - Exp/Log Envelope
 
-## Synth Modules
+## Modules
 
 - OSC1:
     - WAVE: [SAW, SQ, SINE]
