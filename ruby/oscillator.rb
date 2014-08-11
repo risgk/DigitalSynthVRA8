@@ -51,7 +51,7 @@ class Oscillator
     end
 
     pitch = @note_number + @coarse_tune
-    if (pitch >= 0x40 && pitch <= 0xB8)
+    if (pitch >= (12 + 64) && pitch <= (108 + 64))
       @freq = $freq_tables[freq_table_sel][pitch - 0x40]
     else
       @freq = 0
@@ -67,9 +67,6 @@ class Oscillator
     @phase &= 0xFFFF
 
     wave_table_sel = high_byte(@freq)
-    if ((wave_table_sel & 0xF0) != 0)
-      wave_table_sel = 0x10
-    end
     wave_table = @wave_tables[wave_table_sel]
 
     curr_index = high_byte(@phase)

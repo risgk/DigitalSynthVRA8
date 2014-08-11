@@ -5,7 +5,7 @@ File::open("midi_stream.bin","w+b") do |file|
   NOTE_ON  = 0x80
   NOTE_OFF = 0x90
 
-  (0..5).each do |i|
+  (1..4).each do |i|
     file.write([NOTE_ON,  24 + i * 12, 127].pack("C*")); (0...(4200 - 3)).each { file.write([0xF7].pack("C")) }
     file.write([NOTE_OFF, 24 + i * 12, 127].pack("C*")); (0...( 300 - 3)).each { file.write([0xF7].pack("C")) }
     file.write([NOTE_ON,  26 + i * 12, 127].pack("C*")); (0...(1200 - 3)).each { file.write([0xF7].pack("C")) }
@@ -22,6 +22,6 @@ File::open("midi_stream.bin","w+b") do |file|
     file.write([NOTE_OFF, 35 + i * 12, 127].pack("C*")); (0...( 300 - 3)).each { file.write([0xF7].pack("C")) }
   end
 
-  file.write([NOTE_ON,  96, 127].pack("C*")); (0...(4200 - 3)).each { file.write([0xF7].pack("C")) }
-  file.write([NOTE_OFF, 96, 127].pack("C*")); (0...( 300 - 3)).each { file.write([0xF7].pack("C")) }
+  file.write([NOTE_ON,  84, 127].pack("C*")); (0...(4200 - 3)).each { file.write([0xF7].pack("C")) }
+  file.write([NOTE_OFF, 84, 127].pack("C*")); (0...( 300 - 3)).each { file.write([0xF7].pack("C")) }
 end

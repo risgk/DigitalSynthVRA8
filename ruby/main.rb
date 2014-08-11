@@ -24,15 +24,15 @@ File::open("a.wav","w+b") do |file|
   amplifier = Amplifier.new
   eg = EG.new
 
-# oscillator1.set_waveform(Oscillator::SAW)
-# oscillator2.set_waveform(Oscillator::SAW)
-# oscillator2.set_coarse_tune(0x47)
-# oscillator2.set_fine_tune(0x4A)
-# oscillator2.set_volume(0x5F)
-# oscillator3.set_waveform(Oscillator::SQUARE)
-# oscillator3.set_coarse_tune(0x34)
-# oscillator3.set_fine_tune(0x36)
-# oscillator3.set_volume(0x5F)
+  oscillator1.set_waveform(Oscillator::SAW)
+  oscillator2.set_waveform(Oscillator::SAW)
+  oscillator2.set_coarse_tune(64 + 12)
+  oscillator2.set_fine_tune(64 + 0)
+  oscillator2.set_volume(63)
+  oscillator3.set_waveform(Oscillator::SAW)
+  oscillator3.set_coarse_tune(64 + 24)
+  oscillator3.set_fine_tune(64 - 0)
+  oscillator3.set_volume(31)
 
   midi_in_prev = 0xFF
   midi_in_pprev = 0xFF

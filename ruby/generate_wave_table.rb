@@ -45,7 +45,20 @@ def generate_wave_table_sine(max)
   end
 end
 
-overtones = [128, 64, 42, 32, 25, 21, 18, 16, 14, 12, 11, 10, 9, 8, 7]
+def generate_wave_table_list(name)
+  wave_table_sels = (0..34)
+  printf("$wave_table_%s = [\n", name)
+  wave_table_sels.each do |i|
+    max = 128 / (i + 1)
+    if (name == "sine")
+      max = 1
+    end
+    printf("  $wave_table_%s_m%d,\n", name, max)
+  end
+  printf("]\n\n")
+end
+
+overtones = [128, 64, 42, 32, 25, 21, 18, 16, 14, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
 
 overtones.each do |max|
   generate_wave_table_saw(max)
@@ -59,67 +72,11 @@ end
   generate_wave_table_sine(max)
 end
 
+generate_wave_table_list("saw")
+generate_wave_table_list("square")
+generate_wave_table_list("sine")
+
 print <<EOS
-$wave_table_saw = [
-  $wave_table_saw_m128,
-  $wave_table_saw_m64,
-  $wave_table_saw_m42,
-  $wave_table_saw_m32,
-  $wave_table_saw_m25,
-  $wave_table_saw_m21,
-  $wave_table_saw_m18,
-  $wave_table_saw_m16,
-  $wave_table_saw_m14,
-  $wave_table_saw_m12,
-  $wave_table_saw_m11,
-  $wave_table_saw_m10,
-  $wave_table_saw_m9,
-  $wave_table_saw_m9,
-  $wave_table_saw_m8,
-  $wave_table_saw_m8,
-  $wave_table_saw_m7,
-]
-
-$wave_table_square = [
-  $wave_table_square_m128,
-  $wave_table_square_m64,
-  $wave_table_square_m42,
-  $wave_table_square_m32,
-  $wave_table_square_m25,
-  $wave_table_square_m21,
-  $wave_table_square_m18,
-  $wave_table_square_m16,
-  $wave_table_square_m14,
-  $wave_table_square_m12,
-  $wave_table_square_m11,
-  $wave_table_square_m10,
-  $wave_table_square_m9,
-  $wave_table_square_m9,
-  $wave_table_square_m8,
-  $wave_table_square_m8,
-  $wave_table_square_m7,
-]
-
-$wave_table_sine = [
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-  $wave_table_sine_m1,
-]
-
 $wave_tables = [
   $wave_table_saw,
   $wave_table_square,
