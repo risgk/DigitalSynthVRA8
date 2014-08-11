@@ -45,9 +45,9 @@ def generate_wave_table_sine(max)
   end
 end
 
-def generate_wave_table_list(name)
+def generate_wave_tables(name)
   wave_table_sels = (0..34)
-  printf("$wave_table_%s = [\n", name)
+  printf("$wave_tables_%s = [\n", name)
   wave_table_sels.each do |i|
     max = 128 / (i + 1)
     if (name == "sine")
@@ -72,14 +72,14 @@ end
   generate_wave_table_sine(max)
 end
 
-generate_wave_table_list("saw")
-generate_wave_table_list("square")
-generate_wave_table_list("sine")
+generate_wave_tables("saw")
+generate_wave_tables("square")
+generate_wave_tables("sine")
 
 print <<EOS
 $wave_tables = [
-  $wave_table_saw,
-  $wave_table_square,
-  $wave_table_sine,
+  $wave_tables_saw,
+  $wave_tables_square,
+  $wave_tables_sine,
 ]
 EOS

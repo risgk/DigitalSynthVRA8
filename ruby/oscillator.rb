@@ -3,18 +3,18 @@ require './freq_table'
 require './wave_table'
 
 class Oscillator
-  SAW = 0x00
-  SQUARE = 0x01
-  SINE = 0x02
+  SAW = 0
+  SQUARE = 1
+  SINE = 2
 
   def initialize
     @wave_tables = $wave_tables[SAW]
-    @phase = 0x0000
-    @note_number = 0x00
-    @coarse_tune = 0x40
-    @fine_tune = 0x40
-    @freq = 0x0000
-    @volume = 0x7F
+    @phase = 0
+    @note_number = 0
+    @coarse_tune = 64
+    @fine_tune = 64
+    @freq = 0
+    @volume = 127
   end
 
   def set_waveform(waveform)
@@ -22,7 +22,7 @@ class Oscillator
   end
 
   def note_on(note_number)
-    @phase = 0x0000
+    @phase = 0
     @note_number = note_number
     update_freq
   end
@@ -42,17 +42,17 @@ class Oscillator
   end
 
   def update_freq
-    if (@fine_tune < 0x40)
-      freq_table_sel = 0x00
-    elsif (@fine_tune == 0x40)
-      freq_table_sel = 0x01
+    if (@fine_tune < 64)
+      freq_table_sel = 0
+    elsif (@fine_tune == 64)
+      freq_table_sel = 1
     else
-      freq_table_sel = 0x02
+      freq_table_sel = 2
     end
 
     pitch = @note_number + @coarse_tune
     if (pitch >= (12 + 64) && pitch <= (108 + 64))
-      @freq = $freq_tables[freq_table_sel][pitch - 0x40]
+      @freq = $freq_tables[freq_table_sel][pitch - 64]
     else
       @freq = 0
     end

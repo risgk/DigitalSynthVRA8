@@ -26,13 +26,13 @@ File::open("a.wav","w+b") do |file|
 
   oscillator1.set_waveform(Oscillator::SAW)
   oscillator2.set_waveform(Oscillator::SAW)
-  oscillator2.set_coarse_tune(64 + 12)
-  oscillator2.set_fine_tune(64 + 0)
-  oscillator2.set_volume(63)
+  oscillator2.set_coarse_tune(64 + 0)
+  oscillator2.set_fine_tune(64 + 10)
+  oscillator2.set_volume(127)
   oscillator3.set_waveform(Oscillator::SAW)
-  oscillator3.set_coarse_tune(64 + 24)
-  oscillator3.set_fine_tune(64 - 0)
-  oscillator3.set_volume(31)
+  oscillator3.set_coarse_tune(64 - 0)
+  oscillator3.set_fine_tune(64 - 10)
+  oscillator3.set_volume(127)
 
   midi_in_prev = 0xFF
   midi_in_pprev = 0xFF

@@ -739,7 +739,7 @@ $wave_table_sine_m1 = [
    -38,  -36,  -34,  -32,  -29,  -27,  -24,  -22,  -20,  -17,  -15,  -12,  -10,   -7,   -5,   -2,
 ]
 
-$wave_table_saw = [
+$wave_tables_saw = [
   $wave_table_saw_m128,
   $wave_table_saw_m64,
   $wave_table_saw_m42,
@@ -777,7 +777,7 @@ $wave_table_saw = [
   $wave_table_saw_m3,
 ]
 
-$wave_table_square = [
+$wave_tables_square = [
   $wave_table_square_m128,
   $wave_table_square_m64,
   $wave_table_square_m42,
@@ -815,7 +815,7 @@ $wave_table_square = [
   $wave_table_square_m3,
 ]
 
-$wave_table_sine = [
+$wave_tables_sine = [
   $wave_table_sine_m1,
   $wave_table_sine_m1,
   $wave_table_sine_m1,
@@ -854,7 +854,7 @@ $wave_table_sine = [
 ]
 
 $wave_tables = [
-  $wave_table_saw,
-  $wave_table_square,
-  $wave_table_sine,
+  $wave_tables_saw,
+  $wave_tables_square,
+  $wave_tables_sine,
 ]

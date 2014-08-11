@@ -16,6 +16,7 @@ class Filter
     @x_1 = @x_0;
     @y_2 = @y_1;
     @y_1 = @y_0;
-    return @y_0
+#   return @y_0
+    return a
   end
 end

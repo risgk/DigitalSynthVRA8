@@ -2,7 +2,7 @@ require './common'
 
 class Amplifier
   def initialize
-    @volume = 0x7F
+    @volume = 127
   end
 
   def set_volume(volume)
@@ -10,17 +10,17 @@ class Amplifier
   end
 
   def clock(a, k)
-    if (k == 0x7F)
+    if (k == 127)
       level = a
-    elsif (k == 0x00)
+    elsif (k == 0)
       level = 0
     else
       level = high_byte(a * (k << 1))
     end
 
-    if (@volume != 0x7F)
+    if (@volume != 127)
       level = level
-    elsif (@volume == 0x00)
+    elsif (@volume == 0)
       level = 0
     else
       level = high_byte(level * (@volume << 1))
