@@ -1,41 +1,43 @@
-# Digital Synth "ISGK VA-8" Prototype in Ruby
+# Digital Synth ISGK VRA-8 Series
 
-Version 0.00: 2014-08-05 risgk
+Version 0.00: 2014-08-11 risgk
 
 ## Concept
 
 - 8-bit Virtual Analog Synth
 
-## Target Form
+## VRA-8A Specification
 
-- Arduino Uno
-- Buzzer
-- PWM Audio
-- C++
-- Serial MIDI
-- Controller App
+- Arduino Uno, Buzzer, Serial MIDI
+- C/C++
+- Audio Rate: 31250 Hz
+- PWM Audio (PWM Rate: 31250 Hz)
+
+## VRA-8R Specification
+
+- Soft Synth, Prototype of VRA-8A
+- Ruby, win32-sound, unimidi
+- Audio Rate: 32000 Hz
 
 ## Sound Quality
 
-- PWM Rate: 31250 Hz
-- Audio Rate: 31250 Hz
 - Bit Depth: 8 bits
-- Recommended Note Range: 24-96
-- Exponential Envelope
 - Monophonic
+- Recommended Note Range: 36-84
+- Exp/Log Envelope
 
 ## Synth Modules
 
 - OSC1:
-    - WAVE: [SAW, SQUARE, SINE]
+    - WAVE: [SAW, SQ, SINE]
 - OSC2:
-    - WAVE: [SAW, SQUARE, SINE]
-    - TUNE: [-1200, -500, 0, +700, +1200]
+    - WAVE: [SAW, SQ, SINE]
+    - TUNE: [-2400, -1200, -500, 0, +700, +1200, +2400]
     - FINE: [-10, 0, +10]
     - VOL: [0, 1/4, 1/2, 3/4, 1]
 - OSC3:
-    - WAVE: [SAW, SQUARE, SINE]
-    - TUNE: [-1200, -500, 0, +700, +1200]
+    - WAVE: [SAW, SQ, SINE]
+    - TUNE: [-2400, -1200, -500, 0, +700, +1200, +2400]
     - FINE: [-10, 0, +10]
     - VOL: [0, 1/4, 1/2, 3/4, 1]
 - LPF:
@@ -53,12 +55,13 @@ Version 0.00: 2014-08-05 risgk
 
 ## Preset Programs
 
-- Synth Lead (Saw, Square, Sine, Solo, Fifth, Bass)
-- Synth Bass (1, 2)
-- Synth Brass (1, 2)
-- Synth Strings (1, 2)
-- Synth Pad (Warm, Sine)
-- ????
+- Saw Lead (Unison, Fifth, Bass, Octave, ...)
+- Square Lead (Unison, Fifth, Bass, Octave, ...)
+- Synth Bass
+- Synth Brass
+- Synth Strings
+- Synth Pad
+- ...
 - TODO
 
 ## MIDI Implementation Chart
