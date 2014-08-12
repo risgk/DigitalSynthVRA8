@@ -20,10 +20,10 @@ class EG
   end
 
   def set_adsr(a, d, s, r)
-    @as = $env_table_speed_from_time[a]
-    @ds = $env_table_speed_from_time[d]
-    @sl = $rounding_table_128_to_5[s]
-    @rs = $env_table_speed_from_time[r]
+    @as = $env_table_speed[a]
+    @ds = $env_table_speed[d]
+    @sl = $env_table_sustain[s]
+    @rs = $env_table_speed[r]
   end
 
   def note_on

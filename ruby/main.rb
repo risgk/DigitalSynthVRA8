@@ -26,11 +26,9 @@ File::open("a.wav","w+b") do |file|
   osc2.set_waveform(Osc::SQUARE)
   osc2.set_coarse_tune(64 + 0)
   osc2.set_fine_tune(64 + 0)
-  osc2.set_volume(127)
   osc3.set_waveform(Osc::SQUARE)
   osc3.set_coarse_tune(64 - 0)
   osc3.set_fine_tune(64 - 0)
-  osc3.set_volume(127)
   feg.set_adsr(15, 63, 63, 63)
   aeg.set_adsr(15, 63, 63, 63)
 

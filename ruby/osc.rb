@@ -15,7 +15,6 @@ class Osc
     @coarse_tune = 64
     @fine_tune = 64
     @freq = 0
-    @volume = 127
   end
 
   def set_waveform(waveform)
@@ -52,15 +51,11 @@ class Osc
     end
 
     pitch = @note_number + @coarse_tune
-    if (pitch >= (12 + 64) && pitch <= (108 + 64))
+    if (pitch >= (24 + 64) && pitch <= (96 + 64))
       @freq = $freq_tables[freq_table_sel][pitch - 64]
     else
       @freq = 0
     end
-  end
-
-  def set_volume(volume)
-    @volume = $rounding_table_128_to_5[volume]
   end
 
   def clock
@@ -82,14 +77,6 @@ class Osc
     else
       curr_weight = 0x100 - next_weight
       level = high_byte((curr_data * curr_weight) + (next_data * next_weight))
-    end
-
-    if (@volume != 127)
-      level = level
-    elsif (@volume == 0)
-      level = 0
-    else
-      level = high_byte(level * (@volume << 1))
     end
 
     return level
