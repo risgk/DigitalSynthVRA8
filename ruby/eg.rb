@@ -19,11 +19,11 @@ class EG
     @note_off_level = 0
   end
 
-  def set_adsr(a, d, s, r)
-    @as = $env_table_speed[a]
-    @ds = $env_table_speed[d]
-    @sl = $env_table_sustain[s]
-    @rs = $env_table_speed[r]
+  def set_adsr(at, dt, sl, rt)
+    @as = $env_table_speed_from_time[at]
+    @ds = $env_table_speed_from_time[dt]
+    @sl = sl
+    @rs = $env_table_speed_from_time[rt]
   end
 
   def note_on

@@ -22,15 +22,15 @@ File::open("a.wav","w+b") do |file|
   feg = EG.new
   aeg = EG.new
 
-  osc1.set_waveform(Osc::SQUARE)
+  osc1.set_waveform(Osc::SAW)
   osc2.set_waveform(Osc::SQUARE)
   osc2.set_coarse_tune(64 + 0)
-  osc2.set_fine_tune(64 + 0)
-  osc3.set_waveform(Osc::SQUARE)
-  osc3.set_coarse_tune(64 - 0)
-  osc3.set_fine_tune(64 - 0)
-  feg.set_adsr(15, 63, 63, 63)
-  aeg.set_adsr(15, 63, 63, 63)
+  osc2.set_fine_tune(64 + 10)
+  osc3.set_waveform(Osc::TRIANGLE)
+  osc3.set_coarse_tune(64 - 12)
+  osc3.set_fine_tune(64 - 10)
+  feg.set_adsr(16, 64, 95, 64)
+  aeg.set_adsr(16, 64, 95, 64)
 
   midi_in_prev = 0xFF
   midi_in_pprev = 0xFF
