@@ -29,13 +29,13 @@ Version 0.00: 2014-08-12 risgk
 ## Modules
 
 - OSC1:
-    - WAVE: [SAW, SQUARE, TRIANGLE, SINE]
+    - WAVE: [SAW, SQUARE, TRIANGLE]
 - OSC2:
-    - WAVE: [SAW, SQUARE, TRIANGLE, SINE]
+    - WAVE: [SAW, SQUARE, TRIANGLE]
     - TUNE: [-1200, -500, 0, +700, +1200]
     - FINE: [-10, 0, +10]
 - OSC3:
-    - WAVE: [SAW, SQUARE, TRIANGLE, SINE]
+    - WAVE: [SAW, SQUARE, TRIANGLE]
     - TUNE: [-1200, -500, 0, +700, +1200]
     - FINE: [-10, 0, +10]
 - LPF:

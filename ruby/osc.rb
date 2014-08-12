@@ -6,7 +6,6 @@ class Osc
   SAW = 0
   SQUARE = 1
   TRIANGLE = 2
-  SINE = 3
 
   def initialize
     @wave_tables = $wave_tables[SAW]
@@ -51,7 +50,7 @@ class Osc
     end
 
     pitch = @note_number + @coarse_tune
-    if (pitch >= (24 + 64) && pitch <= (96 + 64))
+    if (pitch >= (NOTE_NUMBER_MIN + 64) && pitch <= (NOTE_NUMBER_MAX + 64))
       @freq = $freq_tables[freq_table_sel][pitch - 64]
     else
       @freq = 0

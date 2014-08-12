@@ -14,7 +14,7 @@ end
 def generate_freq_table(fine_tune, name)
   printf("$freq_table%s = [\n  ", name)
   (0..127).each do |note_number|
-    if note_number < 24 || note_number > 96
+    if note_number < NOTE_NUMBER_MIN || note_number > NOTE_NUMBER_MAX
       freq = 0
     else
       base = ($c4_to_b4[note_number % 12] * (2 ** (note_number / 12 - 5))).to_i
