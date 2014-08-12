@@ -35,6 +35,18 @@ def generate_wave_table_square(max)
   end
 end
 
+def generate_wave_table_triangle(max)
+  generate_wave_table(max, "triangle") do |t, k|
+    if k % 4 == 1
+      (4.0 / Math::PI) * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / +(k ** 2))
+    elsif k % 4 == 3
+      (4.0 / Math::PI) * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / -(k ** 2))
+    else
+      0
+    end
+  end
+end
+
 def generate_wave_table_sine(max)
   generate_wave_table(max, "sine") do |t, k|
     if k == 1
@@ -68,18 +80,24 @@ overtones.each do |max|
   generate_wave_table_square(max)
 end
 
+overtones.each do |max|
+  generate_wave_table_triangle(max)
+end
+
 [1].each do |max|
   generate_wave_table_sine(max)
 end
 
 generate_wave_tables("saw")
 generate_wave_tables("square")
+generate_wave_tables("triangle")
 generate_wave_tables("sine")
 
 print <<EOS
 $wave_tables = [
   $wave_tables_saw,
   $wave_tables_square,
+  $wave_tables_triangle,
   $wave_tables_sine,
 ]
 EOS

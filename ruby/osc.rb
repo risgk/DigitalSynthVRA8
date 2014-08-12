@@ -5,7 +5,8 @@ require './wave_table'
 class Osc
   SAW = 0
   SQUARE = 1
-  SINE = 2
+  TRIANGLE = 2
+  SINE = 3
 
   def initialize
     @wave_tables = $wave_tables[SAW]
