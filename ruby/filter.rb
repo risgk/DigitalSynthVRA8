@@ -1,23 +1,47 @@
 require './common'
+require './filter_table'
 require './env_table'
 
 class Filter
   def initialize
-    @x_0, @x_1, @x_2 = 0, 0, 0
-    @y_0, @y_1, @y_2 = 0, 0, 0
-    @b1_a0, @b2_a0, @a1_a0, @a2_a0 = 37, 19,   0, 11 # cutoff = AUDIO_RATE /  4, Q = 0.7071
-#   @b1_a0, @b2_a0, @a1_a0, @a2_a0 = 12,  6, -60, 21 # cutoff = AUDIO_RATE /  8, Q = 0.7071
-#   @b1_a0, @b2_a0, @a1_a0, @a2_a0 =  4,  2, -93, 37 # cutoff = AUDIO_RATE / 16, Q = 0.7071
+    @cutoff_freq = 127
+    @resonance = false
+    @x0 = 0
+    @x1 = 0
+    @x2 = 0
+    @y0 = 0
+    @y1 = 0
+    @y2 = 0
+  end
+
+  def set_cutoff_freq(cutoff_freq)
+    @cutoff_freq = cutoff_freq
+  end
+
+  def set_resonance(resonance)
+    @resonance = resonance
   end
 
   def clock(a, k)
-    @x_0 = a
-    @y_0 = ((@b2_a0 * @x_0) + (@b1_a0 * @x_1) + (@b2_a0 * @x_2) - (@a1_a0 * @y_1) - (@a2_a0 * @y_2)) / 64;
-    @x_2 = @x_1;
-    @x_1 = @x_0;
-    @y_2 = @y_1;
-    @y_1 = @y_0;
-#   return @y_0
-    return a
+    i0 = @resonance ? 1 : 0
+    i1 = @cutoff_freq
+    coef = $filter_tables[i0][i1]
+    b1_a0 = coef[0]
+    b2_a0 = coef[1] && 0x7F
+    a1_a0_pos = coef[1] >> 7
+    a1_a0 = coef[2]
+    a2_a0 = coef[3]
+
+    @x0 = a
+    if (a1_a0_pos != 0)
+      @y0 = high_byte((b2_a0 * @x0) + (b1_a0 * @x1) + (b2_a0 * @x2) - (a1_a0 * @y1) - (a2_a0 * @y2));
+    else
+      @y0 = high_byte((b2_a0 * @x0) + (b1_a0 * @x1) + (b2_a0 * @x2) + (a1_a0 * @y1) - (a2_a0 * @y2));
+    end
+    @x2 = @x1;
+    @x1 = @x0;
+    @y2 = @y1;
+    @y1 = @y0;
+    return @y0
   end
 end
