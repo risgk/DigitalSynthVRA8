@@ -19,20 +19,21 @@ File::open("a.wav","w+b") do |file|
   mixer = Mixer.new
   filter = Filter.new
   amp = Amp.new
-  feg = EG.new
-  aeg = EG.new
+  filter_eg = EG.new
+  amp_eg = EG.new
 
-  osc1.set_waveform(Osc::SAW)
+  osc1.set_waveform(Osc::TRIANGLE)
   osc2.set_waveform(Osc::SAW)
   osc2.set_coarse_tune(64 + 0)
-  osc2.set_fine_tune(64 + 0)
+  osc2.set_fine_tune(64 + 10)
   osc3.set_waveform(Osc::SAW)
   osc3.set_coarse_tune(64 - 0)
-  osc3.set_fine_tune(64 - 0)
-  filter.set_cutoff_freq(0)
-  filter.set_resonance(false)
-  feg.set_adsr(127, 127, 0, 0)
-  aeg.set_adsr(0, 0, 127, 0)
+  osc3.set_fine_tune(64 - 10)
+  filter.set_cutoff_freq(64)
+  filter.set_resonance(true)
+  filter.set_envelope_switch(true)
+  filter_eg.set_adsr(32, 127, 0, 112)
+  amp_eg.set_adsr(32, 127, 0, 112)
 
   midi_in_prev = 0xFF
   midi_in_pprev = 0xFF
@@ -44,24 +45,24 @@ File::open("a.wav","w+b") do |file|
       osc1.note_on(note_number)
       osc2.note_on(note_number)
       osc3.note_on(note_number)
-      feg.note_on
-      aeg.note_on
+      filter_eg.note_on
+      amp_eg.note_on
     end
     if (midi_in_pprev == MIDI_NOTE_OFF && midi_in_prev <= 0x7F && b <= 0x7F)
       osc1.note_off
       osc2.note_off
       osc3.note_off
-      feg.note_off
-      aeg.note_off
+      filter_eg.note_off
+      amp_eg.note_off
     end
     midi_in_pprev = midi_in_prev
     midi_in_prev = b
 
     for i in (0...10) do
-      level = mixer.clock(osc1.clock, osc2.clock, osc3.clock, 0)
-      feg_output = feg.clock
+      level = mixer.clock(osc1.clock, osc2.clock, osc3.clock)
+      feg_output = filter_eg.clock
       level = filter.clock(level, feg_output)
-      aeg_output = aeg.clock
+      aeg_output = amp_eg.clock
       level = amp.clock(level, aeg_output)
 
       file.write([level * 128].pack("S"))

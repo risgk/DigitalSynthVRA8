@@ -1,14 +1,14 @@
 # refs http://www.musicdsp.org/files/Audio-EQ-Cookbook.txt
 
 (0..1).each do |r|
-  printf("$filter_table_%s = [\n  ", (r == 1) ? "reso_off" : "reso_on")
+  printf("$filter_table_%s = [\n  ", r == 1 ? "reso_on" : "reso_off")
   (0..127).each do |i|
-    f0_fs = (2.0 ** (i / 32.0)) / (2.0 ** 5.0)
+    f0_fs = (2.0 ** (i / (127.0 / 2.0))) / (2.0 ** 4.0)
     w0 = 2.0 * Math::PI * f0_fs
     if r == 1
-      q = 1.0 / Math::sqrt(2.0)
+      q = Math::sqrt(2.0)
     else
-      q = 4.0
+      q = 1.0 / Math::sqrt(2.0)
     end
     alpha = Math::sin(w0) / (2.0 * q)
 
@@ -18,15 +18,10 @@
     a1 = -2.0 * Math::cos(w0)
     a2 = 1.0 - alpha
 
-    if a1 >= 0
-      a1_a0_pos = 1
-    else
-      a1_a0_pos = 0
-    end
-    b1_a0 = ((b1 / a0) * 128).round.abs.to_i
-    b2_a0 = ((b2 / a0) * 128).round.abs.to_i + (a1_a0_pos * 128)
-    a1_a0 = ((a1 / a0) * 128).round.abs.to_i
-    a2_a0 = ((a2 / a0) * 128).round.abs.to_i
+    b1_a0 = ((b1 / a0) * 64).round.to_i
+    b2_a0 = ((b2 / a0) * 64).round.to_i
+    a1_a0 = ((a1 / a0) * -64).round.to_i
+    a2_a0 = ((a2 / a0) * 64).round.to_i
 
     printf("[%3d, %3d, %3d, %3d],", b1_a0, b2_a0, a1_a0, a2_a0)
     if i == 127
