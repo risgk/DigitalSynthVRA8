@@ -28,9 +28,9 @@ File::open("a.wav","w+b") do |file|
   osc3.set_waveform(Osc::SAW)
   osc3.set_coarse_tune(64 - 0)
   osc3.set_fine_tune(64 - 10)
-  filter.set_cutoff_freq(64)
-  filter.set_resonance(true)
-  filter.set_envelope_switch(true)
+  filter.set_cutoff(64)
+  filter.set_resonance(127)
+  filter.set_envelope(127)
   eg.set_adsr(32, 127, 0, 112)
 
   midi_in_prev = 0xFF

@@ -3,8 +3,8 @@
 (0..1).each do |r|
   printf("$filter_table_%s = [\n  ", r == 1 ? "reso_on" : "reso_off")
   (0..127).each do |i|
-    f0_fs = (2.0 ** (i / (127.0 / 2.0))) / (2.0 ** 4.0)
-    w0 = 2.0 * Math::PI * f0_fs
+    f0fs = (2.0 ** (i / (127.0 / 2.0))) / (2.0 ** 4.0)
+    w0 = 2.0 * Math::PI * f0fs
     if r == 1
       q = Math::sqrt(2.0)
     else
@@ -18,12 +18,12 @@
     a1 = -2.0 * Math::cos(w0)
     a2 = 1.0 - alpha
 
-    b1_a0 = ((b1 / a0) * 64).round.to_i
-    b2_a0 = ((b2 / a0) * 64).round.to_i
-    a1_a0 = ((a1 / a0) * -64).round.to_i
-    a2_a0 = ((a2 / a0) * 64).round.to_i
+    b1a0 = ((b1 / a0) * 64).round.to_i
+    b2a0 = ((b2 / a0) * 64).round.to_i
+    a1a0 = ((a1 / a0) * -64).round.to_i
+    a2a0 = ((a2 / a0) * 64).round.to_i
 
-    printf("[%3d, %3d, %3d, %3d],", b1_a0, b2_a0, a1_a0, a2_a0)
+    printf("[%3d, %3d, %3d, %3d],", b1a0, b2a0, a1a0, a2a0)
     if i == 127
       printf("\n")
     elsif i % 4 == 3

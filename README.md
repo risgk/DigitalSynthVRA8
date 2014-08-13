@@ -41,8 +41,8 @@ Version 0.00: 2014-08-13 risgk
 - MIX
 - FILTER:
     - CUTOFF: [AR/16, ..., AR/8, ..., AR/4]
-    - RESO: [OFF (Q = 0.7071), ON (Q = 1.414)]
-    - ENV: [OFF, ON]
+    - RESONANCE: [OFF (Q = 0.7071), ON (Q = 1.414)]
+    - ENVELOPE: [OFF, ON]
 - AMP
 - EG:
     - ATTACK: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
@@ -99,9 +99,9 @@ Version 0.00: 2014-08-13 risgk
     |                            71 | x             | o             | FILTER RESONANCE      |
     |                            72 | x             | o             | EG RELEASE            |
     |                            73 | x             | o             | EG ATTACK             |
-    |                            74 | x             | o             | FILTER CUTOFF FREQ    |
+    |                            74 | x             | o             | FILTER CUTOFF         |
     |                            75 | x             | o             | EG DECAY              |
-    |                            81 | x             | o             | FILTER ENV            |
+    |                            81 | x             | o             | FILTER ENVELOPE       |
     +-------------------------------+---------------+---------------+-----------------------+
     | Program                       | x             | o             |                       |
     | Change       : True #         | ************* | 0-15          |                       |
