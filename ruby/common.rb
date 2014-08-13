@@ -6,8 +6,8 @@ require './amp'
 require './eg'
 
 AUDIO_RATE      = 31250
-NOTE_NUMBER_MIN = 24
-NOTE_NUMBER_MAX = 96
+NOTE_NUMBER_MIN = 12
+NOTE_NUMBER_MAX = 108
 
 WAVEFORM_SAW      = 0
 WAVEFORM_SQUARE   = 1

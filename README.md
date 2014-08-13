@@ -23,7 +23,7 @@ Version 0.00: 2014-08-13 risgk
 
 - Bit Depth: 8 bits
 - Monophonic
-- Note Range: 24-96
+- Note Range: 12-108
 - Exp/Log Envelope
 
 ## Modules
@@ -77,8 +77,8 @@ Version 0.00: 2014-08-13 risgk
     |              Messages         | x             | x             |                   |
     |              Altered          | ************* |               |                   |
     +-------------------------------+---------------+---------------+-------------------+
-    | Note                          | x             | 24-96         |                   |
-    | Number       : True Voice     | ************* | 24-96         |                   |
+    | Note                          | x             | 12-108        |                   |
+    | Number       : True Voice     | ************* | 12-108        |                   |
     +-------------------------------+---------------+---------------+-------------------+
     | Velocity     Note On          | x             | x  *1         |                   |
     |              Note Off         | x             | x  *2         |                   |

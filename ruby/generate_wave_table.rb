@@ -57,7 +57,7 @@ def generate_wave_tables(name)
   printf("]\n\n")
 end
 
-overtones = [128, 64, 42, 32, 25, 21, 18, 16, 14, 12, 11, 10, 9, 8, 7]
+overtones = [128, 64, 42, 32, 25, 21, 18, 16, 14, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
 
 overtones.each do |max|
   generate_wave_table_saw(max)
