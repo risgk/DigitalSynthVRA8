@@ -34,18 +34,7 @@ class Osc
   end
 
   def set_coarse_tune(coarse_tune)
-    case coarse_tune
-    when 0..52
-      @coarse_tune = 52
-    when 53..63
-      @coarse_tune = 59
-    when 64
-      @coarse_tune = 64
-    when 65..75
-      @coarse_tune = 71
-    when 76..127
-      @coarse_tune = 76
-    end
+    @coarse_tune = coarse_tune
     update_freq
   end
 

@@ -32,11 +32,11 @@ Version 0.00: 2014-08-13 risgk
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
 - OSC2:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-12, -5, 0, +7, +12 (semitone)]
+    - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +63 (semitone)]
     - FINE TUNE: [-10, 0, +10 (cent)]
 - OSC3:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-12, -5, 0, +7, +12 (semitone)]
+    - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +63 (semitone)]
     - FINE TUNE: [-10, 0, +10 (cent)]
 - MIX
 - FILTER:
@@ -47,26 +47,26 @@ Version 0.00: 2014-08-13 risgk
 - EG:
     - ATTACK: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
     - DECAY: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
-    - SUSTAIN: [0/128, ..., 64/128, ..., 127/128]
+    - SUSTAIN: [0, ..., 1/4, ..., 1/2, ..., 3/4, ..., 127/128]
     - RELEASE: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
 
 ## Preset Programs
 
-- 0: Saw Lead
-- 1: Saw Lead Bass
-- 2: Saw Lead Fifth
-- 3: Saw Lead Octave
-- 4: Square Lead
-- 5: Synth Bass
-- 6: Synth Brass
-- 7: Synth Strings
-- 8: Synth Pad
-- ...
+- 0: VRA Lead
+- 1: Saw Lead
+- 2: Saw Lead Bass
+- 3: Saw Lead Fifth
+- 4: Saw Lead Eighth
+- 5: Square Lead
+- 6: Synth Bass
+- 7: Synth Brass
+- 8: Synth Strings
+- 9: Synth Pad
 
 ## MIDI Implementation Chart
 
-      Digital Synthesizer                                             Date: 2014-08-13
-      Model: ISGK VRA-8               MIDI Implementation Chart       Version: 0.00
+      ISGK [Digital Synthesizer]                                      Date: 2014-08-13
+      Model: VRA-8                    MIDI Implementation Chart       Version: 0.00
     +-------------------------------+---------------+---------------+-------------------+
     | Function...                   | Transmitted   | Recognized    | Remarks           |
     +-------------------------------+---------------+---------------+-------------------+
@@ -104,7 +104,7 @@ Version 0.00: 2014-08-13 risgk
     |                            81 | x             | o             | FILTER ENVELOPE   |
     +-------------------------------+---------------+---------------+-------------------+
     | Program                       | x             | o             |                   |
-    | Change       : True #         | ************* | 0-15          |                   |
+    | Change       : True #         | ************* | 0-9           |                   |
     +-------------------------------+---------------+---------------+-------------------+
     | System Exclusive              | x             | x             |                   |
     +-------------------------------+---------------+---------------+-------------------+
