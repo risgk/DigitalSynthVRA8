@@ -3,10 +3,8 @@ require './freq_table'
 require './wave_table'
 
 class Osc
-  SAW = 0; SQUARE = 1; TRIANGLE = 2
-
   def initialize
-    @wave_tables = $wave_tables[SAW]
+    @wave_tables = $wave_tables[WAVEFORM_SAW]
     @phase = 0
     @note_number = 0
     @coarse_tune = 64
@@ -16,10 +14,10 @@ class Osc
 
   def set_waveform(waveform)
     case waveform
-    when SAW, SQUARE, TRIANGLE
+    when WAVEFORM_SAW, WAVEFORM_SQUARE, WAVEFORM_TRIANGLE
       @wave_tables = $wave_tables[waveform]
     else
-      @wave_tables = $wave_tables[SAW]
+      @wave_tables = $wave_tables[WAVEFORM_SAW]
     end
   end
 
