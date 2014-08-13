@@ -89,12 +89,12 @@ Version 0.00: 2014-08-13 risgk
     | Pitch Bend                    | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
     | Control                    40 | x             | o             | OSC1 WAVEFORM         |
-    | Change                     44 | x             | o             | OSC2 WAVEFORM         |
-    |                            45 | x             | o             | OSC2 COARSE TUNE      |
-    |                            46 | x             | o             | OSC2 FINE TUNE        |
-    |                            48 | x             | o             | OSC3 WAVEFORM         |
-    |                            49 | x             | o             | OSC3 COARSE TUNE      |
-    |                            50 | x             | o             | OSC3 FINE TUNE        |
+    | Change                     41 | x             | o             | OSC2 WAVEFORM         |
+    |                            42 | x             | o             | OSC2 COARSE TUNE      |
+    |                            43 | x             | o             | OSC2 FINE TUNE        |
+    |                            44 | x             | o             | OSC3 WAVEFORM         |
+    |                            45 | x             | o             | OSC3 COARSE TUNE      |
+    |                            46 | x             | o             | OSC3 FINE TUNE        |
     |                            70 | x             | o             | EG SUSTAIN            |
     |                            71 | x             | o             | FILTER RESONANCE      |
     |                            72 | x             | o             | EG RELEASE            |
