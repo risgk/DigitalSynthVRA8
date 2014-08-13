@@ -9,10 +9,10 @@ class EG
   STATE_IDLE = 4
 
   def initialize
-    @as = 256
-    @ds = 256
+    @as = $env_table_speed_from_time[0]
+    @ds = $env_table_speed_from_time[0]
     @sl = 127
-    @rs = 256
+    @rs = $env_table_speed_from_time[0]
     @count = 0
     @state = STATE_IDLE
     @level = 0
