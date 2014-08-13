@@ -1,4 +1,4 @@
-File::open("midi_stream.bin","w+b") do |file|
+File::open("midi.bin","w+b") do |file|
   BITS_PER_SECOND  = 31250
   BYTES_PER_SECOND = 3125
 
@@ -24,4 +24,5 @@ File::open("midi_stream.bin","w+b") do |file|
 
   file.write([NOTE_ON,  96, 127].pack("C*")); (0...(4000 - 3)).each { file.write([0xF7].pack("C")) }
   file.write([NOTE_OFF, 96, 127].pack("C*")); (0...( 500 - 3)).each { file.write([0xF7].pack("C")) }
+  (0...10000).each { file.write([0xF7].pack("C")) }
 end
