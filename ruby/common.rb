@@ -41,10 +41,10 @@ PC_SYNTH_STRINGS   = 8
 PC_SYNTH_PAD       = 9
 PC_TRUE_NUMBER_MAX = 9
 
-def high_byte(us)
-  us >> 8
+def high_byte(ui16)
+  ui16 >> 8
 end
 
-def low_byte(us)
-  us & 0xFF
+def low_byte(ui16)
+  ui16 & 0xFF
 end

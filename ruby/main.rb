@@ -1,31 +1,9 @@
 require './common'
 require './midi_in'
-require './osc'
-require './mixer'
-require './filter'
-require './amp'
-require './eg'
+require './synth'
 
-$osc1 = Osc.new
-$osc2 = Osc.new
-$osc3 = Osc.new
-$mixer = Mixer.new
-$filter = Filter.new
-$amp = Amp.new
-$eg = EG.new
 $midi_in = MIDIIn.new
-
-$osc1.set_waveform(WAVEFORM_TRIANGLE)
-$osc2.set_waveform(WAVEFORM_SAW)
-$osc2.set_coarse_tune(64 + 0)
-$osc2.set_fine_tune(64 + 10)
-$osc3.set_waveform(WAVEFORM_SAW)
-$osc3.set_coarse_tune(64 - 0)
-$osc3.set_fine_tune(64 - 10)
-$filter.set_cutoff(64)
-$filter.set_resonance(127)
-$filter.set_envelope(127)
-$eg.set_adsr(32, 127, 0, 112)
+$synth = Synth.new
 
 File::open(ARGV[0], "rb") do |bin_file|
   File::open("a.wav", "wb") do |wav_file|
@@ -44,27 +22,17 @@ File::open(ARGV[0], "rb") do |bin_file|
       if (midi_in_pprev == MIDI_NOTE_ON && midi_in_prev <= MIDI_DATA_BYTE_MAX &&
           b <= MIDI_DATA_BYTE_MAX && b >= 0x01)
         note_number = midi_in_prev
-        $osc1.note_on(note_number)
-        $osc2.note_on(note_number)
-        $osc3.note_on(note_number)
-        $eg.note_on
+        $synth.note_on(note_number)
       end
       if ((midi_in_pprev == MIDI_NOTE_ON  && midi_in_prev <= MIDI_DATA_BYTE_MAX && b == 0x00) ||
           (midi_in_pprev == MIDI_NOTE_OFF && midi_in_prev <= MIDI_DATA_BYTE_MAX && b <= MIDI_DATA_BYTE_MAX))
-        $osc1.note_off
-        $osc2.note_off
-        $osc3.note_off
-        $eg.note_off
+        $synth.note_off
       end
       midi_in_pprev = midi_in_prev
       midi_in_prev = b
 
       for i in (0...10) do
-        level = $mixer.clock($osc1.clock, $osc2.clock, $osc3.clock)
-        eg_output = $eg.clock
-        level = $filter.clock(level, eg_output)
-        level = $amp.clock(level, eg_output)
-
+        level = $synth.clock
         wav_file.write([level * 128].pack("S"))
       end
     end

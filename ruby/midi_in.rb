@@ -1,5 +1,4 @@
 require './common'
-require './program_table'
 
 class MIDIIn
   def initialize

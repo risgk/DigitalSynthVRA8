@@ -1,6 +1,5 @@
 require './common'
 require './filter_table'
-require './env_table'
 
 class Filter
   def initialize
