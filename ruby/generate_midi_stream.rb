@@ -1,4 +1,4 @@
-File::open("midi.bin","w+b") do |file|
+File::open("midi_stream.bin", "wb") do |file|
   BITS_PER_SECOND  = 31250
   BYTES_PER_SECOND = 3125
 

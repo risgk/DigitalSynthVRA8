@@ -1,44 +1,36 @@
-# Digital Synthesizer ISGK VRA-8 Series
+# ISGK VRA8 Digital Synthesizer V0.xx
 
-Version 0.00: 2014-08-13 risgk
+2014-08-16 risgk
 
 ## Concept
 
-- 8-bit Virtual Analog Synthesizer
+- 8-bit Virtual Analog Monophonic Synthesizer
 
-## ISGK VRA-8A Features
+## VRA8.ino Features
 
-- Arduino Uno, Buzzer, Serial MIDI
+- Arduino Uno, Serial MIDI, PWM Audio, Buzzer
 - Audio Rate: 31250 Hz
-- PWM Audio (PWM Rate: 31250 Hz)
-
-## ISGK VRA-8R Features
-
-- Prototype of VRA-8A
-- Soft Synthesizer for Windows
-- Ruby (win32-sound, unimidi)
-- Audio Rate: 32000 Hz
-
-## Sound Quality
-
 - Bit Depth: 8 bits
-- Monophonic
-- Note Range: 12-108
-- Exp/Log Envelope
 
-## Modules
+## VRA8.rb Features
+
+- Prototype of VRA8.ino
+- Software Synthesizer for Windows
+- Using Ruby, win32-sound, UniMIDI
+
+## Synthesizer Modules
 
 - OSC1:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
 - OSC2:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +63 (semitone)]
+    - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +24, ..., +63 (semitone)]
     - FINE TUNE: [-10, 0, +10 (cent)]
 - OSC3:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +63 (semitone)]
+    - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +24, ..., +63 (semitone)]
     - FINE TUNE: [-10, 0, +10 (cent)]
-- MIX
+- MIXER
 - FILTER:
     - CUTOFF: [AR/16, ..., AR/8, ..., AR/4]
     - RESONANCE: [OFF (Q = 0.7071), ON (Q = 1.414)]
@@ -62,11 +54,17 @@ Version 0.00: 2014-08-13 risgk
 - 7: Synth Brass
 - 8: Synth Strings
 - 9: Synth Pad
+- 10: xxxx
+- 11: xxxx
+- 12: xxxx
+- 13: xxxx
+- 14: xxxx
+- 15: xxxx
 
 ## MIDI Implementation Chart
 
-      ISGK [Digital Synthesizer]                                      Date: 2014-08-13
-      Model: VRA-8                    MIDI Implementation Chart       Version: 0.00
+      Digital Synthesizer                                             Date: 2014-xx-xx
+      Model: VRA8                     MIDI Implementation Chart       Version: 0.xx
     +-------------------------------+---------------+---------------+-------------------+
     | Function...                   | Transmitted   | Recognized    | Remarks           |
     +-------------------------------+---------------+---------------+-------------------+
@@ -77,8 +75,8 @@ Version 0.00: 2014-08-13 risgk
     |              Messages         | x             | x             |                   |
     |              Altered          | ************* |               |                   |
     +-------------------------------+---------------+---------------+-------------------+
-    | Note                          | x             | 12-108        |                   |
-    | Number       : True Voice     | ************* | 12-108        |                   |
+    | Note                          | x             | 24-108        |                   |
+    | Number       : True Voice     | ************* | 24-108        |                   |
     +-------------------------------+---------------+---------------+-------------------+
     | Velocity     Note On          | x             | x  *1         |                   |
     |              Note Off         | x             | x  *2         |                   |
@@ -104,7 +102,7 @@ Version 0.00: 2014-08-13 risgk
     |                            81 | x             | o             | FILTER ENVELOPE   |
     +-------------------------------+---------------+---------------+-------------------+
     | Program                       | x             | o             |                   |
-    | Change       : True #         | ************* | 0-9           |                   |
+    | Change       : True #         | ************* | 0-15          |                   |
     +-------------------------------+---------------+---------------+-------------------+
     | System Exclusive              | x             | x             |                   |
     +-------------------------------+---------------+---------------+-------------------+

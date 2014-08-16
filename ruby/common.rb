@@ -1,12 +1,5 @@
-require './midi_in'
-require './osc'
-require './mixer'
-require './filter'
-require './amp'
-require './eg'
-
 AUDIO_RATE      = 31250
-NOTE_NUMBER_MIN = 12
+NOTE_NUMBER_MIN = 24
 NOTE_NUMBER_MAX = 108
 
 WAVEFORM_SAW      = 0
@@ -55,12 +48,3 @@ end
 def low_byte(us)
   us & 0xFF
 end
-
-$osc1 = Osc.new
-$osc2 = Osc.new
-$osc3 = Osc.new
-$mixer = Mixer.new
-$filter = Filter.new
-$amp = Amp.new
-$eg = EG.new
-$midi_in = MIDIIn.new

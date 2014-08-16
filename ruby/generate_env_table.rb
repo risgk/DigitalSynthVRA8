@@ -1,48 +1,52 @@
-printf("$env_table_speed_from_time = [\n  ")
+$file = File::open("env_table.rb", "wb")
+
+$file.printf("$env_table_speed_from_time = [\n  ")
 (0..127).each do |time|
   speed = (2 ** (8 - ((time + 8) / 16)))
 
-  printf("%3d,", speed)
+  $file.printf("%3d,", speed)
   if time == 127
-    printf("\n")
+    $file.printf("\n")
   elsif time % 16 == 15
-    printf("\n  ")
+    $file.printf("\n  ")
   else
-    printf(" ")
+    $file.printf(" ")
   end
 end
-printf("]\n")
+$file.printf("]\n")
 
-printf("\n")
+$file.printf("\n")
 
-printf("$env_table_attack = [\n  ")
+$file.printf("$env_table_attack = [\n  ")
 (0..254).each do |i|
   level = 256 - (256 * (0.5 ** ((i + 1) / 32.0))).round.to_i
 
-  printf("%3d,", level)
+  $file.printf("%3d,", level)
   if i == 254
-    printf("\n")
+    $file.printf("\n")
   elsif i % 16 == 15
-    printf("\n  ")
+    $file.printf("\n  ")
   else
-    printf(" ")
+    $file.printf(" ")
   end
 end
-printf("]\n")
+$file.printf("]\n")
 
-printf("\n")
+$file.printf("\n")
 
-printf("$env_table_decay_release = [\n  ")
+$file.printf("$env_table_decay_release = [\n  ")
 (0..254).each do |i|
   level = (256 * (0.5 ** ((i + 1) / 32.0))).round.to_i
 
-  printf("%3d,", level)
+  $file.printf("%3d,", level)
   if i == 254
-    printf("\n")
+    $file.printf("\n")
   elsif i % 16 == 15
-    printf("\n  ")
+    $file.printf("\n  ")
   else
-    printf(" ")
+    $file.printf(" ")
   end
 end
-printf("]\n")
+$file.printf("]\n")
+
+$file.close

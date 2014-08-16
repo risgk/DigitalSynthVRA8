@@ -1,22 +1,24 @@
+$file = File::open("wave_table.rb", "wb")
+
 def generate_wave_table(max, name)
-  printf("$wave_table_%s_m%d = [\n  ", name, max)
+  $file.printf("$wave_table_%s_m%d = [\n  ", name, max)
   (0..255).each do |t|
     level = 0
     (1..max).each do |k|
       level += yield(t, k)
     end
     level = (level * 64).round.to_i
-    printf("%+4d,", level)
+    $file.printf("%+4d,", level)
 
     if t == 255
-      printf("\n")
+      $file.printf("\n")
     elsif t % 16 == 15
-      printf("\n  ")
+      $file.printf("\n  ")
     else
-      printf(" ")
+      $file.printf(" ")
     end
   end
-  printf("]\n\n")
+  $file.printf("]\n\n")
 end
 
 def generate_wave_table_saw(max)
@@ -49,12 +51,12 @@ end
 
 def generate_wave_tables(name)
   wave_table_sels = (0..34)
-  printf("$wave_tables_%s = [\n", name)
+  $file.printf("$wave_tables_%s = [\n", name)
   wave_table_sels.each do |i|
     max = 128 / (i + 1)
-    printf("  $wave_table_%s_m%d,\n", name, max)
+    $file.printf("  $wave_table_%s_m%d,\n", name, max)
   end
-  printf("]\n\n")
+  $file.printf("]\n\n")
 end
 
 overtones = [128, 64, 42, 32, 25, 21, 18, 16, 14, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
@@ -75,10 +77,12 @@ generate_wave_tables("saw")
 generate_wave_tables("square")
 generate_wave_tables("triangle")
 
-print <<EOS
+$file.print <<EOS
 $wave_tables = [
   $wave_tables_saw,
   $wave_tables_square,
   $wave_tables_triangle,
 ]
 EOS
+
+$file.close
