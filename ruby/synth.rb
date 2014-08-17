@@ -81,9 +81,12 @@ class Synth
     $osc_3.set_waveform(WAVEFORM_SAW)
     $osc_3.set_coarse_tune(64 - 0)
     $osc_3.set_fine_tune(64 - 10)
+    $eg.set_attack(32)
+    $eg.set_decay(127)
+    $eg.set_sustain(0)
+    $eg.set_release(112)
     $filter.set_cutoff(64)
     $filter.set_resonance(127)
     $filter.set_envelope(127)
-    $eg.set_adsr(32, 127, 0, 112)
   end
 end

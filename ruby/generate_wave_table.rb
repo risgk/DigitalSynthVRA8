@@ -42,17 +42,19 @@ end
 def generate_wave_table_triangle(max)
   generate_wave_table(max, "triangle") do |t, k|
     if k % 4 == 1
-      (4.0 / Math::PI) * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / +(k ** 2))
+      (4.0 / Math::PI) * Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / (k ** 2.0)
     elsif k % 4 == 3
-      (4.0 / Math::PI) * (Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / -(k ** 2))
+      (4.0 / Math::PI) * -Math::sin(((2.0 * Math::PI) * (t / 256.0)) * k) / (k ** 2.0)
     else
       0
     end
   end
 end
 
+FREQ_MAX = 8819
+
 def generate_wave_tables(name)
-  wave_table_sels = (0..34)
+  wave_table_sels = (0..(FREQ_MAX / 256))
   $file.printf("$wave_tables_%s = [\n", name)
   wave_table_sels.each do |i|
     max = 128 / (i + 1)
@@ -61,7 +63,7 @@ def generate_wave_tables(name)
   $file.printf("]\n\n")
 end
 
-overtones = [128, 64, 42, 32, 25, 21, 18, 16, 14, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
+overtones = (0..(FREQ_MAX / 256)).map { |i| 128 / (i + 1) }.uniq
 
 overtones.each do |max|
   generate_wave_table_saw(max)
@@ -78,13 +80,5 @@ end
 generate_wave_tables("saw")
 generate_wave_tables("square")
 generate_wave_tables("triangle")
-
-$file.print <<EOS
-$wave_tables = [
-  $wave_tables_saw,
-  $wave_tables_square,
-  $wave_tables_triangle,
-]
-EOS
 
 $file.close

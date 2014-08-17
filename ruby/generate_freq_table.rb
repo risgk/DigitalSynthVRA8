@@ -5,16 +5,14 @@ $file = File::open("freq_table.rb", "wb")
 $c4_to_b4 = []
 (0..11).each do |i|
   note_number = i + 60
-  fine_tune = 0.0
-
-  cent = (note_number * 100.0) - 6900.0 + fine_tune
+  cent = (note_number * 100.0) - 6900.0
   hz = 440.0 * (2.0 ** (cent / 1200.0))
-  freq = (hz * 256.0 * 256.0 / AUDIO_RATE.to_f / 4.0).round * 4
+  freq = ((hz * 256.0 * 256.0 / AUDIO_RATE) / 4.0).round * 4
   $c4_to_b4[i] = freq
 end
 
 def generate_freq_table(fine_tune, name)
-  $file.printf("$freq_table%s = [\n  ", name)
+  $file.printf("$freq_table_%s = [\n  ", name)
   (0..127).each do |note_number|
     if note_number < NOTE_NUMBER_MIN || note_number > NOTE_NUMBER_MAX
       freq = 0
@@ -37,16 +35,8 @@ def generate_freq_table(fine_tune, name)
   $file.printf("]\n\n")
 end
 
-generate_freq_table(-10.0, "_fine_tune_minus_10")
-generate_freq_table(0.0, "_fine_tune_normal")
-generate_freq_table(10.0, "_fine_tune_plus_10")
-
-$file.print <<EOS
-$freq_tables = [
-  $freq_table_fine_tune_minus_10,
-  $freq_table_fine_tune_normal,
-  $freq_table_fine_tune_plus_10,
-]
-EOS
+generate_freq_table(-10.0, "minus_10_cent")
+generate_freq_table(0.0, "0_cent")
+generate_freq_table(10.0, "plus_10_cent")
 
 $file.close

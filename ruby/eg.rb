@@ -2,74 +2,84 @@ require './common'
 require './env_table'
 
 class EG
-  STATE_A = 0
-  STATE_D = 1
-  STATE_S = 2
-  STATE_R = 3
+  STATE_ATTACK = 0
+  STATE_DECAY = 1
+  STATE_SUSTAIN = 2
+  STATE_RELEASE = 3
   STATE_IDLE = 4
 
   def initialize
-    @as = $env_table_speed_from_time[0]
-    @ds = $env_table_speed_from_time[0]
-    @sl = 127
-    @rs = $env_table_speed_from_time[0]
-    @count = 0
+    @attack_speed = $env_table_speed_from_time[0]
+    @decay_speed = $env_table_speed_from_time[0]
+    @sustain_level = 127
+    @release_speed = $env_table_speed_from_time[0]
     @state = STATE_IDLE
+    @count = 0
     @level = 0
     @note_off_level = 0
   end
 
-  def set_adsr(at, dt, sl, rt)
-    @as = $env_table_speed_from_time[at]
-    @ds = $env_table_speed_from_time[dt]
-    @sl = sl
-    @rs = $env_table_speed_from_time[rt]
+  def set_attack(attack_time)
+    @attack_speed = $env_table_speed_from_time[attack_time]
+  end
+
+  def set_decay(decay_time)
+    @decay_speed = $env_table_speed_from_time[decay_time]
+  end
+
+  def set_sustain(sustain_level)
+    @sustain_level = sustain_level
+  end
+
+  def set_release(release_time)
+    @release_speed = $env_table_speed_from_time[release_time]
   end
 
   def note_on
+    @state = STATE_ATTACK
     @count = 0
-    @state = STATE_A
     @level = 0
   end
 
   def note_off
     case (@state)
-    when STATE_A, STATE_D, STATE_S
+    when STATE_ATTACK, STATE_DECAY, STATE_SUSTAIN
+      @state = STATE_RELEASE
       @count = 0
-      @state = STATE_R
       @note_off_level = @level
     end
   end
 
   def clock
     case (@state)
-    when STATE_A
-      @count += @as
-      if (@count < 0xFF00)
+    when STATE_ATTACK
+      @count += @attack_speed
+      if (high_byte(@count) < 255)
         @level = high_byte($env_table_attack[high_byte(@count)] * 127)
       else
+        @state = STATE_DECAY
         @count = 0
-        @state = STATE_D
         @level = 127
       end
-    when STATE_D
-      @count += @ds
-      if (@count < 0xFF00)
-        @level = high_byte($env_table_decay_release[high_byte(@count)] * (127 - @sl)) + @sl
+    when STATE_DECAY
+      @count += @decay_speed
+      if (high_byte(@count) < 255)
+        @level = high_byte($env_table_decay_release[high_byte(@count)] * (127 - @sustain_level)) +
+                 @sustain_level
       else
+        @state = STATE_SUSTAIN
         @count = 0
-        @state = STATE_S
-        @level = @sl
+        @level = @sustain_level
       end
-    when STATE_S
-      @level = @sl
-    when STATE_R
-      @count += @rs
-      if (@count < 0xFF00)
+    when STATE_SUSTAIN
+      @level = @sustain_level
+    when STATE_RELEASE
+      @count += @release_speed
+      if (high_byte(@count) < 255)
         @level = high_byte($env_table_decay_release[high_byte(@count)] * @note_off_level)
       else
-        @count = 0
         @state = STATE_IDLE
+        @count = 0
         @level = 0
       end
     when STATE_IDLE

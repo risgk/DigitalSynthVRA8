@@ -1,4 +1,4 @@
-$freq_table_fine_tune_minus_10 = [
+$freq_table_minus_10_cent = [
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
      33,    35,    37,    39,    42,    44,    47,    50,    53,    56,    60,    63,
      67,    71,    76,    80,    85,    90,    96,   102,   108,   114,   121,   128,
@@ -12,7 +12,7 @@ $freq_table_fine_tune_minus_10 = [
       0,     0,     0,     0,     0,     0,     0,     0,
 ]
 
-$freq_table_fine_tune_normal = [
+$freq_table_0_cent = [
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
      34,    36,    38,    40,    43,    45,    48,    51,    54,    57,    61,    64,
      68,    72,    77,    81,    86,    91,    97,   103,   109,   115,   122,   129,
@@ -26,7 +26,7 @@ $freq_table_fine_tune_normal = [
       0,     0,     0,     0,     0,     0,     0,     0,
 ]
 
-$freq_table_fine_tune_plus_10 = [
+$freq_table_plus_10_cent = [
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
      35,    37,    39,    41,    44,    46,    49,    52,    55,    58,    62,    65,
      69,    73,    78,    82,    87,    92,    98,   104,   110,   116,   123,   130,
@@ -40,8 +40,3 @@ $freq_table_fine_tune_plus_10 = [
       0,     0,     0,     0,     0,     0,     0,     0,
 ]
 
-$freq_tables = [
-  $freq_table_fine_tune_minus_10,
-  $freq_table_fine_tune_normal,
-  $freq_table_fine_tune_plus_10,
-]

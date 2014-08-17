@@ -21,7 +21,7 @@ $file.printf("\n")
 
 $file.printf("$env_table_attack = [\n  ")
 (0..254).each do |i|
-  level = 256 - (256 * (0.5 ** ((i + 1) / 32.0))).round.to_i
+  level = 256 - (256 * (0.5 ** ((i + 1) / 30.0))).round.to_i
 
   $file.printf("%3d,", level)
   if i == 254
@@ -38,7 +38,7 @@ $file.printf("\n")
 
 $file.printf("$env_table_decay_release = [\n  ")
 (0..254).each do |i|
-  level = (256 * (0.5 ** ((i + 1) / 32.0))).round.to_i
+  level = (256 * (0.5 ** ((i + 1) / 30.0))).round.to_i
 
   $file.printf("%3d,", level)
   if i == 254

@@ -7,7 +7,7 @@ $file = File::open("filter_table.rb", "wb")
 def generate_filter_table(name, q)
   $file.printf("$filter_table_%s = [\n  ", name)
   (0..127).each do |i|
-    f0_over_fs = (2.0 ** (i.to_f / (127.0 / 2.0))) / (2.0 ** 4.0)
+    f0_over_fs = (2.0 ** (i / (127.0 / 2.0))) / (2.0 ** 4.0)
     w0 = 2.0 * Math::PI * f0_over_fs
     alpha = Math::sin(w0) / (2.0 * q)
 

@@ -1195,8 +1195,3 @@ $wave_tables_triangle = [
   $wave_table_triangle_m3,
 ]
 
-$wave_tables = [
-  $wave_tables_saw,
-  $wave_tables_square,
-  $wave_tables_triangle,
-]
