@@ -4,28 +4,28 @@ $program_table = [
   WAVEFORM_SAW, 64, 64 + 10,
   WAVEFORM_SQUARE, 64 - 12, 64,
   32, 127, 96, 96,
-  96, 127, 127,
+  127, 127, 127,
 
   # Saw Lead
   WAVEFORM_SAW,
   WAVEFORM_SAW, 64, 64 + 10,
-  WAVEFORM_SAW, 64, 64 - 10,
-  32, 127, 127, 96,
-  96, 127, 127,
+  WAVEFORM_SAW, 64, 64,
+  32, 127, 96, 96,
+  127, 127, 127,
 
   # Square Lead
   WAVEFORM_SQUARE,
   WAVEFORM_SQUARE, 64, 64 + 10,
   WAVEFORM_SQUARE, 64, 64,
-  32, 127, 127, 96,
-  96, 0, 127,
+  32, 127, 96, 96,
+  127, 127, 127,
 
   # Synth Pad
   WAVEFORM_SAW,
   WAVEFORM_SAW, 64, 64,
   WAVEFORM_SAW, 64, 64,
   32, 96, 127, 16,
-  127, 0, 127,
+  127, 127, 127,
 
   # Synth Bass
   WAVEFORM_TRIANGLE,

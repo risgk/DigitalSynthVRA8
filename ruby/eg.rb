@@ -41,7 +41,7 @@ class EG
       @count = 0
     else
       @state = STATE_ATTACK
-      @count = $env_table_attack_count_from_level[@level]
+      @count = $env_table_attack_count_from_level[@level] << 8
     end
   end
 

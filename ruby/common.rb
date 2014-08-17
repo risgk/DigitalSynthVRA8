@@ -30,11 +30,12 @@ CC_FILTER_CUTOFF    = 74
 CC_EG_DECAY         = 75
 CC_FILTER_ENVELOPE  = 81
 
-PC_SYNTH_LEAD_1    = 0
-PC_SYNTH_LEAD_2    = 1
-PC_SYNTH_PAD       = 2
-PC_SYNTH_BASS      = 3
-PC_TRUE_NUMBER_MAX = 3
+PC_SUB_OSC_LEAD    = 0
+PC_SAW_LEAD        = 1
+PC_SQUERE_LEAD     = 2
+PC_SYNTH_PAD       = 3
+PC_SYNTH_BASS      = 4
+PC_TRUE_NUMBER_MAX = 4
 
 def high_byte(ui16)
   ui16 >> 8

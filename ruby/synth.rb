@@ -27,16 +27,12 @@ class Synth
     # todo: running status, control change, program change, system messages
     if (@midi_in_pprev == MIDI_NOTE_ON && @midi_in_prev <= MIDI_DATA_BYTE_MAX &&
         b <= MIDI_DATA_BYTE_MAX && b >= 0x01)
-      note_number = @midi_in_prev
-      note_on(note_number)
-      @note_number = note_number
-    end
-    if ((@midi_in_pprev == MIDI_NOTE_ON  && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b == 0x00) ||
+      note_on(@midi_in_prev)
+    elsif ((@midi_in_pprev == MIDI_NOTE_ON  && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b == 0x00) ||
         (@midi_in_pprev == MIDI_NOTE_OFF && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b <= MIDI_DATA_BYTE_MAX))
-      note_number = @midi_in_prev
-      if @note_number == note_number
-        note_off(note_number)
-      end
+      note_off(@midi_in_prev)
+    elsif (@midi_in_prev == MIDI_PROGRAM_CHANGE && b <= MIDI_DATA_BYTE_MAX)
+      program_change(b)
     end
     @midi_in_pprev = @midi_in_prev
     @midi_in_prev = b
@@ -59,17 +55,20 @@ class Synth
   end
 
   def note_on(note_number)
-    $osc_1.note_on(note_number)
-    $osc_2.note_on(note_number)
-    $osc_3.note_on(note_number)
-    $eg.note_on(note_number)
+    @note_number = note_number
+    $osc_1.note_on(@note_number)
+    $osc_2.note_on(@note_number)
+    $osc_3.note_on(@note_number)
+    $eg.note_on(@note_number)
   end
 
   def note_off(note_number)
-    $osc_1.note_off(note_number)
-    $osc_2.note_off(note_number)
-    $osc_3.note_off(note_number)
-    $eg.note_off(note_number)
+    if note_number == @note_number
+      $osc_1.note_off(@note_number)
+      $osc_2.note_off(@note_number)
+      $osc_3.note_off(@note_number)
+      $eg.note_off(@note_number)
+    end
   end
 
   def control_change(controller_number, value)
