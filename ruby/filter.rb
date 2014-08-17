@@ -4,8 +4,8 @@ require './filter_table'
 class Filter
   def initialize
     @cutoff = 127
-    @resonance = false
-    @envelope = false
+    @resonance = 0
+    @envelope = 0
     @x0 = 0
     @x1 = 0
     @x2 = 0
