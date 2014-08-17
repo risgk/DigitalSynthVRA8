@@ -6,9 +6,9 @@ require './eg'
 require './filter'
 require './amp'
 
-$osc1 = Osc.new
-$osc2 = Osc.new
-$osc3 = Osc.new
+$osc_1 = Osc.new
+$osc_2 = Osc.new
+$osc_3 = Osc.new
 $mixer = Mixer.new
 $eg = EG.new
 $filter = Filter.new
@@ -16,9 +16,9 @@ $amp = Amp.new
 
 class Synth
   def initialize
-    @running_status = MIDI_EOX
-    @midi_in_prev = MIDI_EOX
-    @midi_in_pprev = MIDI_EOX
+    @running_status = MIDI_ACTIVE_SENSING
+    @midi_in_prev = MIDI_ACTIVE_SENSING
+    @midi_in_pprev = MIDI_ACTIVE_SENSING
     program_change(0)
   end
 
@@ -38,7 +38,7 @@ class Synth
   end
 
   def clock
-    level = $mixer.clock($osc1.clock, $osc2.clock, $osc3.clock)
+    level = $mixer.clock($osc_1.clock, $osc_2.clock, $osc_3.clock)
     eg_output = $eg.clock
     level = $filter.clock(level, eg_output)
     level = $amp.clock(level, eg_output)
@@ -54,16 +54,16 @@ class Synth
   end
 
   def note_on(note_number)
-    $osc1.note_on(note_number)
-    $osc2.note_on(note_number)
-    $osc3.note_on(note_number)
+    $osc_1.note_on(note_number)
+    $osc_2.note_on(note_number)
+    $osc_3.note_on(note_number)
     $eg.note_on
   end
 
   def note_off
-    $osc1.note_off
-    $osc2.note_off
-    $osc3.note_off
+    $osc_1.note_off
+    $osc_2.note_off
+    $osc_3.note_off
     $eg.note_off
   end
 
@@ -74,13 +74,13 @@ class Synth
   def program_change(program_number)
     @program_number = program_number
     # todo
-    $osc1.set_waveform(WAVEFORM_TRIANGLE)
-    $osc2.set_waveform(WAVEFORM_SAW)
-    $osc2.set_coarse_tune(64 + 0)
-    $osc2.set_fine_tune(64 + 10)
-    $osc3.set_waveform(WAVEFORM_SAW)
-    $osc3.set_coarse_tune(64 - 0)
-    $osc3.set_fine_tune(64 - 10)
+    $osc_1.set_waveform(WAVEFORM_TRIANGLE)
+    $osc_2.set_waveform(WAVEFORM_SAW)
+    $osc_2.set_coarse_tune(64 + 0)
+    $osc_2.set_fine_tune(64 + 10)
+    $osc_3.set_waveform(WAVEFORM_SAW)
+    $osc_3.set_coarse_tune(64 - 0)
+    $osc_3.set_fine_tune(64 - 10)
     $filter.set_cutoff(64)
     $filter.set_resonance(127)
     $filter.set_envelope(127)

@@ -1,3 +1,5 @@
+require './common'
+
 $file = File::open("wave_table.rb", "wb")
 
 def generate_wave_table(max, name)

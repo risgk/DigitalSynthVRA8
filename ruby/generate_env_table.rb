@@ -1,3 +1,5 @@
+require './common'
+
 $file = File::open("env_table.rb", "wb")
 
 $file.printf("$env_table_speed_from_time = [\n  ")
