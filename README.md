@@ -16,7 +16,7 @@
 
 - Prototype of VRA8.ino
 - Software Synthesizer for Windows
-- Using Ruby, win32-sound, UniMIDI
+- Using Ruby (JRuby, win32-sound, UniMIDI)
 
 ## Synthesizer Modules
 
@@ -75,8 +75,8 @@
     |              Messages         | x             | x             |                   |
     |              Altered          | ************* |               |                   |
     +-------------------------------+---------------+---------------+-------------------+
-    | Note                          | x             | 24-108        |                   |
-    | Number       : True Voice     | ************* | 24-108        |                   |
+    | Note                          | x             | 12-108        |                   |
+    | Number       : True Voice     | ************* | 12-108        |                   |
     +-------------------------------+---------------+---------------+-------------------+
     | Velocity     Note On          | x             | x  *1         |                   |
     |              Note Off         | x             | x  *2         |                   |
