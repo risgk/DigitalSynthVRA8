@@ -19,6 +19,7 @@ class Synth
     @running_status = MIDI_ACTIVE_SENSING
     @midi_in_prev = MIDI_ACTIVE_SENSING
     @midi_in_pprev = MIDI_ACTIVE_SENSING
+    @note_number = 60
     program_change(0)
   end
 
@@ -28,10 +29,14 @@ class Synth
         b <= MIDI_DATA_BYTE_MAX && b >= 0x01)
       note_number = @midi_in_prev
       note_on(note_number)
+      @note_number = note_number
     end
     if ((@midi_in_pprev == MIDI_NOTE_ON  && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b == 0x00) ||
         (@midi_in_pprev == MIDI_NOTE_OFF && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b <= MIDI_DATA_BYTE_MAX))
-      note_off
+      note_number = @midi_in_prev
+      if @note_number == note_number
+        note_off(note_number)
+      end
     end
     @midi_in_pprev = @midi_in_prev
     @midi_in_prev = b
@@ -57,14 +62,14 @@ class Synth
     $osc_1.note_on(note_number)
     $osc_2.note_on(note_number)
     $osc_3.note_on(note_number)
-    $eg.note_on
+    $eg.note_on(note_number)
   end
 
-  def note_off
-    $osc_1.note_off
-    $osc_2.note_off
-    $osc_3.note_off
-    $eg.note_off
+  def note_off(note_number)
+    $osc_1.note_off(note_number)
+    $osc_2.note_off(note_number)
+    $osc_3.note_off(note_number)
+    $eg.note_off(note_number)
   end
 
   def control_change(controller_number, value)
@@ -73,20 +78,34 @@ class Synth
 
   def program_change(program_number)
     @program_number = program_number
-    # todo
-    $osc_1.set_waveform(WAVEFORM_TRIANGLE)
-    $osc_2.set_waveform(WAVEFORM_SAW)
-    $osc_2.set_coarse_tune(64 + 0)
-    $osc_2.set_fine_tune(64 + 10)
-    $osc_3.set_waveform(WAVEFORM_SAW)
-    $osc_3.set_coarse_tune(64 - 0)
-    $osc_3.set_fine_tune(64 - 10)
-    $eg.set_attack(32)
-    $eg.set_decay(127)
-    $eg.set_sustain(0)
-    $eg.set_release(112)
-    $filter.set_cutoff(64)
-    $filter.set_resonance(127)
-    $filter.set_envelope(127)
+
+    i = @program_number * 14
+    $osc_1.set_waveform($program_table[i])
+    i += 1
+    $osc_2.set_waveform($program_table[i])
+    i += 1
+    $osc_2.set_coarse_tune($program_table[i])
+    i += 1
+    $osc_2.set_fine_tune($program_table[i])
+    i += 1
+    $osc_3.set_waveform($program_table[i])
+    i += 1
+    $osc_3.set_coarse_tune($program_table[i])
+    i += 1
+    $osc_3.set_fine_tune($program_table[i])
+    i += 1
+    $eg.set_attack($program_table[i])
+    i += 1
+    $eg.set_decay($program_table[i])
+    i += 1
+    $eg.set_sustain($program_table[i])
+    i += 1
+    $eg.set_release($program_table[i])
+    i += 1
+    $filter.set_cutoff($program_table[i])
+    i += 1
+    $filter.set_resonance($program_table[i])
+    i += 1
+    $filter.set_envelope($program_table[i])
   end
 end

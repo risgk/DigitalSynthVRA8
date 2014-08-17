@@ -35,13 +35,17 @@ class EG
     @release_speed = $env_table_speed_from_time[release_time]
   end
 
-  def note_on
-    @state = STATE_ATTACK
-    @count = 0
-    @level = 0
+  def note_on(note_number)
+    if (@level == 127)
+      @state = STATE_DECAY
+      @count = 0
+    else
+      @state = STATE_ATTACK
+      @count = $env_table_attack_count_from_level[@level]
+    end
   end
 
-  def note_off
+  def note_off(note_number)
     case (@state)
     when STATE_ATTACK, STATE_DECAY, STATE_SUSTAIN
       @state = STATE_RELEASE

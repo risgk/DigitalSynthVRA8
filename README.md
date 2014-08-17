@@ -1,6 +1,6 @@
 # ISGK VRA8 Digital Synthesizer V0.xx
 
-2014-08-16 risgk
+2014-08-17 risgk
 
 ## Concept
 
@@ -44,22 +44,11 @@
 
 ## Preset Programs
 
-- 0: VRA Lead
+- 0: Sub Osc Lead
 - 1: Saw Lead
-- 2: Saw Lead Bass
-- 3: Saw Lead Fifth
-- 4: Saw Lead Eighth
-- 5: Square Lead
-- 6: Synth Bass
-- 7: Synth Brass
-- 8: Synth Strings
-- 9: Synth Pad
-- 10: xxxx
-- 11: xxxx
-- 12: xxxx
-- 13: xxxx
-- 14: xxxx
-- 15: xxxx
+- 2: Square Lead
+- 3: Synth Pad
+- 4: Synth Bass
 
 ## MIDI Implementation Chart
 
@@ -102,7 +91,7 @@
     |                            81 | x             | o             | FILTER ENVELOPE   |
     +-------------------------------+---------------+---------------+-------------------+
     | Program                       | x             | o             |                   |
-    | Change       : True #         | ************* | 0-15          |                   |
+    | Change       : True #         | ************* | 0-4           |                   |
     +-------------------------------+---------------+---------------+-------------------+
     | System Exclusive              | x             | x             |                   |
     +-------------------------------+---------------+---------------+-------------------+

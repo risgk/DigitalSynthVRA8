@@ -21,6 +21,7 @@ class Osc
     when WAVEFORM_TRIANGLE
       @wave_tables = $wave_tables_triangle
     end
+    @phase = 0
   end
 
   def set_coarse_tune(coarse_tune)
@@ -34,12 +35,11 @@ class Osc
   end
 
   def note_on(note_number)
-    @phase = 0
     @note_number = note_number
     update_freq
   end
 
-  def note_off
+  def note_off(note_number)
     # do nothing
   end
 
