@@ -64,20 +64,95 @@ class Synth
 
   def note_off(note_number)
     if note_number == @note_number
-      $osc_1.note_off(@note_number)
-      $osc_2.note_off(@note_number)
-      $osc_3.note_off(@note_number)
       $eg.note_off(@note_number)
     end
+  end
+
+  def sound_off
+    $osc_1.sound_off
+    $osc_2.sound_off
+    $osc_3.sound_off
+    $eg.sound_off
   end
 
   def control_change(controller_number, value)
     # todo
   end
 
+  def control_change(value)
+    # todo
+  end
+
+  def set_osc1_waveform
+    sound_off
+    $osc_1.set_waveform(value)
+  end
+
+  def set_osc2_waveform
+    sound_off
+    $osc_2.set_waveform(value)
+  end
+
+  def set_osc2_coarse_tune
+    sound_off
+    $osc_2.set_coarse_tune(value)
+  end
+
+  def set_osc2_fine_tune
+    sound_off
+    $osc_2.set_fine_tune(value)
+  end
+
+  def set_osc3_waveform
+    sound_off
+    $osc_3.set_waveform(value)
+  end
+
+  def set_osc3_coarse_tune
+    sound_off
+    $osc_3.set_coarse_tune(value)
+  end
+
+  def set_osc3_fine_tune
+    sound_off
+    $osc_3.set_fine_tune(value)
+  end
+
+  def set_eg_attack
+    sound_off
+    $eg.set_attack(value)
+  end
+
+  def set_eg_decay
+    sound_off
+    $eg.set_decay(value)
+  end
+
+  def set_eg_sustain
+    sound_off
+    $eg.set_sustain(value)
+  end
+
+  def set_eg_release
+    sound_off
+    $eg.set_release(value)
+  end
+
+  def set_filter_cutoff
+    $filter.set_cutoff(value)
+  end
+
+  def set_filter_resonance
+    $filter.set_resonance(value)
+  end
+
+  def set_filter_envelope
+    $filter.set_envelope(value)
+  end
+
   def program_change(program_number)
     @program_number = program_number
-
+    sound_off
     i = @program_number * 14
     $osc_1.set_waveform($program_table[i])
     i += 1

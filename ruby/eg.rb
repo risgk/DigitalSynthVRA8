@@ -54,6 +54,12 @@ class EG
     end
   end
 
+  def sound_off
+    @state = STATE_IDLE
+    @count = 0
+    @level = 0
+  end
+
   def clock
     case (@state)
     when STATE_ATTACK

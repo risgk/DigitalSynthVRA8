@@ -26,7 +26,7 @@ def play_cedfgabc(c)
   play(21 + (c * 12), 1000)
   play(23 + (c * 12), 1000)
   play(24 + (c * 12), 4000)
-  wait(1000)
+  wait(2000)
 end
 
 program_change(PC_SUB_OSC_LEAD)
