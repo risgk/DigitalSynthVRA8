@@ -29,17 +29,17 @@ def play_cedfgabc(c)
   wait(2000)
 end
 
-program_change(PC_SUB_OSC_LEAD)
-play_cedfgabc(3)
+program_change(PC_SYNTH_BASS)
+play_cedfgabc(1)
 
 program_change(PC_SAW_LEAD)
-play_cedfgabc(3)
+play_cedfgabc(2)
 
-program_change(PC_SQUERE_LEAD)
-play_cedfgabc(4)
+program_change(PC_SUB_OSC_LEAD)
+play_cedfgabc(3)
 
 program_change(PC_SYNTH_PAD)
 play_cedfgabc(4)
 
-program_change(PC_SYNTH_BASS)
-play_cedfgabc(2)
+program_change(PC_SQUERE_LEAD)
+play_cedfgabc(5)
