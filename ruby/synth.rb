@@ -1,18 +1,18 @@
 require './common'
 require './program_table'
 require './osc'
-require './mixer'
-require './eg'
 require './filter'
 require './amp'
+require './eg'
+require './mixer'
 
 $osc_1 = Osc.new
 $osc_2 = Osc.new
 $osc_3 = Osc.new
-$mixer = Mixer.new
-$eg = EG.new
 $filter = Filter.new
 $amp = Amp.new
+$eg = EG.new
+$mixer = Mixer.new
 
 class Synth
   def initialize
@@ -118,6 +118,14 @@ class Synth
     $osc_3.set_fine_tune(value)
   end
 
+  def set_filter_cutoff
+    $filter.set_cutoff(value)
+  end
+
+  def set_filter_resonance
+    $filter.set_resonance(value)
+  end
+
   def set_filter_envelope
     $filter.set_envelope(value)
   end
@@ -127,9 +135,9 @@ class Synth
     $eg.set_attack(value)
   end
 
-  def set_eg_decay
+  def set_decay_release
     sound_off
-    $eg.set_decay(value)
+    $eg.set_decay_release(value)
   end
 
   def set_eg_sustain
@@ -137,23 +145,10 @@ class Synth
     $eg.set_sustain(value)
   end
 
-  def set_eg_release
-    sound_off
-    $eg.set_release(value)
-  end
-
-  def set_filter_cutoff
-    $filter.set_cutoff(value)
-  end
-
-  def set_filter_resonance
-    $filter.set_resonance(value)
-  end
-
   def program_change(program_number)
     @program_number = program_number
     sound_off
-    i = @program_number * 14
+    i = @program_number * 13
     $osc_1.set_waveform($program_table[i + 0])
     $osc_1.set_coarse_tune(64)
     $osc_1.set_fine_tune(64)
@@ -163,12 +158,11 @@ class Synth
     $osc_3.set_waveform($program_table[i + 4])
     $osc_3.set_coarse_tune($program_table[i + 5])
     $osc_3.set_fine_tune($program_table[i + 6])
-    $eg.set_attack($program_table[i + 7])
-    $eg.set_decay($program_table[i + 8])
-    $eg.set_sustain($program_table[i + 9])
-    $eg.set_release($program_table[i + 10])
-    $filter.set_cutoff($program_table[i + 11])
-    $filter.set_resonance($program_table[i + 12])
-    $filter.set_envelope($program_table[i + 13])
+    $filter.set_cutoff($program_table[i + 7])
+    $filter.set_resonance($program_table[i + 8])
+    $filter.set_envelope($program_table[i + 9])
+    $eg.set_attack($program_table[i + 10])
+    $eg.set_decay_release($program_table[i + 11])
+    $eg.set_sustain($program_table[i + 12])
   end
 end

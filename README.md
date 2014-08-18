@@ -30,7 +30,6 @@
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
     - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +24, ..., +63 (semitone)]
     - FINE TUNE: [-10, 0, +10 (cent)]
-- MIXER
 - FILTER:
     - CUTOFF: [AR/16, ..., AR/8, ..., AR/4]
     - RESONANCE: [OFF (Q = 0.7071), ON (Q = 1.414)]
@@ -38,9 +37,8 @@
 - AMP
 - EG:
     - ATTACK: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
-    - DECAY: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
+    - DECAY/RELEASE: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
     - SUSTAIN: [0, ..., 1/4, ..., 1/2, ..., 3/4, ..., 127/128]
-    - RELEASE: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
 
 ## Preset Programs
 
@@ -82,13 +80,12 @@
     |                            44 | x             | o             | OSC3 WAVEFORM     |
     |                            45 | x             | o             | OSC3 COARSE TUNE  |
     |                            46 | x             | o             | OSC3 FINE TUNE    |
-    |                            47 | x             | o             | FILTER ENVELOPE   |
-    |                            70 | x             | o             | EG SUSTAIN        |
-    |                            71 | x             | o             | FILTER RESONANCE  |
-    |                            72 | x             | o             | EG RELEASE        |
-    |                            73 | x             | o             | EG ATTACK         |
-    |                            74 | x             | o             | FILTER CUTOFF     |
-    |                            75 | x             | o             | EG DECAY          |
+    |                            47 | x             | o             | FILTER CUTOFF     |
+    |                            48 | x             | o             | FILTER RESONANCE  |
+    |                            49 | x             | o             | FILTER ENVELOPE   |
+    |                            50 | x             | o             | EG ATTACK         |
+    |                            51 | x             | o             | EG DECAY/RELEASE  |
+    |                            52 | x             | o             | EG SUSTAIN        |
     +-------------------------------+---------------+---------------+-------------------+
     | Program                       | x             | o             |                   |
     | Change       : True #         | ************* | 0-4           |                   |

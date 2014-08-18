@@ -9,35 +9,24 @@ class EG
   STATE_IDLE = 4
 
   def initialize
-    @attack_time = 0
-    @decay_time = 0
+    @attack_speed = 16
+    @decay_release_speed = 16
     @sustain_level = 127
-    @release_time = 0
-    update_speed
     @state = STATE_IDLE
     @count = 0
     @level = 0
-    @note_off_level = 0
   end
 
   def set_attack(attack_time)
-    @attack_time = attack_time
-    update_speed
+    @attack_speed = $env_table_speed_from_time[attack_time]
   end
 
-  def set_decay(decay_time)
-    @decay_time = decay_time
-    update_speed
+  def set_decay_release(decay_release_time)
+    @decay_release_speed = $env_table_speed_from_time[decay_release_time]
   end
 
   def set_sustain(sustain_level)
     @sustain_level = sustain_level
-    update_speed
-  end
-
-  def set_release(release_time)
-    @release_time = release_time
-    update_speed
   end
 
   def note_on(note_number)
@@ -54,8 +43,7 @@ class EG
     case (@state)
     when STATE_ATTACK, STATE_DECAY, STATE_SUSTAIN
       @state = STATE_RELEASE
-      @count = 0
-      @note_off_level = @level
+      @count = $env_table_decay_release_count_from_level[@level] << 8
     end
   end
 
@@ -77,21 +65,18 @@ class EG
         @level = 127
       end
     when STATE_DECAY
-      @count += @decay_speed
-      if (high_byte(@count) < 255)
-        @level = high_byte(($env_table_release[high_byte(@count)] << 1) * (127 - @sustain_level)) +
-                 @sustain_level
-      else
+      @count += @decay_release_speed
+      @level = $env_table_decay_release[high_byte(@count)]
+      if (@level <= @sustain_level)
         @state = STATE_SUSTAIN
-        @count = 0
         @level = @sustain_level
       end
     when STATE_SUSTAIN
       @level = @sustain_level
     when STATE_RELEASE
-      @count += @release_speed
+      @count += @decay_release_speed
       if (high_byte(@count) < 255)
-        @level = high_byte(($env_table_release[high_byte(@count)] << 1) * @note_off_level)
+        @level = $env_table_decay_release[high_byte(@count)]
       else
         @state = STATE_IDLE
         @count = 0
@@ -102,12 +87,5 @@ class EG
     end
 
     return @level
-  end
-
-  private
-  def update_speed
-    @attack_speed = $env_table_speed_from_time[@attack_time]
-    @decay_speed = $env_table_speed_from_time[@decay_time]
-    @release_speed = $env_table_speed_from_time[@release_time]
   end
 end
