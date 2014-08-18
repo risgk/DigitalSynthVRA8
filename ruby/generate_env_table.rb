@@ -61,18 +61,7 @@ $env_table_decay_release = []
 
 $file.printf("$env_table_decay_release = [\n  ")
 (0..255).each do |i|
-  case i
-  when 255
-    level = 0
-  when 254
-    level = 1
-  when 253
-    level = 2
-  when 252
-    level = 3
-  else
-    level = (127 * (0.5 ** (i / 48.0))).floor.to_i
-  end
+  level = (127 * (0.5 ** (i / 32.0))).floor.to_i
   $env_table_decay_release[i] = level
 
   $file.printf("%3d,", level)
