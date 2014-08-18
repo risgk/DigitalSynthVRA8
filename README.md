@@ -1,6 +1,6 @@
 # ISGK VRA8 Digital Synthesizer V0.xx
 
-2014-08-17 risgk
+2014-08-18 risgk
 
 ## Concept
 
@@ -82,13 +82,13 @@
     |                            44 | x             | o             | OSC3 WAVEFORM     |
     |                            45 | x             | o             | OSC3 COARSE TUNE  |
     |                            46 | x             | o             | OSC3 FINE TUNE    |
+    |                            47 | x             | o             | FILTER ENVELOPE   |
     |                            70 | x             | o             | EG SUSTAIN        |
     |                            71 | x             | o             | FILTER RESONANCE  |
     |                            72 | x             | o             | EG RELEASE        |
     |                            73 | x             | o             | EG ATTACK         |
     |                            74 | x             | o             | FILTER CUTOFF     |
     |                            75 | x             | o             | EG DECAY          |
-    |                            81 | x             | o             | FILTER ENVELOPE   |
     +-------------------------------+---------------+---------------+-------------------+
     | Program                       | x             | o             |                   |
     | Change       : True #         | ************* | 0-4           |                   |

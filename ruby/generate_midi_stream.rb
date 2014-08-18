@@ -17,7 +17,7 @@ def wait(length)
   length.times { $file.write([MIDI_ACTIVE_SENSING].pack("C")) }
 end
 
-def play_cedfgabc(c)
+def play_cdefgabc(c)
   play(12 + (c * 12), 1000)
   play(14 + (c * 12), 1000)
   play(16 + (c * 12), 1000)
@@ -30,16 +30,16 @@ def play_cedfgabc(c)
 end
 
 program_change(PC_SUB_OSC_LEAD)
-play_cedfgabc(3)
+play_cdefgabc(3)
 
 program_change(PC_SAW_LEAD)
-play_cedfgabc(2)
+play_cdefgabc(2)
 
 program_change(PC_SQUERE_LEAD)
-play_cedfgabc(4)
+play_cdefgabc(4)
 
 program_change(PC_SYNTH_PAD)
-play_cedfgabc(4)
+play_cdefgabc(4)
 
 program_change(PC_SYNTH_BASS)
-play_cedfgabc(2)
+play_cdefgabc(2)

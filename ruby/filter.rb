@@ -34,22 +34,16 @@ class Filter
 
     if ((@resonance & 0x40) != 0)
       i = cutoff * 4
-      b1_over_a0 = $filter_table_q_sqrt_2[i]
-      i += 1
-      b2_over_a0 = $filter_table_q_sqrt_2[i]
-      i += 1
-      a1_over_a0 = $filter_table_q_sqrt_2[i]
-      i += 1
-      a2_over_a0 = $filter_table_q_sqrt_2[i]
+      b1_over_a0 = $filter_table_q_sqrt_2[i + 0]
+      b2_over_a0 = $filter_table_q_sqrt_2[i + 1]
+      a1_over_a0 = $filter_table_q_sqrt_2[i + 2]
+      a2_over_a0 = $filter_table_q_sqrt_2[i + 3]
     else
       i = cutoff * 4
-      b1_over_a0 = $filter_table_q_1_over_sqrt_2[i]
-      i += 1
-      b2_over_a0 = $filter_table_q_1_over_sqrt_2[i]
-      i += 1
-      a1_over_a0 = $filter_table_q_1_over_sqrt_2[i]
-      i += 1
-      a2_over_a0 = $filter_table_q_1_over_sqrt_2[i]
+      b1_over_a0 = $filter_table_q_1_over_sqrt_2[i + 0]
+      b2_over_a0 = $filter_table_q_1_over_sqrt_2[i + 1]
+      a1_over_a0 = $filter_table_q_1_over_sqrt_2[i + 2]
+      a2_over_a0 = $filter_table_q_1_over_sqrt_2[i + 3]
     end
 
     x0 = a

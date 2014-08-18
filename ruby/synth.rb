@@ -118,6 +118,10 @@ class Synth
     $osc_3.set_fine_tune(value)
   end
 
+  def set_filter_envelope
+    $filter.set_envelope(value)
+  end
+
   def set_eg_attack
     sound_off
     $eg.set_attack(value)
@@ -146,40 +150,25 @@ class Synth
     $filter.set_resonance(value)
   end
 
-  def set_filter_envelope
-    $filter.set_envelope(value)
-  end
-
   def program_change(program_number)
     @program_number = program_number
     sound_off
     i = @program_number * 14
-    $osc_1.set_waveform($program_table[i])
-    i += 1
-    $osc_2.set_waveform($program_table[i])
-    i += 1
-    $osc_2.set_coarse_tune($program_table[i])
-    i += 1
-    $osc_2.set_fine_tune($program_table[i])
-    i += 1
-    $osc_3.set_waveform($program_table[i])
-    i += 1
-    $osc_3.set_coarse_tune($program_table[i])
-    i += 1
-    $osc_3.set_fine_tune($program_table[i])
-    i += 1
-    $eg.set_attack($program_table[i])
-    i += 1
-    $eg.set_decay($program_table[i])
-    i += 1
-    $eg.set_sustain($program_table[i])
-    i += 1
-    $eg.set_release($program_table[i])
-    i += 1
-    $filter.set_cutoff($program_table[i])
-    i += 1
-    $filter.set_resonance($program_table[i])
-    i += 1
-    $filter.set_envelope($program_table[i])
+    $osc_1.set_waveform($program_table[i + 0])
+    $osc_1.set_coarse_tune(64)
+    $osc_1.set_fine_tune(64)
+    $osc_2.set_waveform($program_table[i + 1])
+    $osc_2.set_coarse_tune($program_table[i + 2])
+    $osc_2.set_fine_tune($program_table[i + 3])
+    $osc_3.set_waveform($program_table[i + 4])
+    $osc_3.set_coarse_tune($program_table[i + 5])
+    $osc_3.set_fine_tune($program_table[i + 6])
+    $eg.set_attack($program_table[i + 7])
+    $eg.set_decay($program_table[i + 8])
+    $eg.set_sustain($program_table[i + 9])
+    $eg.set_release($program_table[i + 10])
+    $filter.set_cutoff($program_table[i + 11])
+    $filter.set_resonance($program_table[i + 12])
+    $filter.set_envelope($program_table[i + 13])
   end
 end
