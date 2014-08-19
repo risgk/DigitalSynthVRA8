@@ -36,7 +36,7 @@ $file.printf("$env_table_attack = [\n  ")
 end
 $file.printf("]\n\n")
 
-$file.printf("$env_table_attack_count_from_level = [\n  ")
+$file.printf("$env_table_attack_inverse = [\n  ")
 (0..127).each do |level|
   attack_count = 255
   (0..255).each do |i|
@@ -75,7 +75,7 @@ $file.printf("$env_table_decay_release = [\n  ")
 end
 $file.printf("]\n\n")
 
-$file.printf("$env_table_decay_release_count_from_level = [\n  ")
+$file.printf("$env_table_decay_release_inverse = [\n  ")
 (0..127).each do |level|
   decay_count = 255
   (0..255).each do |i|
