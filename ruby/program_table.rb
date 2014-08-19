@@ -32,5 +32,5 @@ $program_table = [
   WAVEFORM_SAW, 64, 64 + 10,
   WAVEFORM_SAW, 64, 64,
   64, 127, 127,
-  64, 127, 0,
+  32, 127, 0,
 ]

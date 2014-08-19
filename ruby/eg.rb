@@ -26,6 +26,17 @@ class EG
   end
 
   def set_sustain(sustain_level)
+    if (sustain_level < 16)
+      @sustain_level = 0
+    elsif (sustain_level < 48)
+      @sustain_level = 32
+    elsif (sustain_level < 80)
+      @sustain_level = 64
+    elsif (sustain_level < 112)
+      @sustain_level = 96
+    else
+      @sustain_level = 127
+    end
     @sustain_level = sustain_level
   end
 

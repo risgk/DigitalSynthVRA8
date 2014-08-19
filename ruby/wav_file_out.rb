@@ -1,6 +1,8 @@
 require './common'
 
 class WavFileOut
+  SEC = 30
+
   def self.open(path)
     File::open(path, "wb") do |f|
       f.write("RIFF")
@@ -14,7 +16,7 @@ class WavFileOut
       f.write("data")
       f.write([0].pack("V"))
 
-      yield WavFile.new(f)
+      yield WavFile.new(f, AUDIO_RATE * SEC)
 
       file_size = f.size
       f.seek(4, IO::SEEK_SET)
@@ -26,11 +28,16 @@ class WavFileOut
 end
 
 class WavFile
-  def initialize(file)
+  def initialize(file, max_size)
     @file = file
+    @max_size = max_size
+    @data_size = 0
   end
 
   def write(level)
-    @file.write([level + 0x80].pack("C"))
+    if (@data_size < @max_size)
+      @file.write([level + 0x80].pack("C"))
+      @data_size += 1
+    end
   end
 end

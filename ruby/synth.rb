@@ -46,8 +46,12 @@ class Synth
   end
 
   private
+  def real_time_message?(b)
+    b >= MIDI_REAL_TIME_MIN
+  end
+
   def system_message?(b)
-    b >= MIDI_SYSTEM_MESSAGES_MIN
+    b >= MIDI_SYSTEM_MIN
   end
 
   def data_byte?(b)
@@ -55,6 +59,16 @@ class Synth
   end
 
   def note_on(note_number)
+    # special: program toggle
+    if (note_number == PROGRAM_TOGGLE_NOTE_NUMBER)
+      program_number = @program_number + 1
+      if (program_number > PC_TRUE_NUMBER_MAX)
+        program_number = 0
+      end
+      program_change(program_number)
+      return
+    end
+
     @note_number = note_number
     $osc_1.note_on(@note_number)
     $osc_2.note_on(@note_number)
@@ -76,71 +90,94 @@ class Synth
   end
 
   def control_change(controller_number, value)
-    # todo
+    case (controller_number)
+    when CC_OSC1_WAVEFORM
+      set_osc1_waveform(value)
+    when CC_OSC2_WAVEFORM
+      set_osc2_waveform(value)
+    when CC_OSC2_COARSE_TUNE
+      set_osc2_coarse_tune(value)
+    when CC_OSC2_FINE_TUNE
+      set_osc2_fine_tune(value)
+    when CC_OSC3_WAVEFORM
+      set_osc3_waveform(value)
+    when CC_OSC3_COARSE_TUNE
+      set_osc3_coarse_tune(value)
+    when CC_OSC3_FINE_TUNE
+      set_osc3_fine_tune(value)
+    when CC_FILTER_CUTOFF
+      set_filter_cutoff(value)
+    when CC_FILTER_RESONANCE
+      set_filter_resonance(value)
+    when CC_FILTER_ENVELOPE
+      set_filter_envelope(value)
+    when CC_EG_ATTACK
+      set_eg_attack(value)
+    when CC_EG_DECAY_RELEASE
+      set_decay_release(value)
+    when CC_EG_SUSTAIN
+      set_eg_sustain(value)
+    end
   end
 
-  def control_change(value)
-    # todo
-  end
-
-  def set_osc1_waveform
+  def set_osc1_waveform(value)
     sound_off
     $osc_1.set_waveform(value)
   end
 
-  def set_osc2_waveform
+  def set_osc2_waveform(value)
     sound_off
     $osc_2.set_waveform(value)
   end
 
-  def set_osc2_coarse_tune
+  def set_osc2_coarse_tune(value)
     sound_off
     $osc_2.set_coarse_tune(value)
   end
 
-  def set_osc2_fine_tune
+  def set_osc2_fine_tune(value)
     sound_off
     $osc_2.set_fine_tune(value)
   end
 
-  def set_osc3_waveform
+  def set_osc3_waveform(value)
     sound_off
     $osc_3.set_waveform(value)
   end
 
-  def set_osc3_coarse_tune
+  def set_osc3_coarse_tune(value)
     sound_off
     $osc_3.set_coarse_tune(value)
   end
 
-  def set_osc3_fine_tune
+  def set_osc3_fine_tune(value)
     sound_off
     $osc_3.set_fine_tune(value)
   end
 
-  def set_filter_cutoff
+  def set_filter_cutoff(value)
     $filter.set_cutoff(value)
   end
 
-  def set_filter_resonance
+  def set_filter_resonance(value)
     $filter.set_resonance(value)
   end
 
-  def set_filter_envelope
+  def set_filter_envelope(value)
     $filter.set_envelope(value)
   end
 
-  def set_eg_attack
+  def set_eg_attack(value)
     sound_off
     $eg.set_attack(value)
   end
 
-  def set_decay_release
+  def set_decay_release(value)
     sound_off
     $eg.set_decay_release(value)
   end
 
-  def set_eg_sustain
+  def set_eg_sustain(value)
     sound_off
     $eg.set_sustain(value)
   end

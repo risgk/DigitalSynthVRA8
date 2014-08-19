@@ -1,6 +1,6 @@
 # ISGK VRA8 Digital Synthesizer V0.xx
 
-2014-08-18 risgk
+2014-08-19 risgk
 
 ## Concept
 
@@ -24,11 +24,11 @@
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
 - OSC2:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +24, ..., +63 (semitone)]
+    - COARSE TUNE: [-24, -12, -5, 0, +7, +12, +24 (semitone)]
     - FINE TUNE: [-10, 0, +10 (cent)]
 - OSC3:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-64, ..., -12, ..., 0, ..., +7, ..., +12, ..., +24, ..., +63 (semitone)]
+    - COARSE TUNE: [-24, -12, -5, 0, +7, +12, +24 (semitone)]
     - FINE TUNE: [-10, 0, +10 (cent)]
 - FILTER:
     - CUTOFF: [AR/16, ..., AR/8, ..., AR/4]
@@ -38,7 +38,7 @@
 - EG:
     - ATTACK: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
     - DECAY/RELEASE: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
-    - SUSTAIN: [0, ..., 1/4, ..., 1/2, ..., 3/4, ..., 127/128]
+    - SUSTAIN: [0, 1/4, 1/2, 3/4, 127/128]
 
 ## Preset Programs
 

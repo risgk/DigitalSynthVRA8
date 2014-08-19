@@ -18,7 +18,7 @@ class Osc
   end
 
   def set_waveform(waveform)
-    case waveform
+    case (waveform)
     when WAVEFORM_SAW
       @wave_tables = $wave_tables_saw
     when WAVEFORM_SQUARE
@@ -29,12 +29,33 @@ class Osc
   end
 
   def set_coarse_tune(coarse_tune)
+    if (coarse_tune <= 40)
+      @coarse_tune = 40
+    elsif (coarse_tune <= 52)
+      @coarse_tune = 52
+    elsif (coarse_tune <= 59)
+      @coarse_tune = 59
+    elsif (coarse_tune < 71)
+      @coarse_tune = 64
+    elsif (coarse_tune < 76)
+      @coarse_tune = 71
+    elsif (coarse_tune < 88)
+      @coarse_tune = 76
+    else
+      @coarse_tune = 88
+    end
     @coarse_tune = coarse_tune
     update_freq
   end
 
   def set_fine_tune(fine_tune)
-    @fine_tune = fine_tune
+    if (fine_tune <= 54)
+      @fine_tune = 54
+    elsif (fine_tune < 74)
+      @fine_tune = 64
+    else
+      @fine_tune = 74
+    end
     update_freq
   end
 
@@ -72,9 +93,9 @@ class Osc
       @freq = 0
     else
       note_number = pitch - 64
-      if (@fine_tune < 64)
+      if (@fine_tune <= 54)
         @freq = $freq_table_minus_10_cent[note_number]
-      elsif (@fine_tune == 64)
+      elsif (@fine_tune < 74)
         @freq = $freq_table_0_cent[note_number]
       else
         @freq = $freq_table_plus_10_cent[note_number]
