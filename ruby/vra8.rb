@@ -21,9 +21,10 @@ if ARGV.length == 1
 else
   require 'unimidi'
   require "thread"
+  RECORDING = true
   q = Queue.new
   t = Thread.new do
-    wav_file = WavFile.new("./a.wav")
+    wav_file = WavFile.new("./a.wav") if RECORDING
     AudioOut::open
     loop do
       if (!q.empty?)
@@ -35,7 +36,7 @@ else
         end
       end
       level = $synth.clock
-      wav_file.write(level)
+      wav_file.write(level) if RECORDING
       AudioOut::write(level)
     end
   end

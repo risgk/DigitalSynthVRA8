@@ -12,8 +12,8 @@ class AudioOut
   @@index = nil
   @@array = nil
 
-  BUFFER_SIZE = 1000
-  NUM_OF_BUFFER = 10
+  BUFFER_SIZE = 500
+  NUM_OF_BUFFER = 8
 
   WAVE_MAPPER = -1
   WHDR_DONE = 0x00000001
