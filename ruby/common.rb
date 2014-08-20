@@ -10,8 +10,8 @@ WAVEFORM_SQUARE   = 1
 WAVEFORM_TRIANGLE = 2
 
 MIDI_DATA_BYTE_MAX        = 0x7F
-MIDI_NOTE_ON              = (0x80 | MIDI_TRUE_CH)  # 2 data bytes
-MIDI_NOTE_OFF             = (0x90 | MIDI_TRUE_CH)  # 2 data bytes
+MIDI_NOTE_ON              = (0x90 | MIDI_TRUE_CH)  # 2 data bytes
+MIDI_NOTE_OFF             = (0x80 | MIDI_TRUE_CH)  # 2 data bytes
 MIDI_CONTROL_CHANGE       = (0xB0 | MIDI_TRUE_CH)  # 2 data bytes
 MIDI_PROGRAM_CHANGE       = (0xC0 | MIDI_TRUE_CH)  # 1 data byte
 MIDI_SYSTEM_MIN           = 0xF0

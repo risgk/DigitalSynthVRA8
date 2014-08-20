@@ -1,5 +1,6 @@
 require './common'
 require './synth'
+require './audio_out'
 require './wav_file'
 
 $synth = Synth.new
@@ -20,11 +21,10 @@ if ARGV.length == 1
 else
   require 'unimidi'
   require "thread"
-  BUFFER_SIZE = 1000
   q = Queue.new
   t = Thread.new do
     wav_file = WavFile.new("./a.wav")
-    t0 = Time.now
+    AudioOut::open
     loop do
       if (!q.empty?)
         n = q.pop
@@ -34,17 +34,9 @@ else
           end
         end
       end
-
-      begin
-        t1 = Time.now
-        t = (t1.usec - t0.usec) % 1000000
-      end while (t < BUFFER_SIZE * 1000000 / AUDIO_RATE)
-      t0 = Time.now
-
-      BUFFER_SIZE.times do
-        level = $synth.clock
-        wav_file.write(level)
-      end
+      level = $synth.clock
+      wav_file.write(level)
+      AudioOut::write(level)
     end
   end
   UniMIDI::Input.gets do |input|

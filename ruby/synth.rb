@@ -28,7 +28,7 @@ class Synth
     if (@midi_in_pprev == MIDI_NOTE_ON && @midi_in_prev <= MIDI_DATA_BYTE_MAX &&
         b <= MIDI_DATA_BYTE_MAX && b >= 0x01)
       note_on(@midi_in_prev)
-    elsif ((@midi_in_pprev == MIDI_NOTE_ON  && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b == 0x00) ||
+    elsif ((@midi_in_pprev == MIDI_NOTE_ON && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b == 0x00) ||
         (@midi_in_pprev == MIDI_NOTE_OFF && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b <= MIDI_DATA_BYTE_MAX))
       note_off(@midi_in_prev)
     elsif (@midi_in_prev == MIDI_PROGRAM_CHANGE && b <= MIDI_DATA_BYTE_MAX)
