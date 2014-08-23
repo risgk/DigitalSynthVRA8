@@ -59,14 +59,24 @@ class Synth
   end
 
   def note_on(note_number)
-    # special: program toggle
-    if (note_number == PROGRAM_TOGGLE_NOTE_NUMBER)
-      program_number = @program_number + 1
-      if (program_number > PROGRAM_NUMBER_MAX)
-        program_number = 0
+    if (OPTION_BLACK_KEY_PROGRAM_CHANGE)
+      case (note_number)
+      when 25, 37, 49, 61, 73, 85
+        program_change(0)
+        return
+      when 27, 39, 51, 63, 75, 87
+        program_change(1)
+        return
+      when 30, 42, 54, 66, 78, 90
+        program_change(2)
+        return
+      when 32, 44, 56, 68, 80, 92
+        program_change(3)
+        return
+      when 34, 46, 58, 70, 82, 94
+        program_change(4)
+        return
       end
-      program_change(program_number)
-      return
     end
 
     @note_number = note_number
@@ -183,9 +193,8 @@ class Synth
   end
 
   def program_change(program_number)
-    @program_number = program_number
     sound_off
-    i = @program_number * 13
+    i = program_number * 13
     $vco_1.set_waveform($program_table[i + 0])
     $vco_1.set_coarse_tune(64)
     $vco_1.set_fine_tune(64)

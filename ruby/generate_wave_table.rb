@@ -51,7 +51,7 @@ def generate_wave_table_triangle(max)
   end
 end
 
-FREQ_MAX = 8819
+FREQ_MAX = 4409
 
 def generate_wave_tables(name)
   wave_table_sels = (0..(FREQ_MAX / 256))

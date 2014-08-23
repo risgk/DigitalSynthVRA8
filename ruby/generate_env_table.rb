@@ -4,7 +4,7 @@ $file = File::open("env_table.rb", "wb")
 
 $file.printf("$env_table_speed_from_time = [\n  ")
 (0..127).each do |time|
-  speed = (2 ** (8 - ((time + 8) / 16)))
+  speed = (256.0 * (0.5 ** (time / 16.0))).floor.to_i
   speed = 255 if speed == 256
 
   $file.printf("%3d,", speed)

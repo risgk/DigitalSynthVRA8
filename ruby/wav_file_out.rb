@@ -1,6 +1,6 @@
 require './common'
 
-class WavFile
+class WavFileOut
   SEC = 30
 
   def initialize(path)

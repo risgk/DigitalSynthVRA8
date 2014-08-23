@@ -3,30 +3,29 @@
 require './common'
 require './synth'
 require './audio_out'
-require './wav_file'
+require './wav_file_out'
 
 $synth = Synth.new
 
 if ARGV.length == 1
   File::open(ARGV[0], "rb") do |bin_file|
-    wav_file = WavFile.new("./a.wav")
+    wav_file_out = WavFileOut.new("./a.wav")
     while(c = bin_file.read(1)) do
       b = c.ord
       $synth.receive_midi_byte(b)
       10.times do
         level = $synth.clock
-        wav_file.write(level)
+        wav_file_out.write(level)
       end
     end
-    wav_file.close
+    wav_file_out.close
   end
 else
   require 'unimidi'
   require "thread"
-  RECORDING = false
   q = Queue.new
   t = Thread.new do
-    wav_file = WavFile.new("./a.wav") if RECORDING
+    wav_file_out = WavFileOut.new("./a.wav") if OPTION_RECORDING
     AudioOut::open
     loop do
       if (!q.empty?)
@@ -38,7 +37,7 @@ else
         end
       end
       level = $synth.clock
-      wav_file.write(level) if RECORDING
+      wav_file_out.write(level) if OPTION_RECORDING
       AudioOut::write(level)
     end
   end
