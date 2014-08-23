@@ -93,6 +93,9 @@ class Synth
   end
 
   def sound_off
+    $vco_1.sound_off
+    $vco_2.sound_off
+    $vco_3.sound_off
     $eg.sound_off
   end
 
