@@ -61,22 +61,32 @@ class Synth
   def note_on(note_number)
     if (OPTION_BLACK_KEY_PROGRAM_CHANGE)
       case (note_number)
-      when 25, 37, 49, 61, 73, 85
+      when 49
         program_change(0)
         return
-      when 27, 39, 51, 63, 75, 87
+      when 51
         program_change(1)
         return
-      when 30, 42, 54, 66, 78, 90
+      when 54
         program_change(2)
         return
-      when 32, 44, 56, 68, 80, 92
+      when 56
         program_change(3)
         return
-      when 34, 46, 58, 70, 82, 94
+      when 58
         program_change(4)
         return
       end
+    end
+
+    pitch_2 = note_number + $vco_2.coarse_tune
+    if (pitch_2 < (NOTE_NUMBER_MIN + 64) || pitch_2 > (NOTE_NUMBER_MAX + 64))
+      return
+    end
+
+    pitch_3 = note_number + $vco_3.coarse_tune
+    if (pitch_3 < (NOTE_NUMBER_MIN + 64) || pitch_3 > (NOTE_NUMBER_MAX + 64))
+      return
     end
 
     @note_number = note_number

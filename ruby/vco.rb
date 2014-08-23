@@ -33,6 +33,10 @@ class VCO
     update_freq
   end
 
+  def coarse_tune
+    @coarse_tune
+  end
+
   def set_fine_tune(fine_tune)
     @fine_tune = fine_tune
     update_freq
@@ -72,7 +76,7 @@ class VCO
       @freq = 0
     else
       note_number = pitch - 64
-      if (@fine_tune < 64)
+      if (@fine_tune <= 63)
         @freq = $freq_table_minus_10_cent[note_number]
       elsif (@fine_tune == 64)
         @freq = $freq_table_0_cent[note_number]

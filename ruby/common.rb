@@ -1,5 +1,5 @@
 OPTION_BLACK_KEY_PROGRAM_CHANGE = true
-OPTION_RECORDING                = false
+OPTION_RECORDING                = true
 
 MIDI_CH = 0
 AUDIO_RATE = 31250
