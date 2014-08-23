@@ -19,11 +19,11 @@ class Osc
 
   def set_waveform(waveform)
     case (waveform)
-    when WAVEFORM_SAW
+    when SAW
       @wave_tables = $wave_tables_saw
-    when WAVEFORM_SQUARE
+    when SQUARE
       @wave_tables = $wave_tables_square
-    when WAVEFORM_TRIANGLE
+    when TRIANGLE
       @wave_tables = $wave_tables_triangle
     end
   end

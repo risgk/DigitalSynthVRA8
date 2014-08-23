@@ -1,3 +1,5 @@
+# main
+
 require './common'
 require './synth'
 require './audio_out'
@@ -21,7 +23,7 @@ if ARGV.length == 1
 else
   require 'unimidi'
   require "thread"
-  RECORDING = true
+  RECORDING = false
   q = Queue.new
   t = Thread.new do
     wav_file = WavFile.new("./a.wav") if RECORDING

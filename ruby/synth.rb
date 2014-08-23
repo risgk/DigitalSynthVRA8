@@ -16,22 +16,22 @@ $mixer = Mixer.new
 
 class Synth
   def initialize
-    @running_status = MIDI_ACTIVE_SENSING
-    @midi_in_prev = MIDI_ACTIVE_SENSING
-    @midi_in_pprev = MIDI_ACTIVE_SENSING
+    @running_status = ACTIVE_SENSING
+    @midi_in_prev = ACTIVE_SENSING
+    @midi_in_pprev = ACTIVE_SENSING
     @note_number = 60
     program_change(0)
   end
 
   def receive_midi_byte(b)
     # todo: running status, control change, program change, system messages
-    if (@midi_in_pprev == MIDI_NOTE_ON && @midi_in_prev <= MIDI_DATA_BYTE_MAX &&
-        b <= MIDI_DATA_BYTE_MAX && b >= 0x01)
+    if (@midi_in_pprev == NOTE_ON && @midi_in_prev <= DATA_BYTE_MAX &&
+        b <= DATA_BYTE_MAX && b >= 0x01)
       note_on(@midi_in_prev)
-    elsif ((@midi_in_pprev == MIDI_NOTE_ON && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b == 0x00) ||
-        (@midi_in_pprev == MIDI_NOTE_OFF && @midi_in_prev <= MIDI_DATA_BYTE_MAX && b <= MIDI_DATA_BYTE_MAX))
+    elsif ((@midi_in_pprev == NOTE_ON && @midi_in_prev <= DATA_BYTE_MAX && b == 0x00) ||
+        (@midi_in_pprev == NOTE_OFF && @midi_in_prev <= DATA_BYTE_MAX && b <= DATA_BYTE_MAX))
       note_off(@midi_in_prev)
-    elsif (@midi_in_prev == MIDI_PROGRAM_CHANGE && b <= MIDI_DATA_BYTE_MAX)
+    elsif (@midi_in_prev == PROGRAM_CHANGE && b <= DATA_BYTE_MAX)
       program_change(b)
     end
     @midi_in_pprev = @midi_in_prev
@@ -47,22 +47,22 @@ class Synth
 
   private
   def real_time_message?(b)
-    b >= MIDI_REAL_TIME_MIN
+    b >= REAL_TIME_MIN
   end
 
   def system_message?(b)
-    b >= MIDI_SYSTEM_MIN
+    b >= SYSTEM_MIN
   end
 
   def data_byte?(b)
-    b <= MIDI_DATA_BYTE_MAX
+    b <= DATA_BYTE_MAX
   end
 
   def note_on(note_number)
     # special: program toggle
     if (note_number == PROGRAM_TOGGLE_NOTE_NUMBER)
       program_number = @program_number + 1
-      if (program_number > PC_TRUE_NUMBER_MAX)
+      if (program_number > PROGRAM_NUMBER_MAX)
         program_number = 0
       end
       program_change(program_number)
@@ -91,31 +91,31 @@ class Synth
 
   def control_change(controller_number, value)
     case (controller_number)
-    when CC_OSC1_WAVEFORM
+    when OSC1_WAVEFORM
       set_osc1_waveform(value)
-    when CC_OSC2_WAVEFORM
+    when OSC2_WAVEFORM
       set_osc2_waveform(value)
-    when CC_OSC2_COARSE_TUNE
+    when OSC2_COARSE_TUNE
       set_osc2_coarse_tune(value)
-    when CC_OSC2_FINE_TUNE
+    when OSC2_FINE_TUNE
       set_osc2_fine_tune(value)
-    when CC_OSC3_WAVEFORM
+    when OSC3_WAVEFORM
       set_osc3_waveform(value)
-    when CC_OSC3_COARSE_TUNE
+    when OSC3_COARSE_TUNE
       set_osc3_coarse_tune(value)
-    when CC_OSC3_FINE_TUNE
+    when OSC3_FINE_TUNE
       set_osc3_fine_tune(value)
-    when CC_FILTER_CUTOFF
+    when FILTER_CUTOFF
       set_filter_cutoff(value)
-    when CC_FILTER_RESONANCE
+    when FILTER_RESONANCE
       set_filter_resonance(value)
-    when CC_FILTER_ENVELOPE
+    when FILTER_ENVELOPE
       set_filter_envelope(value)
-    when CC_EG_ATTACK
+    when EG_ATTACK
       set_eg_attack(value)
-    when CC_EG_DECAY_RELEASE
+    when EG_DECAY_RELEASE
       set_decay_release(value)
-    when CC_EG_SUSTAIN
+    when EG_SUSTAIN
       set_eg_sustain(value)
     end
   end

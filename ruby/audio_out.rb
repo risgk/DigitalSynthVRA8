@@ -5,13 +5,6 @@ class AudioOut
   include Windows::SoundStructs
   extend Windows::SoundFunctions
 
-  @@hwaveout = nil
-  @@waveformatex = nil
-  @@buffer = []
-  @@wavehdr = []
-  @@index = nil
-  @@array = nil
-
   BUFFER_SIZE = 500
   NUM_OF_BUFFER = 8
 
@@ -23,6 +16,8 @@ class AudioOut
     @@waveformatex = WAVEFORMATEX.new(AUDIO_RATE, 8, 1)
     waveOutOpen(@@hwaveout.pointer, WAVE_MAPPER, @@waveformatex.pointer, 0, 0, 0)
 
+    @@buffer = []
+    @@wavehdr = []
     @@array = Array.new(BUFFER_SIZE, 0x80)
     (0...NUM_OF_BUFFER).each do |i|
       @@buffer[i] = FFI::MemoryPointer.new(:uint8, BUFFER_SIZE)
