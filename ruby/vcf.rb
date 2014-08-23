@@ -1,7 +1,7 @@
 require './common'
 require './filter_table'
 
-class Filter
+class VCF
   def initialize
     @cutoff = 127
     @resonance = 0

@@ -1,16 +1,16 @@
 require './common'
 require './program_table'
-require './osc'
-require './filter'
-require './amp'
+require './vco'
+require './vcf'
+require './vca'
 require './eg'
 require './mixer'
 
-$osc_1 = Osc.new
-$osc_2 = Osc.new
-$osc_3 = Osc.new
-$filter = Filter.new
-$amp = Amp.new
+$vco_1 = VCO.new
+$vco_2 = VCO.new
+$vco_3 = VCO.new
+$vcf = VCF.new
+$vca = VCA.new
 $eg = EG.new
 $mixer = Mixer.new
 
@@ -39,10 +39,10 @@ class Synth
   end
 
   def clock
-    level = $mixer.clock($osc_1.clock, $osc_2.clock, $osc_3.clock)
+    level = $mixer.clock($vco_1.clock, $vco_2.clock, $vco_3.clock)
     eg_output = $eg.clock
-    level = $filter.clock(level, eg_output)
-    level = $amp.clock(level, eg_output)
+    level = $vcf.clock(level, eg_output)
+    level = $vca.clock(level, eg_output)
   end
 
   private
@@ -70,9 +70,9 @@ class Synth
     end
 
     @note_number = note_number
-    $osc_1.note_on(@note_number)
-    $osc_2.note_on(@note_number)
-    $osc_3.note_on(@note_number)
+    $vco_1.note_on(@note_number)
+    $vco_2.note_on(@note_number)
+    $vco_3.note_on(@note_number)
     $eg.note_on(@note_number)
   end
 
@@ -83,33 +83,33 @@ class Synth
   end
 
   def sound_off
-    $osc_1.sound_off
-    $osc_2.sound_off
-    $osc_3.sound_off
+    $vco_1.sound_off
+    $vco_2.sound_off
+    $vco_3.sound_off
     $eg.sound_off
   end
 
   def control_change(controller_number, value)
     case (controller_number)
-    when OSC1_WAVEFORM
-      set_osc1_waveform(value)
-    when OSC2_WAVEFORM
-      set_osc2_waveform(value)
-    when OSC2_COARSE_TUNE
-      set_osc2_coarse_tune(value)
-    when OSC2_FINE_TUNE
-      set_osc2_fine_tune(value)
-    when OSC3_WAVEFORM
-      set_osc3_waveform(value)
-    when OSC3_COARSE_TUNE
-      set_osc3_coarse_tune(value)
-    when OSC3_FINE_TUNE
-      set_osc3_fine_tune(value)
-    when FILTER_CUTOFF
+    when VCO1_WAVEFORM
+      set_vco1_waveform(value)
+    when VCO2_WAVEFORM
+      set_vco2_waveform(value)
+    when VCO2_COARSE_TUNE
+      set_vco2_coarse_tune(value)
+    when VCO2_FINE_TUNE
+      set_vco2_fine_tune(value)
+    when VCO3_WAVEFORM
+      set_vco3_waveform(value)
+    when VCO3_COARSE_TUNE
+      set_vco3_coarse_tune(value)
+    when VCO3_FINE_TUNE
+      set_vco3_fine_tune(value)
+    when VCF_CUTOFF
       set_filter_cutoff(value)
-    when FILTER_RESONANCE
+    when VCF_RESONANCE
       set_filter_resonance(value)
-    when FILTER_ENVELOPE
+    when VCF_ENVELOPE
       set_filter_envelope(value)
     when EG_ATTACK
       set_eg_attack(value)
@@ -120,51 +120,51 @@ class Synth
     end
   end
 
-  def set_osc1_waveform(value)
+  def set_vco1_waveform(value)
     sound_off
-    $osc_1.set_waveform(value)
+    $vco_1.set_waveform(value)
   end
 
-  def set_osc2_waveform(value)
+  def set_vco2_waveform(value)
     sound_off
-    $osc_2.set_waveform(value)
+    $vco_2.set_waveform(value)
   end
 
-  def set_osc2_coarse_tune(value)
+  def set_vco2_coarse_tune(value)
     sound_off
-    $osc_2.set_coarse_tune(value)
+    $vco_2.set_coarse_tune(value)
   end
 
-  def set_osc2_fine_tune(value)
+  def set_vco2_fine_tune(value)
     sound_off
-    $osc_2.set_fine_tune(value)
+    $vco_2.set_fine_tune(value)
   end
 
-  def set_osc3_waveform(value)
+  def set_vco3_waveform(value)
     sound_off
-    $osc_3.set_waveform(value)
+    $vco_3.set_waveform(value)
   end
 
-  def set_osc3_coarse_tune(value)
+  def set_vco3_coarse_tune(value)
     sound_off
-    $osc_3.set_coarse_tune(value)
+    $vco_3.set_coarse_tune(value)
   end
 
-  def set_osc3_fine_tune(value)
+  def set_vco3_fine_tune(value)
     sound_off
-    $osc_3.set_fine_tune(value)
+    $vco_3.set_fine_tune(value)
   end
 
   def set_filter_cutoff(value)
-    $filter.set_cutoff(value)
+    $vcf.set_cutoff(value)
   end
 
   def set_filter_resonance(value)
-    $filter.set_resonance(value)
+    $vcf.set_resonance(value)
   end
 
   def set_filter_envelope(value)
-    $filter.set_envelope(value)
+    $vcf.set_envelope(value)
   end
 
   def set_eg_attack(value)
@@ -186,18 +186,18 @@ class Synth
     @program_number = program_number
     sound_off
     i = @program_number * 13
-    $osc_1.set_waveform($program_table[i + 0])
-    $osc_1.set_coarse_tune(64)
-    $osc_1.set_fine_tune(64)
-    $osc_2.set_waveform($program_table[i + 1])
-    $osc_2.set_coarse_tune($program_table[i + 2])
-    $osc_2.set_fine_tune($program_table[i + 3])
-    $osc_3.set_waveform($program_table[i + 4])
-    $osc_3.set_coarse_tune($program_table[i + 5])
-    $osc_3.set_fine_tune($program_table[i + 6])
-    $filter.set_cutoff($program_table[i + 7])
-    $filter.set_resonance($program_table[i + 8])
-    $filter.set_envelope($program_table[i + 9])
+    $vco_1.set_waveform($program_table[i + 0])
+    $vco_1.set_coarse_tune(64)
+    $vco_1.set_fine_tune(64)
+    $vco_2.set_waveform($program_table[i + 1])
+    $vco_2.set_coarse_tune($program_table[i + 2])
+    $vco_2.set_fine_tune($program_table[i + 3])
+    $vco_3.set_waveform($program_table[i + 4])
+    $vco_3.set_coarse_tune($program_table[i + 5])
+    $vco_3.set_fine_tune($program_table[i + 6])
+    $vcf.set_cutoff($program_table[i + 7])
+    $vcf.set_resonance($program_table[i + 8])
+    $vcf.set_envelope($program_table[i + 9])
     $eg.set_attack($program_table[i + 10])
     $eg.set_decay_release($program_table[i + 11])
     $eg.set_sustain($program_table[i + 12])

@@ -2,7 +2,7 @@ require './common'
 require './freq_table'
 require './wave_table'
 
-class Osc
+class VCO
   def initialize
     @wave_tables = $wave_tables_saw
     @coarse_tune = 64

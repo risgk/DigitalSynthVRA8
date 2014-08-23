@@ -6,7 +6,7 @@
 
 - 8-bit Virtual Analog Monophonic Synthesizer
 
-## VRA8.ino Features
+## VRA8 Features
 
 - Arduino Uno, Serial MIDI, PWM Audio, Buzzer
 - Audio Rate: 31250 Hz
@@ -14,27 +14,27 @@
 
 ## VRA8.rb Features
 
-- Prototype of VRA8.ino
+- Simulator of VRA8
 - Software Synthesizer for Windows
 - Using Ruby (JRuby, win32-sound, UniMIDI)
 
 ## Synthesizer Modules
 
-- OSC1:
+- VCO1:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-- OSC2:
-    - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-24, -12, -5, 0, +7, +12, +24 (semitone)]
-    - FINE TUNE: [-10, 0, +10 (cent)]
-- OSC3:
+- VCO2:
     - WAVEFORM: [SAW, SQUARE, TRIANGLE]
     - COARSE TUNE: [-24, -12, -5, 0, +7, +12, +24 (semitone)]
     - FINE TUNE: [-10, 0, +10 (cent)]
-- FILTER:
+- VCO3:
+    - WAVEFORM: [SAW, SQUARE, TRIANGLE]
+    - COARSE TUNE: [-24, -12, -5, 0, +7, +12, +24 (semitone)]
+    - FINE TUNE: [-10, 0, +10 (cent)]
+- VCF:
     - CUTOFF: [AR/16, ..., AR/8, ..., AR/4]
     - RESONANCE: [OFF (Q = 0.7071), ON (Q = 1.414)]
     - ENVELOPE: [OFF, ON]
-- AMP
+- VCA
 - EG:
     - ATTACK: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
     - DECAY/RELEASE: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
@@ -42,7 +42,7 @@
 
 ## Preset Programs
 
-- 0: SUB OSC LEAD
+- 0: SUB VCO LEAD
 - 1: SAW LEAD
 - 2: SQUARE LEAD
 - 3: SYNTH PAD
@@ -73,16 +73,16 @@
     +-------------------------------+---------------+---------------+-------------------+
     | Pitch Bend                    | x             | x             |                   |
     +-------------------------------+---------------+---------------+-------------------+
-    | Control                    40 | x             | o             | OSC1 WAVEFORM     |
-    | Change                     41 | x             | o             | OSC2 WAVEFORM     |
-    |                            42 | x             | o             | OSC2 COARSE TUNE  |
-    |                            43 | x             | o             | OSC2 FINE TUNE    |
-    |                            44 | x             | o             | OSC3 WAVEFORM     |
-    |                            45 | x             | o             | OSC3 COARSE TUNE  |
-    |                            46 | x             | o             | OSC3 FINE TUNE    |
-    |                            47 | x             | o             | FILTER CUTOFF     |
-    |                            48 | x             | o             | FILTER RESONANCE  |
-    |                            49 | x             | o             | FILTER ENVELOPE   |
+    | Control                    40 | x             | o             | VCO1 WAVEFORM     |
+    | Change                     41 | x             | o             | VCO2 WAVEFORM     |
+    |                            42 | x             | o             | VCO2 COARSE TUNE  |
+    |                            43 | x             | o             | VCO2 FINE TUNE    |
+    |                            44 | x             | o             | VCO3 WAVEFORM     |
+    |                            45 | x             | o             | VCO3 COARSE TUNE  |
+    |                            46 | x             | o             | VCO3 FINE TUNE    |
+    |                            47 | x             | o             | VCF CUTOFF        |
+    |                            48 | x             | o             | VCF RESONANCE     |
+    |                            49 | x             | o             | VCF ENVELOPE      |
     |                            50 | x             | o             | EG ATTACK         |
     |                            51 | x             | o             | EG DECAY/RELEASE  |
     |                            52 | x             | o             | EG SUSTAIN        |
