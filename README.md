@@ -9,14 +9,13 @@
 ## VRA8 Features
 
 - Arduino Uno, Serial MIDI, PWM Audio, Buzzer
-- Audio Rate: 31250 Hz
-- Bit Depth: 8 bits
+- Audio Rate: 31250 Hz, Bit Depth: 8 bits
 
 ## VRA8.rb Features
 
 - Simulator of VRA8
 - Software Synthesizer for Windows
-- Using Ruby (JRuby, win32-sound, UniMIDI)
+- Using Ruby (JRuby, UniMIDI, win32-sound)
 
 ## Synthesizer Modules
 

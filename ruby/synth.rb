@@ -61,19 +61,19 @@ class Synth
   def note_on(note_number)
     if (OPTION_BLACK_KEY_PROGRAM_CHANGE)
       case (note_number)
-      when 49
+      when 97  # C#7
         program_change(0)
         return
-      when 51
+      when 99  # D#7
         program_change(1)
         return
-      when 54
+      when 102  # F#7
         program_change(2)
         return
-      when 56
+      when 104  # G#7
         program_change(3)
         return
-      when 58
+      when 106  # A#7
         program_change(4)
         return
       end
