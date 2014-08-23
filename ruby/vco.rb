@@ -12,11 +12,6 @@ class VCO
     @freq = 0
   end
 
-  def sound_off
-    @phase = 0
-    @freq = 0
-  end
-
   def set_waveform(waveform)
     case (waveform)
     when SAW
@@ -40,6 +35,7 @@ class VCO
 
   def note_on(note_number)
     @note_number = note_number
+    @phase = 0
     update_freq
   end
 
