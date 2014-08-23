@@ -20,33 +20,37 @@
 
 ## Synthesizer Modules
 
-- VCO1:
-    - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-- VCO2:
-    - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-24, -12, -5, 0, +7, +12, +24 (semitone)]
-    - FINE TUNE: [-10, 0, +10 (cent)]
-- VCO3:
-    - WAVEFORM: [SAW, SQUARE, TRIANGLE]
-    - COARSE TUNE: [-24, -12, -5, 0, +7, +12, +24 (semitone)]
-    - FINE TUNE: [-10, 0, +10 (cent)]
-- VCF:
-    - CUTOFF: [AR/16, ..., AR/8, ..., AR/4]
-    - RESONANCE: [OFF (Q = 0.7071), ON (Q = 1.414)]
-    - ENVELOPE: [OFF, ON]
+- VCO1
+    - WAVEFORM: SAW, SQUARE, TRIANGLE
+- VCO2
+    - WAVEFORM: SAW, SQUARE, TRIANGLE
+    - COARSE TUNE: -64, ..., +63 (semitone)
+    - FINE TUNE: -10, 0, +10 (cent)
+- VCO3
+    - WAVEFORM: SAW, SQUARE, TRIANGLE
+    - COARSE TUNE: -64, ..., +63 (semitone)
+    - FINE TUNE: -10, 0, +10 (cent)
+- VCF
+    - CUTOFF: Audio Rate / 16, ..., Audio Rate / 8, ..., Audio Rate / 4
+    - RESONANCE: OFF (Q = 0.7071), ON (Q = 1.414)
+    - ENVELOPE: OFF, ON
 - VCA
-- EG:
-    - ATTACK: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
-    - DECAY/RELEASE: [8, 16, 33, 65, 131, 261, 522, 1044, 2089 (ms)]
-    - SUSTAIN: [0, 1/4, 1/2, 3/4, 127/128]
+- EG
+    - ATTACK: 8, ..., 131, ..., 2089 (ms)
+    - DECAY/RELEASE: 8, ..., 131, ..., 2089 (ms)
+    - SUSTAIN: 0, ..., 64, ... 127
 
 ## Preset Programs
 
-- 0: SUB VCO LEAD
-- 1: SAW LEAD
-- 2: SQUARE LEAD
-- 3: SYNTH PAD
-- 4: SYNTH BASS
+    +------+------------------+
+    | PC # | Program Name     |
+    +------+------------------+
+    |    0 | SUB VCO LEAD     |
+    |    1 | SAW LEAD         |
+    |    2 | SQUARE LEAD      |
+    |    3 | SYNTH PAD        |
+    |    4 | SYNTH BASS       |
+    +------+------------------+
 
 ## MIDI Implementation Chart
 

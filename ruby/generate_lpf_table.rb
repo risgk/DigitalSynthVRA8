@@ -2,10 +2,10 @@
 
 require './common'
 
-$file = File::open("filter_table.rb", "wb")
+$file = File::open("lpf_table.rb", "wb")
 
-def generate_filter_table(name, q)
-  $file.printf("$filter_table_%s = [\n  ", name)
+def generate_lpf_table(name, q)
+  $file.printf("$lpf_table_%s = [\n  ", name)
   (0..127).each do |i|
     f0_over_fs = (2.0 ** (i / (127.0 / 2.0))) / (2.0 ** 4.0)
     w0 = 2.0 * Math::PI * f0_over_fs
@@ -34,7 +34,7 @@ def generate_filter_table(name, q)
   $file.printf("]\n\n")
 end
 
-generate_filter_table("q_1_over_sqrt_2", 1.0 / Math::sqrt(2.0))
-generate_filter_table("q_sqrt_2", Math::sqrt(2.0))
+generate_lpf_table("q_1_over_sqrt_2", 1.0 / Math::sqrt(2.0))
+generate_lpf_table("q_sqrt_2", Math::sqrt(2.0))
 
 $file.close
