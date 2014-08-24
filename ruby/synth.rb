@@ -98,7 +98,7 @@ class Synth
 
   def note_off(note_number)
     if note_number == @note_number
-      $eg.note_off(@note_number)
+      $eg.note_off
     end
   end
 
@@ -205,7 +205,7 @@ class Synth
   end
 
   def all_notes_off(value)
-    $eg.note_off(@note_number)
+    $eg.note_off
   end
 
   def program_change(program_number)

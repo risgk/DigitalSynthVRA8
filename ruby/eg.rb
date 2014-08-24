@@ -39,7 +39,7 @@ class EG
     end
   end
 
-  def note_off(note_number)
+  def note_off
     case (@state)
     when STATE_ATTACK, STATE_DECAY, STATE_SUSTAIN
       @state = STATE_RELEASE
