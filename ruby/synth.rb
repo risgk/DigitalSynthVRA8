@@ -137,6 +137,8 @@ class Synth
       set_decay_release(value)
     when EG_SUSTAIN
       set_eg_sustain(value)
+    when ALL_NOTES_OFF
+      all_notes_off(value)
     end
   end
 
@@ -200,6 +202,10 @@ class Synth
   def set_eg_sustain(value)
     sound_off
     $eg.set_sustain(value)
+  end
+
+  def all_notes_off(value)
+    $eg.note_off(@note_number)
   end
 
   def program_change(program_number)

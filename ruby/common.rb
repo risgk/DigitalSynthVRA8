@@ -47,6 +47,7 @@ VCF_ENVELOPE     = 49
 EG_ATTACK        = 50
 EG_DECAY_RELEASE = 51
 EG_SUSTAIN       = 52
+ALL_NOTES_OFF    = 123
 
 def high_byte(ui16)
   ui16 >> 8
