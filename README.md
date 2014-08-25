@@ -1,10 +1,10 @@
 # ISGK VRA8 Digital Synthesizer V0.xx
 
-2014-08-25 risgk
+2014-08-26 risgk
 
 ## Concept
 
-- 8-bit Virtual Analog Monophonic Synthesizer
+- 8-bit Virtual Analog (Monophonic) Synthesizer
 
 ## VRA8 Features
 
@@ -20,35 +20,35 @@
 ## Synthesizer Modules
 
 - VCO1
-    - WAVEFORM: Saw, Square, Triangle
+    - Waveform: Saw, Square, Triangle
 - VCO2
-    - WAVEFORM: Saw, Square, Triangle
-    - COARSE TUNE: -64, ..., +63 (semitone)
-    - FINE TUNE: -10, 0, +10 (cent)
+    - Waveform: Saw, Square, Triangle
+    - Coarse Tune: -64, ..., +63 (semitone)
+    - Fine Tune: -10, 0, +10 (cent)
 - VCO3
-    - WAVEFORM: Saw, Square, Triangle
-    - COARSE TUNE: -64, ..., +63 (semitone)
-    - FINE TUNE: -10, 0, +10 (cent)
+    - Waveform: Saw, Square, Triangle
+    - Coarse Tune: -64, ..., +63 (semitone)
+    - Fine Tune: -10, 0, +10 (cent)
 - VCF
-    - CUTOFF: Audio Rate / 16, ..., Audio Rate / 8, ..., Audio Rate / 4
-    - RESONANCE: OFF (Q = 0.7071), ON (Q = 1.414)
-    - ENVELOPE: OFF, ON
+    - Cutoff: Audio Rate / 16, ..., Audio Rate / 8, ..., Audio Rate / 4
+    - Resonance: OFF (Q = 0.7071), ON (Q = 1.414)
+    - Envelope: OFF, ON
 - VCA
 - EG
-    - ATTACK: 8, ..., 131, ..., 2089 (ms)
-    - DECAY/RELEASE: 8, ..., 131, ..., 2089 (ms)
-    - SUSTAIN: 0, ..., 64, ... 127
+    - Attack: 8, ..., 131, ..., 2089 (ms)
+    - Decay/Release: 8, ..., 131, ..., 2089 (ms)
+    - Sustain: 0, ..., 64, ... 127
 
 ## Preset Programs
 
     +------+------------------+
     | PC # | Program Name     |
     +------+------------------+
-    |    0 | SUB OSC LEAD     |
-    |    1 | SAW LEAD         |
-    |    2 | SQUARE LEAD      |
-    |    3 | SYNTH PAD        |
-    |    4 | SYNTH BASS       |
+    |    0 | Sub Osc Lead     |
+    |    1 | Saw Lead         |
+    |    2 | Square Lead      |
+    |    3 | Synth Pad        |
+    |    4 | Synth Bass       |
     +------+------------------+
 
 ## MIDI Implementation Chart
@@ -76,20 +76,20 @@
     +-------------------------------+---------------+---------------+-------------------+
     | Pitch Bend                    | x             | x             |                   |
     +-------------------------------+---------------+---------------+-------------------+
-    | Control                    40 | x             | o             | VCO1 WAVEFORM     |
-    | Change                     41 | x             | o             | VCO1 COARSE TUNE  |
-    |                            42 | x             | o             | VCO2 WAVEFORM     |
-    |                            43 | x             | o             | VCO2 COARSE TUNE  |
-    |                            44 | x             | o             | VCO2 FINE TUNE    |
-    |                            45 | x             | o             | VCO3 WAVEFORM     |
-    |                            46 | x             | o             | VCO3 COARSE TUNE  |
-    |                            47 | x             | o             | VCO3 FINE TUNE    |
-    |                            48 | x             | o             | VCF CUTOFF        |
-    |                            49 | x             | o             | VCF RESONANCE     |
-    |                            50 | x             | o             | VCF ENVELOPE      |
-    |                            51 | x             | o             | EG ATTACK         |
-    |                            52 | x             | o             | EG DECAY/RELEASE  |
-    |                            53 | x             | o             | EG SUSTAIN        |
+    | Control                    40 | x             | o             | VCO1 Waveform     |
+    | Change                     41 | x             | o             | VCO1 Coarse Tune  |
+    |                            42 | x             | o             | VCO2 Waveform     |
+    |                            43 | x             | o             | VCO2 Coarse Tune  |
+    |                            44 | x             | o             | VCO2 Fine Tune    |
+    |                            45 | x             | o             | VCO3 Waveform     |
+    |                            46 | x             | o             | VCO3 Coarse Tune  |
+    |                            47 | x             | o             | VCO3 Fine Tune    |
+    |                            48 | x             | o             | VCF Cutoff        |
+    |                            49 | x             | o             | VCF Resonance     |
+    |                            50 | x             | o             | VCF Envelope      |
+    |                            51 | x             | o             | EG Attack         |
+    |                            52 | x             | o             | EG Decay/Release  |
+    |                            53 | x             | o             | EG Sustain        |
     +-------------------------------+---------------+---------------+-------------------+
     | Program                       | x             | o             |                   |
     | Change       : True Number    | ************* | 0-4           |                   |
