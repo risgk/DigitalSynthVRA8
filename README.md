@@ -1,6 +1,6 @@
 # ISGK VRA8 Digital Synthesizer V0.xx
 
-2014-08-23 risgk
+2014-08-25 risgk
 
 ## Concept
 
@@ -11,7 +11,7 @@
 - Arduino Uno, Serial MIDI, PWM Audio, Buzzer
 - Audio Rate: 31250 Hz, Bit Depth: 8 bits
 
-## VRA8.rb Features
+## VRA8.RB Features
 
 - Simulator of VRA8
 - Software Synthesizer for Windows
@@ -20,13 +20,13 @@
 ## Synthesizer Modules
 
 - VCO1
-    - WAVEFORM: SAW, SQUARE, TRIANGLE
+    - WAVEFORM: Saw, Square, Triangle
 - VCO2
-    - WAVEFORM: SAW, SQUARE, TRIANGLE
+    - WAVEFORM: Saw, Square, Triangle
     - COARSE TUNE: -64, ..., +63 (semitone)
     - FINE TUNE: -10, 0, +10 (cent)
 - VCO3
-    - WAVEFORM: SAW, SQUARE, TRIANGLE
+    - WAVEFORM: Saw, Square, Triangle
     - COARSE TUNE: -64, ..., +63 (semitone)
     - FINE TUNE: -10, 0, +10 (cent)
 - VCF
@@ -44,7 +44,7 @@
     +------+------------------+
     | PC # | Program Name     |
     +------+------------------+
-    |    0 | SUB VCO LEAD     |
+    |    0 | SUB OSC LEAD     |
     |    1 | SAW LEAD         |
     |    2 | SQUARE LEAD      |
     |    3 | SYNTH PAD        |
@@ -77,18 +77,19 @@
     | Pitch Bend                    | x             | x             |                   |
     +-------------------------------+---------------+---------------+-------------------+
     | Control                    40 | x             | o             | VCO1 WAVEFORM     |
-    | Change                     41 | x             | o             | VCO2 WAVEFORM     |
-    |                            42 | x             | o             | VCO2 COARSE TUNE  |
-    |                            43 | x             | o             | VCO2 FINE TUNE    |
-    |                            44 | x             | o             | VCO3 WAVEFORM     |
-    |                            45 | x             | o             | VCO3 COARSE TUNE  |
-    |                            46 | x             | o             | VCO3 FINE TUNE    |
-    |                            47 | x             | o             | VCF CUTOFF        |
-    |                            48 | x             | o             | VCF RESONANCE     |
-    |                            49 | x             | o             | VCF ENVELOPE      |
-    |                            50 | x             | o             | EG ATTACK         |
-    |                            51 | x             | o             | EG DECAY/RELEASE  |
-    |                            52 | x             | o             | EG SUSTAIN        |
+    | Change                     41 | x             | o             | VCO1 COARSE TUNE  |
+    |                            42 | x             | o             | VCO2 WAVEFORM     |
+    |                            43 | x             | o             | VCO2 COARSE TUNE  |
+    |                            44 | x             | o             | VCO2 FINE TUNE    |
+    |                            45 | x             | o             | VCO3 WAVEFORM     |
+    |                            46 | x             | o             | VCO3 COARSE TUNE  |
+    |                            47 | x             | o             | VCO3 FINE TUNE    |
+    |                            48 | x             | o             | VCF CUTOFF        |
+    |                            49 | x             | o             | VCF RESONANCE     |
+    |                            50 | x             | o             | VCF ENVELOPE      |
+    |                            51 | x             | o             | EG ATTACK         |
+    |                            52 | x             | o             | EG DECAY/RELEASE  |
+    |                            53 | x             | o             | EG SUSTAIN        |
     +-------------------------------+---------------+---------------+-------------------+
     | Program                       | x             | o             |                   |
     | Change       : True Number    | ************* | 0-4           |                   |

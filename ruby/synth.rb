@@ -113,6 +113,8 @@ class Synth
     case (controller_number)
     when VCO1_WAVEFORM
       set_vco1_waveform(value)
+    when VCO1_COARSE_TUNE
+      set_vco1_coarse_tune(value)
     when VCO2_WAVEFORM
       set_vco2_waveform(value)
     when VCO2_COARSE_TUNE
@@ -145,6 +147,11 @@ class Synth
   def set_vco1_waveform(value)
     sound_off
     $vco_1.set_waveform(value)
+  end
+
+  def set_vco1_coarse_tune(value)
+    sound_off
+    $vco_1.set_coarse_tune(value)
   end
 
   def set_vco2_waveform(value)
@@ -210,21 +217,21 @@ class Synth
 
   def program_change(program_number)
     sound_off
-    i = program_number * 13
+    i = program_number * PROGRAM_SIZE
     $vco_1.set_waveform($program_table[i + 0])
-    $vco_1.set_coarse_tune(64)
+    $vco_1.set_coarse_tune($program_table[i + 1])
     $vco_1.set_fine_tune(64)
-    $vco_2.set_waveform($program_table[i + 1])
-    $vco_2.set_coarse_tune($program_table[i + 2])
-    $vco_2.set_fine_tune($program_table[i + 3])
-    $vco_3.set_waveform($program_table[i + 4])
-    $vco_3.set_coarse_tune($program_table[i + 5])
-    $vco_3.set_fine_tune($program_table[i + 6])
-    $vcf.set_cutoff($program_table[i + 7])
-    $vcf.set_resonance($program_table[i + 8])
-    $vcf.set_envelope($program_table[i + 9])
-    $eg.set_attack($program_table[i + 10])
-    $eg.set_decay_release($program_table[i + 11])
-    $eg.set_sustain($program_table[i + 12])
+    $vco_2.set_waveform($program_table[i + 2])
+    $vco_2.set_coarse_tune($program_table[i + 3])
+    $vco_2.set_fine_tune($program_table[i + 4])
+    $vco_3.set_waveform($program_table[i + 5])
+    $vco_3.set_coarse_tune($program_table[i + 6])
+    $vco_3.set_fine_tune($program_table[i + 7])
+    $vcf.set_cutoff($program_table[i + 8])
+    $vcf.set_resonance($program_table[i + 9])
+    $vcf.set_envelope($program_table[i + 10])
+    $eg.set_attack($program_table[i + 11])
+    $eg.set_decay_release($program_table[i + 12])
+    $eg.set_sustain($program_table[i + 13])
   end
 end
