@@ -12,19 +12,20 @@ class VCO
     @freq = 0
   end
 
-  def sound_off
+  def reset_phase
     @phase = 0
-    @freq = 0
   end
 
   def set_waveform(waveform)
     case (waveform)
-    when SAW
-      @wave_tables = $wave_tables_saw
+    when SAWTOOTH
+      @wave_tables = $wave_tables_sawtooth
     when SQUARE
       @wave_tables = $wave_tables_square
     when TRIANGLE
       @wave_tables = $wave_tables_triangle
+    when SINE
+      @wave_tables = $wave_tables_sine
     end
   end
 

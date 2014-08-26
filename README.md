@@ -1,6 +1,6 @@
 # ISGK VRA8 Digital Synthesizer V0.xx
 
-2014-08-26 risgk
+2014-08-27 risgk
 
 ## Concept
 
@@ -11,7 +11,7 @@
 - Arduino Uno, Serial MIDI, PWM Audio, Buzzer
 - Audio Rate: 31250 Hz, Bit Depth: 8 bits
 
-## VRA8.RB Features
+## VRA8.rb Features
 
 - Simulator of VRA8
 - Software Synthesizer for Windows
@@ -19,24 +19,25 @@
 
 ## Synthesizer Modules
 
-- VCO1
-    - Waveform: Saw, Square, Triangle
-- VCO2
-    - Waveform: Saw, Square, Triangle
-    - Coarse Tune: -64, ..., +63 (semitone)
-    - Fine Tune: -10, 0, +10 (cent)
-- VCO3
-    - Waveform: Saw, Square, Triangle
-    - Coarse Tune: -64, ..., +63 (semitone)
-    - Fine Tune: -10, 0, +10 (cent)
+- VCO 1
+    - Waveform: Sawtooth, Square, Triangle, Sine
+    - Coarse Tune: -64, ..., +63 [semitone]
+- VCO 2
+    - Waveform: Sawtooth, Square, Triangle, Sine
+    - Coarse Tune: -64, ..., +63 [semitone]
+    - Fine Tune: -10, 0, +10 [cent]
+- VCO 3
+    - Waveform: Sawtooth, Square, Triangle, Sine
+    - Coarse Tune: -64, ..., +63 [semitone]
+    - Fine Tune: -10, 0, +10 [cent]
 - VCF
     - Cutoff: Audio Rate / 16, ..., Audio Rate / 8, ..., Audio Rate / 4
-    - Resonance: OFF (Q = 0.7071), ON (Q = 1.414)
+    - Resonance: OFF, ON
     - Envelope: OFF, ON
 - VCA
 - EG
-    - Attack: 8, ..., 131, ..., 2089 (ms)
-    - Decay/Release: 8, ..., 131, ..., 2089 (ms)
+    - Attack: 8, ..., 131, ..., 2089 [ms]
+    - Decay/Release: 8, ..., 131, ..., 2089 [ms]
     - Sustain: 0, ..., 64, ... 127
 
 ## Preset Programs
@@ -76,14 +77,14 @@
     +-------------------------------+---------------+---------------+-------------------+
     | Pitch Bend                    | x             | x             |                   |
     +-------------------------------+---------------+---------------+-------------------+
-    | Control                    40 | x             | o             | VCO1 Waveform     |
-    | Change                     41 | x             | o             | VCO1 Coarse Tune  |
-    |                            42 | x             | o             | VCO2 Waveform     |
-    |                            43 | x             | o             | VCO2 Coarse Tune  |
-    |                            44 | x             | o             | VCO2 Fine Tune    |
-    |                            45 | x             | o             | VCO3 Waveform     |
-    |                            46 | x             | o             | VCO3 Coarse Tune  |
-    |                            47 | x             | o             | VCO3 Fine Tune    |
+    | Control                    40 | x             | o             | VCO 1 Waveform    |
+    | Change                     41 | x             | o             | VCO 1 Coarse Tune |
+    |                            42 | x             | o             | VCO 2 Waveform    |
+    |                            43 | x             | o             | VCO 2 Coarse Tune |
+    |                            44 | x             | o             | VCO 2 Fine Tune   |
+    |                            45 | x             | o             | VCO 3 Waveform    |
+    |                            46 | x             | o             | VCO 3 Coarse Tune |
+    |                            47 | x             | o             | VCO 3 Fine Tune   |
     |                            48 | x             | o             | VCF Cutoff        |
     |                            49 | x             | o             | VCF Resonance     |
     |                            50 | x             | o             | VCF Envelope      |

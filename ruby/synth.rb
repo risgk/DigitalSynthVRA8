@@ -103,30 +103,33 @@ class Synth
   end
 
   def sound_off
-    $vco_1.sound_off
-    $vco_2.sound_off
-    $vco_3.sound_off
     $eg.sound_off
+  end
+
+  def reset_phase
+    $vco_1.reset_phase
+    $vco_2.reset_phase
+    $vco_3.reset_phase
   end
 
   def control_change(controller_number, value)
     case (controller_number)
-    when VCO1_WAVEFORM
-      set_vco1_waveform(value)
-    when VCO1_COARSE_TUNE
-      set_vco1_coarse_tune(value)
-    when VCO2_WAVEFORM
-      set_vco2_waveform(value)
-    when VCO2_COARSE_TUNE
-      set_vco2_coarse_tune(value)
-    when VCO2_FINE_TUNE
-      set_vco2_fine_tune(value)
-    when VCO3_WAVEFORM
-      set_vco3_waveform(value)
-    when VCO3_COARSE_TUNE
-      set_vco3_coarse_tune(value)
-    when VCO3_FINE_TUNE
-      set_vco3_fine_tune(value)
+    when VCO_1_WAVEFORM
+      set_vco_1_waveform(value)
+    when VCO_1_COARSE_TUNE
+      set_vco_1_coarse_tune(value)
+    when VCO_2_WAVEFORM
+      set_vco_2_waveform(value)
+    when VCO_2_COARSE_TUNE
+      set_vco_2_coarse_tune(value)
+    when VCO_2_FINE_TUNE
+      set_vco_2_fine_tune(value)
+    when VCO_3_WAVEFORM
+      set_vco_3_waveform(value)
+    when VCO_3_COARSE_TUNE
+      set_vco_3_coarse_tune(value)
+    when VCO_3_FINE_TUNE
+      set_vco_3_fine_tune(value)
     when VCF_CUTOFF
       set_filter_cutoff(value)
     when VCF_RESONANCE
@@ -144,71 +147,88 @@ class Synth
     end
   end
 
-  def set_vco1_waveform(value)
+  def set_vco_1_waveform(value)
     sound_off
     $vco_1.set_waveform(value)
+    reset_phase
   end
 
-  def set_vco1_coarse_tune(value)
+  def set_vco_1_coarse_tune(value)
     sound_off
     $vco_1.set_coarse_tune(value)
+    reset_phase
   end
 
-  def set_vco2_waveform(value)
+  def set_vco_2_waveform(value)
     sound_off
     $vco_2.set_waveform(value)
+    reset_phase
   end
 
-  def set_vco2_coarse_tune(value)
+  def set_vco_2_coarse_tune(value)
     sound_off
     $vco_2.set_coarse_tune(value)
+    reset_phase
   end
 
-  def set_vco2_fine_tune(value)
+  def set_vco_2_fine_tune(value)
     sound_off
     $vco_2.set_fine_tune(value)
+    reset_phase
   end
 
-  def set_vco3_waveform(value)
+  def set_vco_3_waveform(value)
     sound_off
     $vco_3.set_waveform(value)
+    reset_phase
   end
 
-  def set_vco3_coarse_tune(value)
+  def set_vco_3_coarse_tune(value)
     sound_off
     $vco_3.set_coarse_tune(value)
+    reset_phase
   end
 
-  def set_vco3_fine_tune(value)
+  def set_vco_3_fine_tune(value)
     sound_off
     $vco_3.set_fine_tune(value)
+    reset_phase
   end
 
   def set_filter_cutoff(value)
+    sound_off
     $vcf.set_cutoff(value)
+    reset_phase
   end
 
   def set_filter_resonance(value)
+    sound_off
     $vcf.set_resonance(value)
+    reset_phase
   end
 
   def set_filter_envelope(value)
+    sound_off
     $vcf.set_envelope(value)
+    reset_phase
   end
 
   def set_eg_attack(value)
     sound_off
     $eg.set_attack(value)
+    reset_phase
   end
 
   def set_decay_release(value)
     sound_off
     $eg.set_decay_release(value)
+    reset_phase
   end
 
   def set_eg_sustain(value)
     sound_off
     $eg.set_sustain(value)
+    reset_phase
   end
 
   def all_notes_off(value)
@@ -233,5 +253,6 @@ class Synth
     $eg.set_attack($program_table[i + 11])
     $eg.set_decay_release($program_table[i + 12])
     $eg.set_sustain($program_table[i + 13])
+    reset_phase
   end
 end

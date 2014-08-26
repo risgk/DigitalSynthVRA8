@@ -27,7 +27,10 @@ class VCF
   def clock(a, k)
     cutoff = 0
     if ((@envelope & 0x40) != 0)
-      cutoff = (@cutoff + k) >> 1
+      cutoff = @cutoff + (k >> 1)
+      if (cutoff > 127)
+        cutoff = 127
+      end
     else
       cutoff = @cutoff
     end
