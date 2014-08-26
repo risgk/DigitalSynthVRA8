@@ -16,26 +16,67 @@ $mixer = Mixer.new
 
 class Synth
   def initialize
-    @running_status = ACTIVE_SENSING
-    @midi_in_prev = ACTIVE_SENSING
-    @midi_in_pprev = ACTIVE_SENSING
+    @system_exclusive = false
+    @system_data_remaining = 0
+    @running_status = STATUS_BYTE_INVALID
+    @first_data = DATA_BYTE_INVALID
     @note_number = 60
     program_change(0)
   end
 
   def receive_midi_byte(b)
-    # todo: running status, control change, program change, system messages
-    if (@midi_in_pprev == NOTE_ON && @midi_in_prev <= DATA_BYTE_MAX &&
-        b <= DATA_BYTE_MAX && b >= 0x01)
-      note_on(@midi_in_prev)
-    elsif ((@midi_in_pprev == NOTE_ON && @midi_in_prev <= DATA_BYTE_MAX && b == 0x00) ||
-        (@midi_in_pprev == NOTE_OFF && @midi_in_prev <= DATA_BYTE_MAX && b <= DATA_BYTE_MAX))
-      note_off(@midi_in_prev)
-    elsif (@midi_in_prev == PROGRAM_CHANGE && b <= DATA_BYTE_MAX)
-      program_change(b)
+    if (real_time_message?(b))
+      # do nothing
+    elsif (system_message?(b))
+      case (b)
+      when EOX
+        @system_exclusive = false
+        @system_data_remaining = 0
+      when SONG_SELECT, TIME_CODE
+        @system_data_remaining = 1
+      when SONG_POSITION
+        @system_data_remaining = 2
+      when SYSTEM_EXCLUSIVE
+        @system_exclusive = true
+      end
+    elsif (status_byte?(b))
+      @running_status = b
+      @first_data = DATA_BYTE_INVALID
+    else
+      if (@system_exclusive)
+        # do nothing
+      elsif (@system_data_remaining > 0)
+        @system_data_remaining -= 1
+      elsif (@running_status == PROGRAM_CHANGE)
+        program_change(b)
+      elsif (@running_status == CONTROL_CHANGE)
+        if (!data_byte?(@first_data))
+          @first_data = b
+        else
+          control_change(@first_data, b)
+          @first_data = DATA_BYTE_INVALID
+        end
+      elsif (@running_status == NOTE_OFF)
+        if (!data_byte?(@first_data))
+          @first_data = b
+        else
+          note_off(@first_data)
+          @first_data = DATA_BYTE_INVALID
+        end
+      elsif (@running_status == NOTE_ON)
+        if (!data_byte?(@first_data))
+          @first_data = b
+        else
+          if (b == 0x00)
+            note_off(@first_data)
+            @first_data = DATA_BYTE_INVALID
+          else
+            note_on(@first_data)
+            @first_data = DATA_BYTE_INVALID
+          end
+        end
+      end
     end
-    @midi_in_pprev = @midi_in_prev
-    @midi_in_prev = b
   end
 
   def clock
@@ -47,11 +88,15 @@ class Synth
 
   private
   def real_time_message?(b)
-    b >= REAL_TIME_MIN
+    b >= REAL_TIME_MESSAGE_MIN
   end
 
   def system_message?(b)
-    b >= SYSTEM_MIN
+    b >= SYSTEM_MESSAGE_MIN
+  end
+
+  def status_byte?(b)
+    b >= STATUS_BYTE_MIN
   end
 
   def data_byte?(b)
