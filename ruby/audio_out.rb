@@ -15,7 +15,7 @@ class AudioOut
 
     def open
       @hwaveout = HWAVEOUT.new
-      @waveformatex = WAVEFORMATEX.new(AUDIO_RATE, 8, 1)
+      @waveformatex = WAVEFORMATEX.new(SAMPLING_RATE, 8, 1)
       waveOutOpen(@hwaveout.pointer, WAVE_MAPPER, @waveformatex.pointer, 0, 0, 0)
 
       @buffer = []

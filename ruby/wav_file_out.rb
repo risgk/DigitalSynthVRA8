@@ -11,11 +11,11 @@ class WavFileOut
     @file.write("fmt ")
     @file.write([16].pack("V"))
     @file.write([1, 1].pack("v*"))
-    @file.write([AUDIO_RATE, AUDIO_RATE].pack("V*"))
+    @file.write([SAMPLING_RATE, SAMPLING_RATE].pack("V*"))
     @file.write([1, 8].pack("v*"))
     @file.write("data")
     @file.write([0].pack("V"))
-    @max_size = AUDIO_RATE * SEC
+    @max_size = SAMPLING_RATE * SEC
     @data_size = 0
     @closed = false
   end

@@ -7,7 +7,7 @@ $c4_to_b4 = []
   note_number = i + 60
   cent = (note_number * 100.0) - 6900.0
   hz = 440.0 * (2.0 ** (cent / 1200.0))
-  freq = ((hz * 256.0 * 256.0 / AUDIO_RATE) / 8.0).round * 8
+  freq = ((hz * 256.0 * 256.0 / SAMPLING_RATE) / 8.0).round * 8
   $c4_to_b4[i] = freq
 end
 

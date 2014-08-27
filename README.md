@@ -1,6 +1,6 @@
 # ISGK VRA8 Digital Synthesizer V0.xx
 
-2014-08-27 risgk
+2014-08-28 risgk
 
 ## Concept
 
@@ -9,7 +9,7 @@
 ## VRA8 Features
 
 - Arduino Uno, Serial MIDI, PWM Audio, Buzzer
-- Audio Rate: 31250 Hz, Bit Depth: 8 bits
+- Sampling Rate: 31250 Hz, Bit Depth: 8 bits
 
 ## VRA8.rb Features
 
@@ -31,14 +31,14 @@
     - Coarse Tune: -64, ..., +63 [semitone]
     - Fine Tune: -10, 0, +10 [cent]
 - VCF
-    - Cutoff: Audio Rate / 16, ..., Audio Rate / 8, ..., Audio Rate / 4
+    - Cutoff: SR/16, ..., SR/8, ..., SR/4
     - Resonance: OFF, ON
-    - Envelope: OFF, ON
+    - Envelope: 0, ..., 127
 - VCA
 - EG
     - Attack: 8, ..., 131, ..., 2089 [ms]
     - Decay/Release: 8, ..., 131, ..., 2089 [ms]
-    - Sustain: 0, ..., 64, ... 127
+    - Sustain: 0, ..., 127
 
 ## Preset Programs
 

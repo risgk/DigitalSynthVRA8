@@ -25,14 +25,9 @@ class VCF
   end
 
   def clock(a, k)
-    cutoff = 0
-    if ((@envelope & 0x40) != 0)
-      cutoff = @cutoff + (k >> 1)
-      if (cutoff > 127)
-        cutoff = 127
-      end
-    else
-      cutoff = @cutoff
+    cutoff = @cutoff + high_byte(@envelope * (k << 1))
+    if (cutoff > 127)
+      cutoff = 127
     end
 
     if ((@resonance & 0x40) != 0)
