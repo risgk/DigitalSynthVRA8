@@ -1,3 +1,5 @@
+#pragma once
+
 const bool OPTION_BLACK_KEY_PROGRAM_CHANGE = true;
 
 const uint8_t  MIDI_CH = 0;

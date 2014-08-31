@@ -2,7 +2,9 @@ require './common'
 
 $file = File::open("EnvTable.h", "wb")
 
-$file.printf("const uint8_t g_EnvTableSpeedFromTime[] PROGMEM = {\n  ")
+$file.printf("#pragma once\n\n")
+
+$file.printf("const uint8_t g_EnvTable_SpeedFromTime[] PROGMEM = {\n  ")
 (0..127).each do |time|
   speed = (256.0 * (0.5 ** (time / 16.0))).floor.to_i
   speed = 255 if speed == 256
@@ -20,7 +22,7 @@ $file.printf("};\n\n")
 
 $env_table_attack = []
 
-$file.printf("const uint8_t g_EnvTableAttack[] PROGMEM = {\n  ")
+$file.printf("const uint8_t g_EnvTable_Attack[] PROGMEM = {\n  ")
 (0..255).each do |i|
   level = (4.0 / 3.0 * (127 - (127 * (0.5 ** ((i + 1) / 128.0))))).floor.to_i
   $env_table_attack[i] = level
@@ -36,7 +38,7 @@ $file.printf("const uint8_t g_EnvTableAttack[] PROGMEM = {\n  ")
 end
 $file.printf("};\n\n")
 
-$file.printf("const uint8_t g_EnvTableAttackInverse[] PROGMEM = {\n  ")
+$file.printf("const uint8_t g_EnvTable_AttackInverse[] PROGMEM = {\n  ")
 (0..127).each do |level|
   attack_count = 255
   (0..255).each do |i|
@@ -59,7 +61,7 @@ $file.printf("};\n\n")
 
 $env_table_decay_plus_release = []
 
-$file.printf("const uint8_t g_EnvTableDecayPlusRelease[] PROGMEM = {\n  ")
+$file.printf("const uint8_t g_EnvTable_DecayPlusRelease[] PROGMEM = {\n  ")
 (0..255).each do |i|
   if i == 255
     level = 0
@@ -79,7 +81,7 @@ $file.printf("const uint8_t g_EnvTableDecayPlusRelease[] PROGMEM = {\n  ")
 end
 $file.printf("};\n\n")
 
-$file.printf("const uint8_t g_EnvTableDecayPlusReleaseInverse[] PROGMEM = {\n  ")
+$file.printf("const uint8_t g_EnvTable_DecayPlusReleaseInverse[] PROGMEM = {\n  ")
 (0..127).each do |level|
   decay_count = 255
   (0..255).each do |i|

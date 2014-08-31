@@ -2,6 +2,8 @@ require './common'
 
 $file = File::open("WaveTable.h", "wb")
 
+$file.printf("#pragma once\n\n")
+
 def generate_wave_table(max, name)
   $file.printf("const uint8_t g_WaveTable_%s_M%d[] PROGMEM = {\n  ", name, max)
   (0..255).each do |t|

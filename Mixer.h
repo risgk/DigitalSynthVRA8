@@ -1,4 +1,8 @@
+#pragma once
+
 // TODO
+
+#if 0
 
 require './common'
 
@@ -7,3 +11,5 @@ class Mixer
     (a + b + c) >> 2
   end
 end
+
+#endif

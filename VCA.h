@@ -1,9 +1,14 @@
+#pragma once
+
 // TODO
 
-require './common'
+#include "Common.h"
 
 class VCA
-  def clock(a, k)
-    high_byte(a * (k << 1))
-  end
-end
+{
+public:
+        inline static int8_t clock(int8_t a, uint8_t k)
+        {
+                return HighByte(a * (k << 1));
+        }
+};

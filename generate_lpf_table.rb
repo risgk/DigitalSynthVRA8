@@ -4,6 +4,8 @@ require './common'
 
 $file = File::open("LPFTable.h", "wb")
 
+$file.printf("#pragma once\n\n")
+
 def generate_lpf_table(name, q)
   $file.printf("const uint8_t g_LPFTable_%s[] PROGMEM = {\n  ", name)
   (0..127).each do |i|

@@ -1,4 +1,6 @@
-const uint8_t g_EnvTableSpeedFromTime[] PROGMEM = {
+#pragma once
+
+const uint8_t g_EnvTable_SpeedFromTime[] PROGMEM = {
   255, 245, 234, 224, 215, 206, 197, 189, 181, 173, 165, 158, 152, 145, 139, 133,
   128, 122, 117, 112, 107, 103,  98,  94,  90,  86,  82,  79,  76,  72,  69,  66,
    64,  61,  58,  56,  53,  51,  49,  47,  45,  43,  41,  39,  38,  36,  34,  33,
@@ -9,7 +11,7 @@ const uint8_t g_EnvTableSpeedFromTime[] PROGMEM = {
     2,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,
 };
 
-const uint8_t g_EnvTableAttack[] PROGMEM = {
+const uint8_t g_EnvTable_Attack[] PROGMEM = {
     0,   1,   2,   3,   4,   5,   6,   7,   8,   8,   9,  10,  11,  12,  13,  14,
    14,  15,  16,  17,  18,  19,  19,  20,  21,  22,  23,  23,  24,  25,  26,  26,
    27,  28,  29,  29,  30,  31,  32,  32,  33,  34,  35,  35,  36,  37,  38,  38,
@@ -28,7 +30,7 @@ const uint8_t g_EnvTableAttack[] PROGMEM = {
   123, 123, 123, 124, 124, 124, 124, 125, 125, 125, 125, 126, 126, 126, 126, 127,
 };
 
-const uint8_t g_EnvTableAttackInverse[] PROGMEM = {
+const uint8_t g_EnvTable_AttackInverse[] PROGMEM = {
     0,   1,   2,   3,   4,   5,   6,   7,   8,  10,  11,  12,  13,  14,  15,  17,
    18,  19,  20,  21,  23,  24,  25,  26,  28,  29,  30,  32,  33,  34,  36,  37,
    38,  40,  41,  42,  44,  45,  46,  48,  49,  51,  52,  54,  55,  57,  58,  60,
@@ -39,7 +41,7 @@ const uint8_t g_EnvTableAttackInverse[] PROGMEM = {
   199, 203, 206, 209, 213, 216, 220, 224, 227, 231, 235, 239, 243, 247, 251, 255,
 };
 
-const uint8_t g_EnvTableDecayPlusRelease[] PROGMEM = {
+const uint8_t g_EnvTable_DecayPlusRelease[] PROGMEM = {
   127, 124, 122, 120, 118, 116, 114, 112, 110, 108, 106, 104, 103, 101,  99,  97,
    96,  94,  92,  91,  89,  88,  86,  85,  83,  82,  80,  79,  78,  76,  75,  74,
    72,  71,  70,  69,  68,  66,  65,  64,  63,  62,  61,  60,  59,  58,  57,  56,
@@ -58,7 +60,7 @@ const uint8_t g_EnvTableDecayPlusRelease[] PROGMEM = {
     1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   0,
 };
 
-const uint8_t g_EnvTableDecayPlusReleaseInverse[] PROGMEM = {
+const uint8_t g_EnvTable_DecayPlusReleaseInverse[] PROGMEM = {
   255, 240, 217, 200, 187, 177, 168, 160, 153, 147, 142, 137, 132, 128, 124, 120,
   117, 113, 110, 107, 104, 102,  99,  97,  94,  92,  90,  88,  86,  84,  82,  80,
    78,  77,  75,  73,  72,  70,  69,  67,  66,  64,  63,  62,  60,  59,  58,  57,

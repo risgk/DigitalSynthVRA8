@@ -1,7 +1,11 @@
+#pragma once
+
 // TODO
 
-require './common'
-require './env_table'
+#include "Common.h"
+#include "EnvTable.h"
+
+#if 0
 
 class EG
   STATE_ATTACK = 0
@@ -91,3 +95,5 @@ class EG
     return @level
   end
 end
+
+#endif

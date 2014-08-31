@@ -1,3 +1,5 @@
+#pragma once
+
 const uint16_t g_FreqTable_Minus10Cent[] PROGMEM = {
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,

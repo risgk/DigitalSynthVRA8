@@ -2,6 +2,8 @@ require './common'
 
 $file = File::open("FreqTable.h", "wb")
 
+$file.printf("#pragma once\n\n")
+
 $c4_to_b4 = []
 (0..11).each do |i|
   note_number = i + 60

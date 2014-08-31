@@ -1,20 +1,35 @@
+#pragma once
+
 // TODO
 
-require './common'
-require './program_table'
-require './vco'
-require './vcf'
-require './vca'
-require './eg'
-require './mixer'
+#include "Common.h"
+#include "ProgramTable.h"
+#include "VCO.h"
+#include "VCF.h"
+#include "VCA.h"
+#include "EG.h"
+#include "Mixer.h"
 
-$vco_1 = VCO.new
-$vco_2 = VCO.new
-$vco_3 = VCO.new
-$vcf = VCF.new
-$vca = VCA.new
-$eg = EG.new
-$mixer = Mixer.new
+class Synth
+{
+public:
+        inline static void initialize()
+        {
+                // TODO
+        }
+
+        inline static void receiveMIDIByte(uint8_t b)
+        {
+                // TODO
+        }
+
+        inline static uint8_t clock()
+        {
+                // TODO
+        }
+};
+
+#if 0
 
 class Synth
   def initialize
@@ -303,3 +318,5 @@ class Synth
     reset_phase
   end
 end
+
+#endif

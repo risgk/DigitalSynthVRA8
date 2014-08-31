@@ -1,7 +1,11 @@
+#pragma once
+
 // TODO
 
-require './common'
-require './lpf_table'
+#include "Common.h"
+#include "LPFTable.h"
+
+#if 0
 
 class VCF
   def initialize
@@ -57,3 +61,5 @@ class VCF
     return y0
   end
 end
+
+#endif

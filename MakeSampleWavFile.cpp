@@ -1,3 +1,5 @@
+#define PROGMEM
+
 typedef signed   char  int8_t;
 typedef unsigned char  uint8_t;
 typedef signed   short int16_t;
@@ -23,31 +25,35 @@ inline uint8_t LowByte(uint16_t ui16)
         return ui16 & 0xFF;
 }
 
-#define PROGMEM
-
-#include "stdio.h"
+#include <stdio.h>
 #include "Common.h"
+#include "Synth.h"
 #include "WavFileOut.h"
 
 int main()
 {
         // setup
-        // TODO
+        Synth::initialize();
+        FILE* binFile = ::fopen("./sample_midi_stream.bin", "rb");
+        WavFileOut::open("./a.wav");
 
         // loop
-        // TODO
-        File::open(ARGV[0], "rb") do |bin_file|
-                wav_file_out = WavFileOut.new("./a.wav")
-                while(c = bin_file.read(1)) do
-                        b = c.ord
-                        $synth.receive_midi_byte(b)
-                        10.times do
-                                level = $synth.clock
-                                wav_file_out.write(level)
-                        end
-                end
-                wav_file_out.close
-        end
+        int c;
+        while ((c = ::fgetc(binFile)) != EOF) {
+                uint8_t b = static_cast<uint8_t>(c);
+#if 1
+                printf("%02X\n",b);
+#endif
+                Synth::receiveMIDIByte(b);
+                for (uint16_t i = 0; i < 10; i++) {
+                        uint8_t level = Synth::clock();
+                        WavFileOut::write(level);
+                }
+        }
+
+        // teardown
+        WavFileOut::close();
+        ::fclose(binFile);
 
         return 0;
 }

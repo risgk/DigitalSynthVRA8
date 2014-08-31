@@ -1,8 +1,12 @@
+#pragma once
+
 // TODO
 
-require './common'
-require './freq_table'
-require './wave_table'
+#include "Common.h"
+#include "FreqTable.h"
+#include "WaveTable.h"
+
+#if 0
 
 class VCO
   def initialize
@@ -89,3 +93,5 @@ class VCO
     end
   end
 end
+
+#endif
