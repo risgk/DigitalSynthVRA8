@@ -183,8 +183,8 @@ class Synth
       set_filter_envelope(value)
     when EG_ATTACK
       set_eg_attack(value)
-    when EG_DECAY_RELEASE
-      set_decay_release(value)
+    when EG_DECAY_PLUS_RELEASE
+      set_decay_plus_release(value)
     when EG_SUSTAIN
       set_eg_sustain(value)
     when ALL_NOTES_OFF
@@ -264,9 +264,9 @@ class Synth
     reset_phase
   end
 
-  def set_decay_release(value)
+  def set_decay_plus_release(value)
     sound_off
-    $eg.set_decay_release(value)
+    $eg.set_decay_plus_release(value)
     reset_phase
   end
 
@@ -296,7 +296,7 @@ class Synth
     $vcf.set_resonance($program_table[i + 9])
     $vcf.set_envelope($program_table[i + 10])
     $eg.set_attack($program_table[i + 11])
-    $eg.set_decay_release($program_table[i + 12])
+    $eg.set_decay_plus_release($program_table[i + 12])
     $eg.set_sustain($program_table[i + 13])
     reset_phase
   end
