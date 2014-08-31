@@ -1,6 +1,6 @@
-# ISGK VRA8 Digital Synthesizer V0.xx
+# Digital Synthesizer VRA8 V0.xx
 
-2014-08-31 risgk
+2014-08-31 ISGK
 
 ## Concept
 
