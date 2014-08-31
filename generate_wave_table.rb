@@ -3,7 +3,7 @@ require './common'
 $file = File::open("WaveTable.h", "wb")
 
 def generate_wave_table(max, name)
-  $file.printf("const int8_t g_WaveTable_%s_M%d[] PROGMEM = {\n  ", name, max)
+  $file.printf("const uint8_t g_WaveTable_%s_M%d[] PROGMEM = {\n  ", name, max)
   (0..255).each do |t|
     level = 0
     (1..max).each do |k|
@@ -65,7 +65,7 @@ FREQ_MAX = 4409  # refs "FreqTable.h"
 
 def generate_wave_tables(name, sine = false)
   wave_table_sels = (0..(FREQ_MAX / 256))
-  $file.printf("const int8_t* g_WaveTables_%s[] PROGMEM = {\n", name)
+  $file.printf("PROGMEM const uint8_t* g_WaveTables_%s[] = {\n", name)
   wave_table_sels.each do |i|
     if sine 
       max = 1
