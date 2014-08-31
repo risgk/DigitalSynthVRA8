@@ -2,10 +2,10 @@
 
 require './common'
 
-$file = File::open("lpf_table.rb", "wb")
+$file = File::open("LPFTable.h", "wb")
 
 def generate_lpf_table(name, q)
-  $file.printf("$lpf_table_%s = [\n  ", name)
+  $file.printf("const uint8_t g_LPFTable_%s[] PROGMEM = {\n  ", name)
   (0..127).each do |i|
     f0_over_fs = (2.0 ** (i / (127.0 / 2.0))) / (2.0 ** 4.0)
     w0 = 2.0 * Math::PI * f0_over_fs
@@ -31,10 +31,10 @@ def generate_lpf_table(name, q)
       $file.printf(" ")
     end
   end
-  $file.printf("]\n\n")
+  $file.printf("};\n\n")
 end
 
-generate_lpf_table("q_1_over_sqrt_2", 1.0 / Math::sqrt(2.0))
-generate_lpf_table("q_sqrt_2", Math::sqrt(2.0))
+generate_lpf_table("Q1OverSqrt2", 1.0 / Math::sqrt(2.0))
+generate_lpf_table("QSqrt2", Math::sqrt(2.0))
 
 $file.close

@@ -1,6 +1,6 @@
 require './common'
 
-$file = File::open("freq_table.rb", "wb")
+$file = File::open("FreqTable.h", "wb")
 
 $c4_to_b4 = []
 (0..11).each do |i|
@@ -12,7 +12,7 @@ $c4_to_b4 = []
 end
 
 def generate_freq_table(fine_tune, name)
-  $file.printf("$freq_table_%s = [\n  ", name)
+  $file.printf("const uint16_t g_FreqTable_%s[] PROGMEM = {\n  ", name)
   (0..127).each do |note_number|
     if note_number < NOTE_NUMBER_MIN || note_number > NOTE_NUMBER_MAX
       freq = 0
@@ -32,11 +32,11 @@ def generate_freq_table(fine_tune, name)
       $file.printf(" ")
     end
   end
-  $file.printf("]\n\n")
+  $file.printf("};\n\n")
 end
 
-generate_freq_table(-10.0, "minus_10_cent")
-generate_freq_table(0.0, "0_cent")
-generate_freq_table(10.0, "plus_10_cent")
+generate_freq_table(-10.0, "Minus10Cent")
+generate_freq_table(0.0, "0Cent")
+generate_freq_table(10.0, "Plus10Cent")
 
 $file.close
