@@ -1,0 +1,2 @@
+gcc MakeSampleWavFile.cpp
+a
