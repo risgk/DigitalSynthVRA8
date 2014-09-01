@@ -2,7 +2,7 @@
 
 require './common'
 
-$file = File::open("LPFTable.h", "wb")
+$file = File::open("LPFTable.h", "w")
 
 $file.printf("#pragma once\n\n")
 

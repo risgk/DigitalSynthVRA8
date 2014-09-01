@@ -1,6 +1,6 @@
 require './common'
 
-$file = File::open("freq_table.rb", "wb")
+$file = File::open("freq_table.rb", "w")
 
 $c4_to_b4 = []
 (0..11).each do |i|

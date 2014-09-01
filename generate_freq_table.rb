@@ -1,6 +1,6 @@
 require './common'
 
-$file = File::open("FreqTable.h", "wb")
+$file = File::open("FreqTable.h", "w")
 
 $file.printf("#pragma once\n\n")
 

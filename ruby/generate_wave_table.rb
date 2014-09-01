@@ -1,6 +1,6 @@
 require './common'
 
-$file = File::open("wave_table.rb", "wb")
+$file = File::open("wave_table.rb", "w")
 
 def generate_wave_table(max, name)
   $file.printf("$wave_table_%s_m%d = [\n  ", name, max)

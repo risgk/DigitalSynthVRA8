@@ -1,6 +1,6 @@
 require './common'
 
-$file = File::open("WaveTable.h", "wb")
+$file = File::open("WaveTable.h", "w")
 
 $file.printf("#pragma once\n\n")
 

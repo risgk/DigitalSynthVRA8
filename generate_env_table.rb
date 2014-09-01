@@ -1,6 +1,6 @@
 require './common'
 
-$file = File::open("EnvTable.h", "wb")
+$file = File::open("EnvTable.h", "w")
 
 $file.printf("#pragma once\n\n")
 
