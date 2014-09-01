@@ -7,22 +7,22 @@ typedef unsigned short uint16_t;
 
 inline uint8_t pgm_read_byte(const uint8_t* p)
 {
-        return *p;
+  return *p;
 }
 
 inline uint16_t pgm_read_word(const uint16_t* p)
 {
-        return *p;
+  return *p;
 }
 
 inline uint8_t HighByte(uint16_t ui16)
 {
-        return ui16 >> 8;
+  return ui16 >> 8;
 }
 
 inline uint8_t LowByte(uint16_t ui16)
 {
-        return ui16 & 0xFF;
+  return ui16 & 0xFF;
 }
 
 #include <stdio.h>
@@ -32,28 +32,28 @@ inline uint8_t LowByte(uint16_t ui16)
 
 int main()
 {
-        // setup
-        Synth::initialize();
-        FILE* binFile = ::fopen("./sample_midi_stream.bin", "rb");
-        WavFileOut::open("./a.wav");
+  // setup
+  Synth::initialize();
+  FILE* binFile = ::fopen("./sample_midi_stream.bin", "rb");
+  WavFileOut::open("./a.wav");
 
-        // loop
-        int c;
-        while ((c = ::fgetc(binFile)) != EOF) {
-                uint8_t b = static_cast<uint8_t>(c);
+  // loop
+  int c;
+  while ((c = ::fgetc(binFile)) != EOF) {
+    uint8_t b = static_cast<uint8_t>(c);
 #if 1
-                printf("%02X\n",b);
+    printf("%02X\n",b);
 #endif
-                Synth::receiveMIDIByte(b);
-                for (uint16_t i = 0; i < 10; i++) {
-                        uint8_t level = Synth::clock();
-                        WavFileOut::write(level);
-                }
-        }
+    Synth::receiveMIDIByte(b);
+    for (uint16_t i = 0; i < 10; i++) {
+      uint8_t level = Synth::clock();
+      WavFileOut::write(level);
+    }
+  }
 
-        // teardown
-        WavFileOut::close();
-        ::fclose(binFile);
+  // teardown
+  WavFileOut::close();
+  ::fclose(binFile);
 
-        return 0;
+  return 0;
 }

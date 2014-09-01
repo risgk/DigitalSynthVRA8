@@ -13,20 +13,20 @@
 class Synth
 {
 public:
-        inline static void initialize()
-        {
-                // TODO
-        }
+  inline static void initialize()
+  {
+    // TODO
+  }
 
-        inline static void receiveMIDIByte(uint8_t b)
-        {
-                // TODO
-        }
+  inline static void receiveMIDIByte(uint8_t b)
+  {
+    // TODO
+  }
 
-        inline static uint8_t clock()
-        {
-                // TODO
-        }
+  inline static uint8_t clock()
+  {
+    // TODO
+  }
 };
 
 #if 0

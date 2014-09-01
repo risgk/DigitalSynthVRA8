@@ -7,25 +7,25 @@
 class WavFileOut
 {
 public:
-        inline static void initialize()
-        {
-                // TODO
-        }
+  inline static void initialize()
+  {
+    // TODO
+  }
 
-        inline static void open(const char* path)
-        {
-                // TODO
-        }
+  inline static void open(const char* path)
+  {
+    // TODO
+  }
 
-        inline static void write(uint8_t level)
-        {
-                // TODO
-        }
+  inline static void write(uint8_t level)
+  {
+    // TODO
+  }
 
-        inline static void close()
-        {
-                // TODO
-        }
+  inline static void close()
+  {
+    // TODO
+  }
 };
 
 #if 0
