@@ -16,6 +16,10 @@ public:
   inline static void initialize()
   {
     // TODO
+    VCO<1>::setWaveform(SAWTOOTH);
+    VCO<2>::setWaveform(SQUARE);
+    VCO<3>::setWaveform(TRIANGLE);
+    VCO<3>::setWaveform(SINE);
   }
 
   inline static void receiveMIDIByte(uint8_t b)

@@ -4,6 +4,7 @@
 #include "AudioOut.h"
 
 void setup() {
+  Synth::initialize();
   Serial.begin(31250);
   AudioOut::open();
 }

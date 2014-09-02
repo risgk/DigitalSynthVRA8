@@ -6,92 +6,107 @@
 #include "FreqTable.h"
 #include "WaveTable.h"
 
-#if 0
-
+template <uint8_t T>
 class VCO
-  def initialize
-    @wave_tables = $wave_tables_saw
-    @coarse_tune = 64
-    @fine_tune = 64
-    @note_number = 60
-    @phase = 0
-    @freq = 0
-  end
+{
+  static const uint8_t** m_waveTables;
+  static uint8_t         m_courseTune;
+  static uint8_t         m_fineTune;
+  static uint8_t         m_noteNumber;
+  static uint16_t        m_phase;
+  static uint16_t        m_freq;
 
-  def reset_phase
-    @phase = 0
-  end
+public:
+  inline static void resetPhase()
+  {
+    m_phase = 0;
+  }
 
-  def set_waveform(waveform)
-    case (waveform)
-    when SAWTOOTH
-      @wave_tables = $wave_tables_sawtooth
-    when SQUARE
-      @wave_tables = $wave_tables_square
-    when TRIANGLE
-      @wave_tables = $wave_tables_triangle
-    when SINE
-      @wave_tables = $wave_tables_sine
-    end
-  end
+  inline static void setWaveform(uint8_t waveform)
+  {
+    switch (waveform) {
+    case SAWTOOTH:
+      m_waveTables = g_WaveTables_Sawtooth;
+      break;
+    case SQUARE:
+      m_waveTables = g_WaveTables_Square;
+      break;
+    case TRIANGLE:
+      m_waveTables = g_WaveTables_Triangle;
+      break;
+    case SINE:
+      m_waveTables = g_WaveTables_Sine;
+      break;
+    }
+  }
 
-  def set_coarse_tune(coarse_tune)
-    @coarse_tune = coarse_tune
-    update_freq
-  end
+  inline static void setCoarseTune(uint8_t coarseTune)
+  {
+    m_courseTune = coarseTune;
+    updateFreq();
+  }
 
-  def coarse_tune
-    @coarse_tune
-  end
+  inline static void coarseTune()
+  {
+    m_courseTune;
+  }
 
-  def set_fine_tune(fine_tune)
-    @fine_tune = fine_tune
-    update_freq
-  end
+  inline static void setFineTune(uint8_t fineTune)
+  {
+    m_fineTune = fineTune;
+    updateFreq();
+  }
 
-  def note_on(note_number)
-    @note_number = note_number
-    update_freq
-  end
+  inline static void noteOn(uint8_t noteNumber)
+  {
+    m_noteNumber = noteNumber;
+    updateFreq();
+  }
 
-  def clock
-    @phase += @freq
-    @phase &= 0xFFFF
+  inline static uint8_t clock()
+  {
+    m_phase += m_freq;
 
-    wave_table = @wave_tables[high_byte(@freq)]
-    curr_index = high_byte(@phase)
-    next_index = curr_index + 0x01
-    next_index &= 0xFF
-    curr_data = wave_table[curr_index]
-    next_data = wave_table[next_index]
+    PROGMEM const uint8_t* waveTable = m_waveTables[highByte(m_freq)];
+    uint8_t currIndex = highByte(m_phase);
+    uint8_t nextIndex = currIndex + 0x01;
+    int8_t currData = pgm_read_byte(waveTable + currIndex);
+    int8_t nextData = pgm_read_byte(waveTable + nextIndex);
 
-    next_weight = low_byte(@phase)
-    if (next_weight == 0)
-      level = curr_data
-    else
-      curr_weight = 0x100 - next_weight
-      level = high_byte((curr_data * curr_weight) + (next_data * next_weight))
-    end
+    int8_t level;
+    uint8_t nextWeight = lowByte(m_phase);
+    if (nextWeight == 0) {
+      level = currData;
+    } else {
+      uint8_t currWeight = 0 - nextWeight;
+      level = highByte((currData * currWeight) + (nextData * nextWeight));
+    }
 
-    return level
-  end
+    return level;
+  }
 
-  private
-  def update_freq
-    pitch = @note_number + @coarse_tune
-    if (pitch < (NOTE_NUMBER_MIN + 64) || pitch > (NOTE_NUMBER_MAX + 64))
-      @freq = 0
-    else
-      note_number = pitch - 64
-      if (@fine_tune <= 63)
-        @freq = $freq_table_minus_10_cent[note_number]
-      elsif (@fine_tune == 64)
-        @freq = $freq_table_0_cent[note_number]
-      else
-        @freq = $freq_table_plus_10_cent[note_number]
-      end
-    end
-  end
-end
+private:
+  inline static void updateFreq()
+  {
+    uint8_t pitch = m_noteNumber + m_courseTune;
+    if (pitch < (NOTE_NUMBER_MIN + 64) || pitch > (NOTE_NUMBER_MAX + 64)) {
+      m_freq = 0;
+    } else {
+      uint8_t noteNumber = pitch - 64;
+      if (m_fineTune <= 63) {
+        m_freq = g_FreqTable_Minus10Cent[noteNumber];
+      } else if (m_fineTune == 64) {
+        m_freq = g_FreqTable_0Cent[noteNumber];
+      } else {
+        m_freq = g_FreqTable_Plus10Cent[noteNumber];
+      }
+    }
+  }
+};
 
-#endif
+template <uint8_t T> const uint8_t** VCO<T>::m_waveTables = g_WaveTables_Sawtooth;
+template <uint8_t T> uint8_t         VCO<T>::m_courseTune = 64;
+template <uint8_t T> uint8_t         VCO<T>::m_fineTune   = 64;
+template <uint8_t T> uint8_t         VCO<T>::m_noteNumber = 60;
+template <uint8_t T> uint16_t        VCO<T>::m_phase      = 0;
+template <uint8_t T> uint16_t        VCO<T>::m_freq       = 0;

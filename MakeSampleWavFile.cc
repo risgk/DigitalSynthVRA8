@@ -1,5 +1,6 @@
 #define PROGMEM
 
+typedef signed   char  boolean;
 typedef signed   char  int8_t;
 typedef unsigned char  uint8_t;
 typedef signed   short int16_t;
@@ -20,7 +21,7 @@ inline uint8_t highByte(uint16_t ui16)
   return ui16 >> 8;
 }
 
-inline uint8_t LowByte(uint16_t ui16)
+inline uint8_t lowByte(uint16_t ui16)
 {
   return ui16 & 0xFF;
 }

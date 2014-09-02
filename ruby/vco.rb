@@ -4,7 +4,7 @@ require './wave_table'
 
 class VCO
   def initialize
-    @wave_tables = $wave_tables_saw
+    @wave_tables = $wave_tables_sawtooth
     @coarse_tune = 64
     @fine_tune = 64
     @note_number = 60
