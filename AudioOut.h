@@ -4,6 +4,7 @@
 
 class AudioOut
 {
+public:
   inline static void open()
   {
     // TODO
@@ -13,4 +14,4 @@ class AudioOut
   {
     // TODO
   }
-}
+};

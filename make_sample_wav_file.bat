@@ -1,2 +1,2 @@
-gcc MakeSampleWavFile.cpp
+gcc MakeSampleWavFile.cc
 a

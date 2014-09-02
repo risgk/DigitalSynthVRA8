@@ -1,6 +1,7 @@
-include "Common.h"
-include "Synth.h"
-include "AudioOut.h"
+#include "Arduino.h"
+#include "Common.h"
+#include "Synth.h"
+#include "AudioOut.h"
 
 void setup() {
   Serial.begin(31250);

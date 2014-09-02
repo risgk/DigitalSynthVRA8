@@ -15,7 +15,7 @@ inline uint16_t pgm_read_word(const uint16_t* p)
   return *p;
 }
 
-inline uint8_t HighByte(uint16_t ui16)
+inline uint8_t highByte(uint16_t ui16)
 {
   return ui16 >> 8;
 }
