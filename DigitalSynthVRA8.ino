@@ -14,6 +14,6 @@ void loop() {
     uint8_t b = Serial.read();
     Synth::receiveMIDIByte(b);
   }
-  uint8_t level = Synth::clock();
+  int8_t level = Synth::clock();
   AudioOut::write(level);
 }

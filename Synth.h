@@ -27,9 +27,9 @@ public:
     // TODO
   }
 
-  inline static uint8_t clock()
+  inline static int8_t clock()
   {
-    // TODO
+    return 0;
   }
 };
 
