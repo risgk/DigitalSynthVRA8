@@ -2,6 +2,7 @@
 
 const boolean OPTION_BLACK_KEY_PROGRAM_CHANGE = true;
 
+const uint16_t SERIAL_SPEED = 38400;
 const uint8_t  MIDI_CH = 0;
 const uint16_t SAMPLING_RATE = 31250;
 const uint8_t  NOTE_NUMBER_MIN = 24;
