@@ -1,6 +1,6 @@
 # Digital Synthesizer VRA8 V0.xx
 
-2014-09-02 ISGK
+2014-09-03 ISGK
 
 ## Concept
 
@@ -8,14 +8,17 @@
 
 ## VRA8 Features
 
-- Arduino Uno, Serial MIDI (38400 bps), PWM Audio, Buzzer
+- Arduino Uno, Serial MIDI (38400 bps), PWM Audio (Pin 9), Buzzer
 - Sampling Rate: 31250 Hz, Bit Depth: 8 bits
+- Recommending [Hairless MIDI<->Serial Bridge](http://projectgus.github.io/hairless-midiserial/) to connect PC
 
 ## VRA8.rb Features
 
 - Simulator of VRA8
 - Software Synthesizer for Windows
-- Using Ruby (JRuby, UniMIDI, win32-sound)
+- Using Ruby (JRuby), UniMIDI, and win32-sound
+    - `jgem install unimidi`
+    - `jgem install win32-sound`
 
 ## Synthesizer Modules
 
