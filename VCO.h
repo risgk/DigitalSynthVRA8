@@ -24,16 +24,16 @@ public:
   {
     switch (waveform) {
     case SAWTOOTH:
-      m_waveTables = g_WaveTables_Sawtooth;
+      m_waveTables = g_waveTablesSawtooth;
       break;
     case SQUARE:
-      m_waveTables = g_WaveTables_Square;
+      m_waveTables = g_waveTablesSquare;
       break;
     case TRIANGLE:
-      m_waveTables = g_WaveTables_Triangle;
+      m_waveTables = g_waveTablesTriangle;
       break;
     case SINE:
-      m_waveTables = g_WaveTables_Sine;
+      m_waveTables = g_waveTablesSine;
       break;
     }
   }
@@ -92,17 +92,17 @@ private:
     } else {
       uint8_t noteNumber = pitch - 64;
       if (m_fineTune <= 63) {
-        m_freq = g_FreqTable_Minus10Cent[noteNumber];
+        m_freq = pgm_read_word(g_freqTableMinus10Cent + noteNumber);
       } else if (m_fineTune == 64) {
-        m_freq = g_FreqTable_0Cent[noteNumber];
+        m_freq = pgm_read_word(g_freqTable0Cent       + noteNumber);
       } else {
-        m_freq = g_FreqTable_Plus10Cent[noteNumber];
+        m_freq = pgm_read_word(g_freqTablePlus10Cent  + noteNumber);
       }
     }
   }
 };
 
-template <uint8_t T> const uint8_t** VCO<T>::m_waveTables = g_WaveTables_Sawtooth;
+template <uint8_t T> const uint8_t** VCO<T>::m_waveTables = g_waveTablesSawtooth;
 template <uint8_t T> uint8_t         VCO<T>::m_courseTune = 64;
 template <uint8_t T> uint8_t         VCO<T>::m_fineTune   = 64;
 template <uint8_t T> uint8_t         VCO<T>::m_noteNumber = 60;

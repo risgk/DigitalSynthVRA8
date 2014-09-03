@@ -14,7 +14,7 @@ $c4_to_b4 = []
 end
 
 def generate_freq_table(fine_tune, name)
-  $file.printf("const uint16_t g_FreqTable_%s[] PROGMEM = {\n  ", name)
+  $file.printf("const uint16_t g_freqTable%s[] PROGMEM = {\n  ", name)
   (0..127).each do |note_number|
     if note_number < NOTE_NUMBER_MIN || note_number > NOTE_NUMBER_MAX
       freq = 0

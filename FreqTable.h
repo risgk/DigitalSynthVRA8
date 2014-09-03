@@ -1,6 +1,6 @@
 #pragma once
 
-const uint16_t g_FreqTable_Minus10Cent[] PROGMEM = {
+const uint16_t g_freqTableMinus10Cent[] PROGMEM = {
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
      68,    72,    76,    81,    85,    91,    96,   102,   108,   114,   121,   128,
@@ -14,7 +14,7 @@ const uint16_t g_FreqTable_Minus10Cent[] PROGMEM = {
       0,     0,     0,     0,     0,     0,     0,     0,
 };
 
-const uint16_t g_FreqTable_0Cent[] PROGMEM = {
+const uint16_t g_freqTable0Cent[] PROGMEM = {
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
      69,    73,    77,    82,    86,    92,    97,   103,   109,   115,   122,   129,
@@ -28,7 +28,7 @@ const uint16_t g_FreqTable_0Cent[] PROGMEM = {
       0,     0,     0,     0,     0,     0,     0,     0,
 };
 
-const uint16_t g_FreqTable_Plus10Cent[] PROGMEM = {
+const uint16_t g_freqTablePlus10Cent[] PROGMEM = {
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
      70,    74,    78,    83,    87,    93,    98,   104,   110,   116,   123,   130,

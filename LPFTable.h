@@ -1,6 +1,6 @@
 #pragma once
 
-const uint8_t g_LPFTable_Q1OverSqrt2[] PROGMEM = {
+const uint8_t g_lpfTableQ1OverSqrt2[] PROGMEM = {
     4,   2,  93,  37,   4,   2,  93,  37,   4,   2,  92,  36,   4,   2,  92,  36,
     4,   2,  92,  36,   4,   2,  91,  36,   4,   2,  91,  35,   4,   2,  90,  35,
     4,   2,  90,  35,   5,   2,  90,  35,   5,   2,  89,  34,   5,   2,  89,  34,
@@ -35,7 +35,7 @@ const uint8_t g_LPFTable_Q1OverSqrt2[] PROGMEM = {
    36,  18,   4,  11,  36,  18,   3,  11,  37,  18,   1,  11,  37,  19,   0,  11,
 };
 
-const uint8_t g_LPFTable_QSqrt2[] PROGMEM = {
+const uint8_t g_lpfTableQSqrt2[] PROGMEM = {
     4,   2, 104,  49,   4,   2, 104,  49,   4,   2, 104,  48,   5,   2, 103,  48,
     5,   2, 103,  48,   5,   2, 103,  48,   5,   2, 102,  48,   5,   2, 102,  48,
     5,   3, 102,  48,   5,   3, 101,  47,   5,   3, 101,  47,   5,   3, 100,  47,
