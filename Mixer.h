@@ -1,15 +1,12 @@
 #pragma once
 
-// TODO
-
-#if 0
-
-require './common'
+#include "Common.h"
 
 class Mixer
-  def clock(a, b, c)
-    (a + b + c) >> 2
-  end
-end
-
-#endif
+{
+public:
+  inline static int8_t clock(int8_t a, int8_t b, int8_t c)
+  {
+    return (a + b + c) >> 2;
+  }
+};

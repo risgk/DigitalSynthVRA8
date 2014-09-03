@@ -1,99 +1,109 @@
 #pragma once
 
-// TODO
-
 #include "Common.h"
 #include "EnvTable.h"
 
-#if 0
-
 class EG
-  STATE_ATTACK = 0
-  STATE_DECAY = 1
-  STATE_SUSTAIN = 2
-  STATE_RELEASE = 3
-  STATE_IDLE = 4
+{
+  const static uint8_t STATE_ATTACK  = 0;
+  const static uint8_t STATE_DECAY   = 1;
+  const static uint8_t STATE_SUSTAIN = 2;
+  const static uint8_t STATE_RELEASE = 3;
+  const static uint8_t STATE_IDLE    = 4;
 
-  def initialize
-    @attack_speed = 16
-    @decay_plus_release_speed = 16
-    @sustain_level = 127
-    @state = STATE_IDLE
-    @count = 0
-    @level = 0
-  end
+  static uint8_t  m_attackSpeed;
+  static uint8_t  m_decayPlusReleaseSpeed;
+  static uint8_t  m_sustainLevel;
+  static uint8_t  m_state;
+  static uint16_t m_count;
+  static int8_t   m_level;
 
-  def set_attack(attack_time)
-    @attack_speed = $env_table_speed_from_time[attack_time]
-  end
+public:
+  inline static void setAttack(uint8_t attackTime)
+  {
+    m_attackSpeed = g_EnvTable_SpeedFromTime[attackTime];
+  }
 
-  def set_decay_plus_release(decay_plus_release_time)
-    @decay_plus_release_speed = $env_table_speed_from_time[decay_plus_release_time]
-  end
+  inline static void setDecayPlusRelease(uint8_t decayPlusReleaseTime)
+  {
+    m_decayPlusReleaseSpeed = g_EnvTable_SpeedFromTime[decayPlusReleaseTime];
+  }
 
-  def set_sustain(sustain_level)
-    @sustain_level = sustain_level
-  end
+  inline static void setSustain(uint8_t sustainLevel)
+  {
+    m_sustainLevel = sustainLevel;
+  }
 
-  def note_on(note_number)
-    if (@level == 127)
-      @state = STATE_DECAY
-      @count = 0
-    else
-      @state = STATE_ATTACK
-      @count = $env_table_attack_inverse[@level] << 8
-    end
-  end
+  inline static void noteOn()
+  {
+    if (m_level == 127) {
+      m_state = STATE_DECAY;
+      m_count = 0;
+    } else {
+      m_state = STATE_ATTACK;
+      m_count = g_EnvTable_AttackInverse[m_level] << 8;
+    }
+  }
 
-  def note_off
-    case (@state)
-    when STATE_ATTACK, STATE_DECAY, STATE_SUSTAIN
-      @state = STATE_RELEASE
-      @count = $env_table_decay_plus_release_inverse[@level] << 8
-    end
-  end
+  inline static void noteOff()
+  {
+    switch (m_state) {
+    case STATE_ATTACK:
+    case STATE_DECAY:
+    case STATE_SUSTAIN:
+      m_state = STATE_RELEASE;
+      m_count = g_EnvTable_DecayPlusReleaseInverse[m_level] << 8;
+    }
+  }
 
-  def sound_off
-    @state = STATE_IDLE
-    @count = 0
-    @level = 0
-  end
+  inline static void soundOff()
+  {
+    m_state = STATE_IDLE;
+    m_count = 0;
+    m_level = 0;
+  }
 
-  def clock
-    case (@state)
-    when STATE_ATTACK
-      @count += @attack_speed
-      if (high_byte(@count) < 255)
-        @level = $env_table_attack[high_byte(@count)]
-      else
-        @state = STATE_DECAY
-        @count = 0
-        @level = 127
-      end
-    when STATE_DECAY
-      @count += @decay_plus_release_speed
-      @level = $env_table_decay_plus_release[high_byte(@count)]
-      if (@level <= @sustain_level)
-        @state = STATE_SUSTAIN
-        @level = @sustain_level
-      end
-    when STATE_SUSTAIN
-      @level = @sustain_level
-    when STATE_RELEASE
-      @count += @decay_plus_release_speed
-      if (high_byte(@count) < 255)
-        @level = $env_table_decay_plus_release[high_byte(@count)]
-      else
-        @state = STATE_IDLE
-        @count = 0
-        @level = 0
-      end
-    when STATE_IDLE
-      @level = 0
-    end
+  inline static int8_t clock()
+  {
+    switch (m_state) {
+    case STATE_ATTACK:
+      m_count += m_attackSpeed;
+      if (highByte(m_count) < 255) {
+        m_level = g_EnvTable_Attack[highByte(m_count)];
+      } else {
+        m_state = STATE_DECAY;
+        m_count = 0;
+        m_level = 127;
+      }
+    case STATE_DECAY:
+      m_count += m_decayPlusReleaseSpeed;
+      m_level = g_EnvTable_DecayPlusRelease[highByte(m_count)];
+      if (m_level <= m_sustainLevel) {
+        m_state = STATE_SUSTAIN;
+        m_level = m_sustainLevel;
+      }
+    case STATE_SUSTAIN:
+      m_level = m_sustainLevel;
+    case STATE_RELEASE:
+      m_count += m_decayPlusReleaseSpeed;
+      if (highByte(m_count) < 255) {
+        m_level = g_EnvTable_DecayPlusRelease[highByte(m_count)];
+      } else {
+        m_state = STATE_IDLE;
+        m_count = 0;
+        m_level = 0;
+      }
+    case STATE_IDLE:
+      m_level = 0;
+    }
 
-    return @level
-  end
-end
+    return m_level;
+  }
+};
 
-#endif
+uint8_t  EG::m_attackSpeed           = 255;
+uint8_t  EG::m_decayPlusReleaseSpeed = 255;
+uint8_t  EG::m_sustainLevel          = 127;
+uint8_t  EG::m_state                 = STATE_IDLE;
+uint16_t EG::m_count                 = 0;
+int8_t   EG::m_level                 = 0;

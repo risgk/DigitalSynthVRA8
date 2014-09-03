@@ -1,7 +1,5 @@
 #pragma once
 
-// TODO
-
 #include "Common.h"
 #include "FreqTable.h"
 #include "WaveTable.h"

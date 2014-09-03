@@ -4,7 +4,7 @@ require './lpf_table'
 class VCF
   def initialize
     @cutoff = 127
-    @resonance = 0
+    @resonance = OFF
     @envelope = 0
     @x1 = 0
     @x2 = 0

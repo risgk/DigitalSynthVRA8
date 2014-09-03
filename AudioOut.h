@@ -14,7 +14,7 @@ public:
   inline static void write(int8_t level)
   {
     // TODO
-    // digital pin 13
+    // pin 13
     PORTB |= _BV(5);
     delay(1000);
     PORTB &= ~_BV(5);

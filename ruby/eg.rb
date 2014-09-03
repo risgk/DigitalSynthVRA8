@@ -9,8 +9,8 @@ class EG
   STATE_IDLE = 4
 
   def initialize
-    @attack_speed = 16
-    @decay_plus_release_speed = 16
+    @attack_speed = 255
+    @decay_plus_release_speed = 255
     @sustain_level = 127
     @state = STATE_IDLE
     @count = 0
@@ -29,7 +29,7 @@ class EG
     @sustain_level = sustain_level
   end
 
-  def note_on(note_number)
+  def note_on
     if (@level == 127)
       @state = STATE_DECAY
       @count = 0

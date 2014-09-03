@@ -1,7 +1,5 @@
 #pragma once
 
-// TODO
-
 #include "Common.h"
 
 class VCA

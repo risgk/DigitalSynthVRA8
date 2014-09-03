@@ -159,7 +159,7 @@ class Synth
     $vco_1.note_on(@note_number)
     $vco_2.note_on(@note_number)
     $vco_3.note_on(@note_number)
-    $eg.note_on(@note_number)
+    $eg.note_on()
   end
 
   def note_off(note_number)
