@@ -57,8 +57,8 @@
 
 ## MIDI Implementation Chart
 
-      Digital Synthesizer                                             Date: 2014-xx-xx
-      Model: VRA8                     MIDI Implementation Chart       Version: 0.xx
+      Digital Synthesizer                                             Date: 2014-xx-xx       
+      Model: VRA8                     MIDI Implementation Chart       Version: 0.xx          
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
@@ -115,5 +115,5 @@
     | Notes                         | *1  9nH v=1-127                                       |
     |                               | *2  9nH v=0 or 8nH v=0-127                            |
     +-------------------------------+-------------------------------------------------------+
-      Mode 1: Omni On,  Poly          Mode 2: Omni On,  Mono          o: Yes
-      Mode 3: Omni Off, Poly          Mode 4: Omni Off, Mono          x: No
+      Mode 1: Omni On,  Poly          Mode 2: Omni On,  Mono          o: Yes                 
+      Mode 3: Omni Off, Poly          Mode 4: Omni Off, Mono          x: No                  
