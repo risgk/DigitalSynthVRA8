@@ -46,44 +46,11 @@ class Synth
   end
 
   def receive_midi_byte(b)
-    if (real_time_message?(b))
-      # do nothing
-    elsif (system_message?(b))
-      case (b)
-      when EOX
-        @system_exclusive = false
-        @system_data_remaining = 0
-      when SONG_SELECT, TIME_CODE
-        @system_data_remaining = 1
-      when SONG_POSITION
-        @system_data_remaining = 2
-      when SYSTEM_EXCLUSIVE
-        @system_exclusive = true
-      end
-    elsif (status_byte?(b))
-      @running_status = b
-      @first_data = DATA_BYTE_INVALID
-    else
+    if data_byte?(b)
       if (@system_exclusive)
         # do nothing
       elsif (@system_data_remaining > 0)
         @system_data_remaining -= 1
-      elsif (@running_status == PROGRAM_CHANGE)
-        program_change(b)
-      elsif (@running_status == CONTROL_CHANGE)
-        if (!data_byte?(@first_data))
-          @first_data = b
-        else
-          control_change(@first_data, b)
-          @first_data = DATA_BYTE_INVALID
-        end
-      elsif (@running_status == NOTE_OFF)
-        if (!data_byte?(@first_data))
-          @first_data = b
-        else
-          note_off(@first_data)
-          @first_data = DATA_BYTE_INVALID
-        end
       elsif (@running_status == NOTE_ON)
         if (!data_byte?(@first_data))
           @first_data = b
@@ -96,7 +63,40 @@ class Synth
             @first_data = DATA_BYTE_INVALID
           end
         end
+      elsif (@running_status == NOTE_OFF)
+        if (!data_byte?(@first_data))
+          @first_data = b
+        else
+          note_off(@first_data)
+          @first_data = DATA_BYTE_INVALID
+        end
+      elsif (@running_status == PROGRAM_CHANGE)
+        program_change(b)
+      elsif (@running_status == CONTROL_CHANGE)
+        if (!data_byte?(@first_data))
+          @first_data = b
+        else
+          control_change(@first_data, b)
+          @first_data = DATA_BYTE_INVALID
+        end
       end
+    elsif (status_byte?(b))
+      @running_status = b
+      @first_data = DATA_BYTE_INVALID
+    elsif (system_message?(b))
+      case (b)
+      when EOX
+        @system_exclusive = false
+        @system_data_remaining = 0
+      when SONG_SELECT, TIME_CODE
+        @system_data_remaining = 1
+      when SONG_POSITION
+        @system_data_remaining = 2
+      when SYSTEM_EXCLUSIVE
+        @system_exclusive = true
+      end
+    else # real_time_message
+      # do nothing
     end
   end
 
@@ -180,6 +180,8 @@ class Synth
 
   def control_change(controller_number, value)
     case (controller_number)
+    when ALL_NOTES_OFF
+      all_notes_off(value)
     when VCO_1_WAVEFORM
       set_vco_1_waveform(value)
     when VCO_1_COARSE_TUNE
@@ -208,8 +210,6 @@ class Synth
       set_decay_plus_release(value)
     when EG_SUSTAIN
       set_eg_sustain(value)
-    when ALL_NOTES_OFF
-      all_notes_off(value)
     end
   end
 

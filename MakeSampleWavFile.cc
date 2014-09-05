@@ -5,6 +5,7 @@ typedef signed   char  int8_t;
 typedef unsigned char  uint8_t;
 typedef signed   short int16_t;
 typedef unsigned short uint16_t;
+typedef unsigned int   uint32_t;
 
 inline uint8_t pgm_read_byte(const uint8_t* p)
 {
@@ -42,9 +43,6 @@ int main()
   int c;
   while ((c = ::fgetc(binFile)) != EOF) {
     uint8_t b = static_cast<uint8_t>(c);
-#if 1
-    printf("%02X\n",b);
-#endif
     Synth::receiveMIDIByte(b);
     for (uint16_t i = 0; i < 10; i++) {
       uint8_t level = Synth::clock();

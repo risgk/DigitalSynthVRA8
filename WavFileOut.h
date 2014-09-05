@@ -1,76 +1,69 @@
 #pragma once
 
-// TODO
-
+#include <stdio.h>
 #include "Common.h"
 
 class WavFileOut
 {
-public:
-  inline static void initialize()
-  {
-    // TODO
-  }
+  static const uint16_t SEC = 30;
 
+  static FILE*    m_file;
+  static uint32_t m_maxSize;
+  static uint32_t m_dataSize;
+  static boolean  m_closed;
+
+public:
   inline static void open(const char* path)
   {
-    // TODO
+    m_file = fopen(path, "wb");
+    fwrite("RIFF", 1, 4,m_file);
+    fwrite("\x00\x00\x00\x00", 1, 4,m_file);
+    fwrite("WAVE", 1, 4,m_file);
+    fwrite("fmt ", 1, 4,m_file);
+    fwrite("\x10\x00\x00\x00", 1, 4,m_file);
+    fwrite("\x01\x00\x01\x00", 1, 4,m_file);
+    uint32_t a[1] = {SAMPLING_RATE};
+    fwrite(a, 1, 4, m_file);
+    fwrite(a, 1, 4, m_file);
+    fwrite("\x01\x00\x08\x00", 1, 4,m_file);
+    fwrite("data", 1, 4,m_file);
+    fwrite("\x00\x00\x00\x00", 1, 4,m_file);
+    m_maxSize = SAMPLING_RATE * SEC;
+    m_dataSize = 0;
+    m_closed = false;
   }
 
   inline static void write(uint8_t level)
   {
-    // TODO
+    if (m_dataSize < m_maxSize) {
+      uint8_t a[1] = {(uint8_t)level + (uint8_t)0x80};
+      fwrite(a, 1, 1,m_file);
+      m_dataSize += 1;
+    } else {
+      close();
+      m_closed = true;
+    }
   }
 
   inline static void close()
   {
-    // TODO
+    if (!m_closed) {
+      fpos_t fileSize = 0;
+      fseek(m_file, 0, SEEK_END);
+      fgetpos(m_file, &fileSize);
+      fseek(m_file, 4, SEEK_SET);
+      uint32_t a[1] = {fileSize - 8};
+      fwrite(a, 1, 4,m_file);
+      fseek(m_file, 40, SEEK_SET);
+      uint32_t a2[1] = {fileSize - 36};
+      fwrite(a2, 1, 4,m_file);
+      fclose(m_file);
+      printf("Recording end.\n");
+    }
   }
 };
 
-#if 0
-
-class WavFileOut
-  SEC = 30
-
-  def initialize(path)
-    @file = File::open(path, "wb")
-    @file.write("RIFF")
-    @file.write([0].pack("V"))
-    @file.write("WAVE")
-    @file.write("fmt ")
-    @file.write([16].pack("V"))
-    @file.write([1, 1].pack("v*"))
-    @file.write([SAMPLING_RATE, SAMPLING_RATE].pack("V*"))
-    @file.write([1, 8].pack("v*"))
-    @file.write("data")
-    @file.write([0].pack("V"))
-    @max_size = SAMPLING_RATE * SEC
-    @data_size = 0
-    @closed = false
-  end
-
-  def write(level)
-    if (@data_size < @max_size)
-      @file.write([level + 0x80].pack("C"))
-      @data_size += 1
-    else
-      close
-      @closed = true
-    end
-  end
-
-  def close
-    if (!@closed)
-      file_size = @file.size
-      @file.seek(4, IO::SEEK_SET)
-      @file.write([file_size - 8].pack("V"))
-      @file.seek(40, IO::SEEK_SET)
-      @file.write([file_size - 36].pack("V"))
-      @file.close
-      puts "Recording end."
-    end
-  end
-end
-
-#endif
+FILE*    WavFileOut::m_file     = 0;
+uint32_t WavFileOut::m_maxSize  = SAMPLING_RATE * SEC;
+uint32_t WavFileOut::m_dataSize = 0;
+boolean  WavFileOut::m_closed   = false;
