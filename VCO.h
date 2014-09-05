@@ -44,9 +44,9 @@ public:
     updateFreq();
   }
 
-  inline static void coarseTune()
+  inline static uint8_t coarseTune()
   {
-    m_courseTune;
+    return m_courseTune;
   }
 
   inline static void setFineTune(uint8_t fineTune)

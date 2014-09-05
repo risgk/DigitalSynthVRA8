@@ -142,7 +142,7 @@ class Synth
   end
 
   def note_off(note_number)
-    if note_number == @note_number
+    if (note_number == @note_number)
       $eg.note_off
     end
   end
@@ -176,11 +176,11 @@ class Synth
     when VCO_3_FINE_TUNE
       set_vco_3_fine_tune(value)
     when VCF_CUTOFF
-      set_filter_cutoff(value)
+      set_vcf_cutoff(value)
     when VCF_RESONANCE
-      set_filter_resonance(value)
+      set_vcf_resonance(value)
     when VCF_ENVELOPE
-      set_filter_envelope(value)
+      set_vcf_envelope(value)
     when EG_ATTACK
       set_eg_attack(value)
     when EG_DECAY_PLUS_RELEASE
@@ -240,19 +240,19 @@ class Synth
     reset_phase
   end
 
-  def set_filter_cutoff(value)
+  def set_vcf_cutoff(value)
     sound_off
     $vcf.set_cutoff(value)
     reset_phase
   end
 
-  def set_filter_resonance(value)
+  def set_vcf_resonance(value)
     sound_off
     $vcf.set_resonance(value)
     reset_phase
   end
 
-  def set_filter_envelope(value)
+  def set_vcf_envelope(value)
     sound_off
     $vcf.set_envelope(value)
     reset_phase

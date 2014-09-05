@@ -36,9 +36,9 @@ public:
   inline static void write(uint8_t level)
   {
     if (m_dataSize < m_maxSize) {
-      uint8_t a[1] = {(uint8_t)level + (uint8_t)0x80};
+      uint8_t a[1] = {(uint8_t) level + (uint8_t) 0x80};
       fwrite(a, 1, 1,m_file);
-      m_dataSize += 1;
+      m_dataSize++;
     } else {
       close();
       m_closed = true;

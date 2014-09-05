@@ -63,7 +63,7 @@ public:
     m_level = 0;
   }
 
-  inline static int8_t clock()
+  inline static uint8_t clock()
   {
     switch (m_state) {
     case STATE_ATTACK:
@@ -75,6 +75,7 @@ public:
         m_count = 0;
         m_level = 127;
       }
+      break;
     case STATE_DECAY:
       m_count += m_decayPlusReleaseSpeed;
       m_level = pgm_read_byte(g_envTableDecayPlusRelease + highByte(m_count));
@@ -82,8 +83,10 @@ public:
         m_state = STATE_SUSTAIN;
         m_level = m_sustainLevel;
       }
+      break;
     case STATE_SUSTAIN:
       m_level = m_sustainLevel;
+      break;
     case STATE_RELEASE:
       m_count += m_decayPlusReleaseSpeed;
       if (highByte(m_count) < 255) {
@@ -93,8 +96,10 @@ public:
         m_count = 0;
         m_level = 0;
       }
+      break;
     case STATE_IDLE:
       m_level = 0;
+      break;
     }
 
     return m_level;

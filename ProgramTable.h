@@ -1,6 +1,6 @@
 #pragma once
 
-const uint8_t g_ProgramTable[] = {
+const uint8_t g_programTable[] = {
 
   // Sub Osc Lead
   SAWTOOTH, 64,         // VCO 1 Waveform, Coarse Tune,

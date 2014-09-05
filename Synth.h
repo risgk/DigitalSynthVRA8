@@ -12,315 +12,339 @@
 
 class Synth
 {
-public:
-  inline static void initialize()
-  {
-    // TODO
-    VCO<1>::setWaveform(SAWTOOTH);
-    VCO<2>::setWaveform(SQUARE);
-    VCO<3>::setWaveform(TRIANGLE);
-    VCO<3>::setWaveform(SINE);
-  }
+  static uint8_t m_systemExclusive;
+  static uint8_t m_systemDataRemaining;
+  static uint8_t m_runningStatus;
+  static uint8_t m_firstData;
+  static uint8_t m_noteNumber;
 
+public:
   inline static void receiveMIDIByte(uint8_t b)
   {
-    // TODO
+    if (IsDataByte(b)) {
+      if (m_systemExclusive) {
+        // do nothing
+      } else if (m_systemDataRemaining > 0) {
+        m_systemDataRemaining--;
+      } else if (m_runningStatus == NOTE_ON) {
+        if (!IsDataByte(m_firstData)) {
+          m_firstData = b;
+        } else if (b == 0x00) {
+          noteOff(m_firstData);
+          m_firstData = DATA_BYTE_INVALID;
+        } else {
+          noteOn(m_firstData);
+          m_firstData = DATA_BYTE_INVALID;
+        }
+      } else if (m_runningStatus == NOTE_OFF) {
+        if (!IsDataByte(m_firstData)) {
+          m_firstData = b;
+        } else {
+          noteOff(m_firstData);
+          m_firstData = DATA_BYTE_INVALID;
+        }
+      } else if (m_runningStatus == PROGRAM_CHANGE) {
+        programChange(b);
+      } else if (m_runningStatus == CONTROL_CHANGE) {
+        if (!IsDataByte(m_firstData)) {
+          m_firstData = b;
+        } else {
+          controlChange(m_firstData, b);
+          m_firstData = DATA_BYTE_INVALID;
+        }
+      }
+    } else if (IsStatusByte(b)) {
+      m_runningStatus = b;
+      m_firstData = DATA_BYTE_INVALID;
+    } else if (IsSystemMessage(b)) {
+      switch (b) {
+      case EOX:
+        m_systemExclusive = false;
+        m_systemDataRemaining = 0;
+        break;
+      case SONG_SELECT:
+      case TIME_CODE:
+        m_systemDataRemaining = 1;
+        break;
+      case SONG_POSITION:
+        m_systemDataRemaining = 2;
+        break;
+      case SYSTEM_EXCLUSIVE:
+        m_systemExclusive = true;
+        break;
+      }
+    } else { // real_time_message
+      // do nothing
+    }
   }
 
   inline static int8_t clock()
   {
-    return 0;
+    int8_t level = Mixer::clock(VCO<1>::clock(), VCO<2>::clock(), VCO<3>::clock());
+    uint8_t egOutput = EG::clock();
+    level = VCF::clock(level, egOutput);
+    level = VCA::clock(level, egOutput);
+    return level;
+  }
+
+private:
+  inline static boolean IsRealTimeMessage(uint8_t b)
+  {
+    return b >= REAL_TIME_MESSAGE_MIN;
+  }
+
+  inline static boolean IsSystemMessage(uint8_t b)
+  {
+    return b >= SYSTEM_MESSAGE_MIN;
+  }
+
+  inline static boolean IsStatusByte(uint8_t b)
+  {
+    return b >= STATUS_BYTE_MIN;
+  }
+
+  inline static boolean IsDataByte(uint8_t b)
+  {
+    return b <= DATA_BYTE_MAX;
+  }
+
+  inline static void noteOn(uint8_t noteNumber)
+  {
+    if (OPTION_BLACK_KEY_PROGRAM_CHANGE) {
+      switch (noteNumber) {
+      case 97:  // C#7
+        programChange(0);
+        break;
+      case 99:  // D#7
+        programChange(1);
+        break;
+      case 102:  // F#7
+        programChange(2);
+        break;
+      case 104:  // G#7
+        programChange(3);
+        break;
+      case 106:  // A#7
+        programChange(4);
+        break;
+      }
+    }
+
+    uint8_t pitch2 = noteNumber + VCO<2>::coarseTune();
+    if (pitch2 < (NOTE_NUMBER_MIN + 64) || pitch2 > (NOTE_NUMBER_MAX + 64)) {
+      return;
+    }
+
+    uint8_t pitch3 = noteNumber + VCO<3>::coarseTune();
+    if (pitch3 < (NOTE_NUMBER_MIN + 64) || pitch3 > (NOTE_NUMBER_MAX + 64)) {
+      return;
+    }
+
+    m_noteNumber = noteNumber;
+    VCO<1>::noteOn(m_noteNumber);
+    VCO<2>::noteOn(m_noteNumber);
+    VCO<3>::noteOn(m_noteNumber);
+    EG::noteOn();
+  }
+
+  inline static void noteOff(uint8_t noteNumber)
+  {
+    if (noteNumber == m_noteNumber) {
+      EG::noteOff();
+    }
+  }
+
+  inline static void soundOff()
+  {
+    EG::soundOff();
+  }
+
+  inline static void resetPhase()
+  {
+    VCO<1>::resetPhase();
+    VCO<2>::resetPhase();
+    VCO<3>::resetPhase();
+  }
+
+  inline static void controlChange(uint8_t controller_number, uint8_t value)
+  {
+    switch (controller_number) {
+    case ALL_NOTES_OFF:
+      allNotesOff(value);
+      break;
+    case VCO_1_WAVEFORM:
+      setVCO1Waveform(value);
+      break;
+    case VCO_1_COARSE_TUNE:
+      setVCO1CoarseTune(value);
+      break;
+    case VCO_2_WAVEFORM:
+      setVCO2Waveform(value);
+      break;
+    case VCO_2_COARSE_TUNE:
+      setVCO2CoarseTune(value);
+      break;
+    case VCO_2_FINE_TUNE:
+      setVCO2_fine_tune(value);
+      break;
+    case VCO_3_WAVEFORM:
+      setVCO3Waveform(value);
+      break;
+    case VCO_3_COARSE_TUNE:
+      setVCO3CoarseTune(value);
+      break;
+    case VCO_3_FINE_TUNE:
+      setVCO3_fine_tune(value);
+      break;
+    case VCF_CUTOFF:
+      setVCFCutoff(value);
+      break;
+    case VCF_RESONANCE:
+      setVCFResonance(value);
+      break;
+    case VCF_ENVELOPE:
+      setVCFEnvelope(value);
+      break;
+    case EG_ATTACK:
+      setEGAttack(value);
+      break;
+    case EG_DECAY_PLUS_RELEASE:
+      setEGDecayPlusRelease(value);
+      break;
+    case EG_SUSTAIN:
+      setEGSustain(value);
+      break;
+    }
+  }
+
+  inline static void setVCO1Waveform(uint8_t value)
+  {
+    soundOff();
+    VCO<1>::setWaveform(value);
+    resetPhase();
+  }
+
+  inline static void setVCO1CoarseTune(uint8_t value)
+  {
+    soundOff();
+    VCO<1>::setCoarseTune(value);
+    resetPhase();
+  }
+
+  inline static void setVCO2Waveform(uint8_t value)
+  {
+    soundOff();
+    VCO<2>::setWaveform(value);
+    resetPhase();
+  }
+
+  inline static void setVCO2CoarseTune(uint8_t value)
+  {
+    soundOff();
+    VCO<2>::setCoarseTune(value);
+    resetPhase();
+  }
+
+  inline static void setVCO2_fine_tune(uint8_t value)
+  {
+    soundOff();
+    VCO<2>::setFineTune(value);
+    resetPhase();
+  }
+
+  inline static void setVCO3Waveform(uint8_t value)
+  {
+    soundOff();
+    VCO<3>::setWaveform(value);
+    resetPhase();
+  }
+
+  inline static void setVCO3CoarseTune(uint8_t value)
+  {
+    soundOff();
+    VCO<3>::setCoarseTune(value);
+    resetPhase();
+  }
+
+  inline static void setVCO3_fine_tune(uint8_t value)
+  {
+    soundOff();
+    VCO<3>::setFineTune(value);
+    resetPhase();
+  }
+
+  inline static void setVCFCutoff(uint8_t value)
+  {
+    soundOff();
+    VCF::setCutoff(value);
+    resetPhase();
+  }
+
+  inline static void setVCFResonance(uint8_t value)
+  {
+    soundOff();
+    VCF::setResonance(value);
+    resetPhase();
+  }
+
+  inline static void setVCFEnvelope(uint8_t value)
+  {
+    soundOff();
+    VCF::setEnvelope(value);
+    resetPhase();
+  }
+
+  inline static void setEGAttack(uint8_t value)
+  {
+    soundOff();
+    EG::setAttack(value);
+    resetPhase();
+  }
+
+  inline static void setEGDecayPlusRelease(uint8_t value)
+  {
+    soundOff();
+    EG::setDecayPlusRelease(value);
+    resetPhase();
+  }
+
+  inline static void setEGSustain(uint8_t value)
+  {
+    soundOff();
+    EG::setSustain(value);
+    resetPhase();
+  }
+
+  inline static void allNotesOff(uint8_t value)
+  {
+    EG::noteOff();
+  }
+
+  inline static void programChange(uint8_t program_number)
+  {
+    soundOff();
+    const uint8_t* p = g_programTable + (program_number * PROGRAM_SIZE);
+    VCO<1>::setWaveform(*p++);
+    VCO<1>::setCoarseTune(*p++);
+    VCO<1>::setFineTune(64);
+    VCO<2>::setWaveform(*p++);
+    VCO<2>::setCoarseTune(*p++);
+    VCO<2>::setFineTune(*p++);
+    VCO<3>::setWaveform(*p++);
+    VCO<3>::setCoarseTune(*p++);
+    VCO<3>::setFineTune(*p++);
+    VCF::setCutoff(*p++);
+    VCF::setResonance(*p++);
+    VCF::setEnvelope(*p++);
+    EG::setAttack(*p++);
+    EG::setDecayPlusRelease(*p++);
+    EG::setSustain(*p++);
+    resetPhase();
   }
 };
 
-#if 0
-
-class Synth
-  def initialize
-    @system_exclusive = false
-    @system_data_remaining = 0
-    @running_status = STATUS_BYTE_INVALID
-    @first_data = DATA_BYTE_INVALID
-    @note_number = 60
-    program_change(0)
-  end
-
-  def receive_midi_byte(b)
-    if data_byte?(b)
-      if (@system_exclusive)
-        # do nothing
-      elsif (@system_data_remaining > 0)
-        @system_data_remaining -= 1
-      elsif (@running_status == NOTE_ON)
-        if (!data_byte?(@first_data))
-          @first_data = b
-        else
-          if (b == 0x00)
-            note_off(@first_data)
-            @first_data = DATA_BYTE_INVALID
-          else
-            note_on(@first_data)
-            @first_data = DATA_BYTE_INVALID
-          end
-        end
-      elsif (@running_status == NOTE_OFF)
-        if (!data_byte?(@first_data))
-          @first_data = b
-        else
-          note_off(@first_data)
-          @first_data = DATA_BYTE_INVALID
-        end
-      elsif (@running_status == PROGRAM_CHANGE)
-        program_change(b)
-      elsif (@running_status == CONTROL_CHANGE)
-        if (!data_byte?(@first_data))
-          @first_data = b
-        else
-          control_change(@first_data, b)
-          @first_data = DATA_BYTE_INVALID
-        end
-      end
-    elsif (status_byte?(b))
-      @running_status = b
-      @first_data = DATA_BYTE_INVALID
-    elsif (system_message?(b))
-      case (b)
-      when EOX
-        @system_exclusive = false
-        @system_data_remaining = 0
-      when SONG_SELECT, TIME_CODE
-        @system_data_remaining = 1
-      when SONG_POSITION
-        @system_data_remaining = 2
-      when SYSTEM_EXCLUSIVE
-        @system_exclusive = true
-      end
-    else # real_time_message
-      # do nothing
-    end
-  end
-
-  def clock
-    level = $mixer.clock($vco_1.clock, $vco_2.clock, $vco_3.clock)
-    eg_output = $eg.clock
-    level = $vcf.clock(level, eg_output)
-    level = $vca.clock(level, eg_output)
-  end
-
-  private
-  def real_time_message?(b)
-    b >= REAL_TIME_MESSAGE_MIN
-  end
-
-  def system_message?(b)
-    b >= SYSTEM_MESSAGE_MIN
-  end
-
-  def status_byte?(b)
-    b >= STATUS_BYTE_MIN
-  end
-
-  def data_byte?(b)
-    b <= DATA_BYTE_MAX
-  end
-
-  def note_on(note_number)
-    if (OPTION_BLACK_KEY_PROGRAM_CHANGE)
-      case (note_number)
-      when 97  # C#7
-        program_change(0)
-        return
-      when 99  # D#7
-        program_change(1)
-        return
-      when 102  # F#7
-        program_change(2)
-        return
-      when 104  # G#7
-        program_change(3)
-        return
-      when 106  # A#7
-        program_change(4)
-        return
-      end
-    end
-
-    pitch_2 = note_number + $vco_2.coarse_tune
-    if (pitch_2 < (NOTE_NUMBER_MIN + 64) || pitch_2 > (NOTE_NUMBER_MAX + 64))
-      return
-    end
-
-    pitch_3 = note_number + $vco_3.coarse_tune
-    if (pitch_3 < (NOTE_NUMBER_MIN + 64) || pitch_3 > (NOTE_NUMBER_MAX + 64))
-      return
-    end
-
-    @note_number = note_number
-    $vco_1.note_on(@note_number)
-    $vco_2.note_on(@note_number)
-    $vco_3.note_on(@note_number)
-    $eg.note_on()
-  end
-
-  def note_off(note_number)
-    if note_number == @note_number
-      $eg.note_off
-    end
-  end
-
-  def sound_off
-    $eg.sound_off
-  end
-
-  def reset_phase
-    $vco_1.reset_phase
-    $vco_2.reset_phase
-    $vco_3.reset_phase
-  end
-
-  def control_change(controller_number, value)
-    case (controller_number)
-    when ALL_NOTES_OFF
-      all_notes_off(value)
-    when VCO_1_WAVEFORM
-      set_vco_1_waveform(value)
-    when VCO_1_COARSE_TUNE
-      set_vco_1_coarse_tune(value)
-    when VCO_2_WAVEFORM
-      set_vco_2_waveform(value)
-    when VCO_2_COARSE_TUNE
-      set_vco_2_coarse_tune(value)
-    when VCO_2_FINE_TUNE
-      set_vco_2_fine_tune(value)
-    when VCO_3_WAVEFORM
-      set_vco_3_waveform(value)
-    when VCO_3_COARSE_TUNE
-      set_vco_3_coarse_tune(value)
-    when VCO_3_FINE_TUNE
-      set_vco_3_fine_tune(value)
-    when VCF_CUTOFF
-      set_filter_cutoff(value)
-    when VCF_RESONANCE
-      set_filter_resonance(value)
-    when VCF_ENVELOPE
-      set_filter_envelope(value)
-    when EG_ATTACK
-      set_eg_attack(value)
-    when EG_DECAY_PLUS_RELEASE
-      set_decay_plus_release(value)
-    when EG_SUSTAIN
-      set_eg_sustain(value)
-    end
-  end
-
-  def set_vco_1_waveform(value)
-    sound_off
-    $vco_1.set_waveform(value)
-    reset_phase
-  end
-
-  def set_vco_1_coarse_tune(value)
-    sound_off
-    $vco_1.set_coarse_tune(value)
-    reset_phase
-  end
-
-  def set_vco_2_waveform(value)
-    sound_off
-    $vco_2.set_waveform(value)
-    reset_phase
-  end
-
-  def set_vco_2_coarse_tune(value)
-    sound_off
-    $vco_2.set_coarse_tune(value)
-    reset_phase
-  end
-
-  def set_vco_2_fine_tune(value)
-    sound_off
-    $vco_2.set_fine_tune(value)
-    reset_phase
-  end
-
-  def set_vco_3_waveform(value)
-    sound_off
-    $vco_3.set_waveform(value)
-    reset_phase
-  end
-
-  def set_vco_3_coarse_tune(value)
-    sound_off
-    $vco_3.set_coarse_tune(value)
-    reset_phase
-  end
-
-  def set_vco_3_fine_tune(value)
-    sound_off
-    $vco_3.set_fine_tune(value)
-    reset_phase
-  end
-
-  def set_filter_cutoff(value)
-    sound_off
-    $vcf.set_cutoff(value)
-    reset_phase
-  end
-
-  def set_filter_resonance(value)
-    sound_off
-    $vcf.set_resonance(value)
-    reset_phase
-  end
-
-  def set_filter_envelope(value)
-    sound_off
-    $vcf.set_envelope(value)
-    reset_phase
-  end
-
-  def set_eg_attack(value)
-    sound_off
-    $eg.set_attack(value)
-    reset_phase
-  end
-
-  def set_decay_plus_release(value)
-    sound_off
-    $eg.set_decay_plus_release(value)
-    reset_phase
-  end
-
-  def set_eg_sustain(value)
-    sound_off
-    $eg.set_sustain(value)
-    reset_phase
-  end
-
-  def all_notes_off(value)
-    $eg.note_off
-  end
-
-  def program_change(program_number)
-    sound_off
-    i = program_number * PROGRAM_SIZE
-    $vco_1.set_waveform($program_table[i + 0])
-    $vco_1.set_coarse_tune($program_table[i + 1])
-    $vco_1.set_fine_tune(64)
-    $vco_2.set_waveform($program_table[i + 2])
-    $vco_2.set_coarse_tune($program_table[i + 3])
-    $vco_2.set_fine_tune($program_table[i + 4])
-    $vco_3.set_waveform($program_table[i + 5])
-    $vco_3.set_coarse_tune($program_table[i + 6])
-    $vco_3.set_fine_tune($program_table[i + 7])
-    $vcf.set_cutoff($program_table[i + 8])
-    $vcf.set_resonance($program_table[i + 9])
-    $vcf.set_envelope($program_table[i + 10])
-    $eg.set_attack($program_table[i + 11])
-    $eg.set_decay_plus_release($program_table[i + 12])
-    $eg.set_sustain($program_table[i + 13])
-    reset_phase
-  end
-end
-
-#endif
+uint8_t Synth::m_systemExclusive = false;
+uint8_t Synth::m_systemDataRemaining = 0;
+uint8_t Synth::m_runningStatus = STATUS_BYTE_INVALID;
+uint8_t Synth::m_firstData = DATA_BYTE_INVALID;
+uint8_t Synth::m_noteNumber = 60;
