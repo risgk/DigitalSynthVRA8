@@ -1,6 +1,6 @@
 # Digital Synthesizer VRA8 V0.xx
 
-2014-09-03 ISGK
+2014-09-05 ISGK
 
 ## Concept
 
@@ -8,7 +8,7 @@
 
 ## VRA8 Features
 
-- Arduino Uno, Serial MIDI (38400 bps), PWM Audio (Pin 9), Buzzer
+- Arduino Uno, Serial MIDI (38400 bps), PWM Audio (Pin 9), Piezo Speaker
 - Sampling Rate: 31250 Hz, Bit Depth: 8 bits
 - Recommending [Hairless MIDI<->Serial Bridge](http://projectgus.github.io/hairless-midiserial/) to connect PC
 
