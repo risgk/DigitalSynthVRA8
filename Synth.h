@@ -1,7 +1,5 @@
 #pragma once
 
-// TODO
-
 #include "Common.h"
 #include "ProgramTable.h"
 #include "VCO.h"

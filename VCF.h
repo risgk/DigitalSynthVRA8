@@ -36,9 +36,11 @@ public:
       cutoff = 127;
     }
 
-    PROGMEM const uint8_t* p = g_lpfTableQ1OverSqrt2;
+    PROGMEM const uint8_t* p;
     if ((m_resonance & 0x40) != 0) {
-      p = g_lpfTableQSqrt2;
+      p = g_lpfTableQSqrt2      + (cutoff * 4);
+    } else {
+      p = g_lpfTableQ1OverSqrt2 + (cutoff * 4);
     }
     uint8_t b1OverA0 = pgm_read_byte(p++);
     uint8_t b2OverA0 = pgm_read_byte(p++);
