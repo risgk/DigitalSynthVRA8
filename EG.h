@@ -5,11 +5,11 @@
 
 class EG
 {
-  const static uint8_t STATE_ATTACK  = 0;
-  const static uint8_t STATE_DECAY   = 1;
-  const static uint8_t STATE_SUSTAIN = 2;
-  const static uint8_t STATE_RELEASE = 3;
-  const static uint8_t STATE_IDLE    = 4;
+  static const uint8_t STATE_ATTACK  = 0;
+  static const uint8_t STATE_DECAY   = 1;
+  static const uint8_t STATE_SUSTAIN = 2;
+  static const uint8_t STATE_RELEASE = 3;
+  static const uint8_t STATE_IDLE    = 4;
 
   static uint8_t  m_attackSpeed;
   static uint8_t  m_decayPlusReleaseSpeed;

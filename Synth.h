@@ -78,14 +78,24 @@ public:
 
   inline static int8_t clock()
   {
+#if 0
     int8_t level = Mixer::clock(VCO<1>::clock(), VCO<2>::clock(), VCO<3>::clock());
     uint8_t egOutput = EG::clock();
     level = VCF::clock(level, egOutput);
     level = VCA::clock(level, egOutput);
+#else
+// Temp
+    int8_t level = Mixer::clock(VCO<1>::clock(), VCO<2>::clock(), 0);
+    uint8_t egOutput = EG::clock();
+    level = VCA::clock(level, egOutput);
+#endif
     return level;
   }
 
-private:
+#if 0
+// Temp
+  private:
+#endif
   inline static boolean IsRealTimeMessage(uint8_t b)
   {
     return b >= REAL_TIME_MESSAGE_MIN;

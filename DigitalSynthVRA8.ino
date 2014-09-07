@@ -4,8 +4,16 @@
 #include "AudioOut.h"
 
 void setup() {
+#if 1
+  Serial.begin(38400);
+#else
   Serial.begin(31250);
+#endif
   AudioOut::open();
+#if 1
+  // Temp
+  Synth::noteOn(48);
+#endif
 }
 
 void loop() {
