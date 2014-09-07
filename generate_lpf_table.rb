@@ -7,7 +7,7 @@ $file = File::open("LPFTable.h", "w")
 $file.printf("#pragma once\n\n")
 
 def generate_lpf_table(name, q)
-  $file.printf("const uint8_t g_lpfTable%s[] = {\n  ", name)
+  $file.printf("const uint8_t g_lpfTable%s[] PROGMEM = {\n  ", name)
   (0..127).each do |i|
     f0_over_fs = (2.0 ** (i / (127.0 / 2.0))) / (2.0 ** 4.0)
     w0 = 2.0 * Math::PI * f0_over_fs

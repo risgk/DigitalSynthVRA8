@@ -85,9 +85,7 @@ public:
   {
     int8_t level = Mixer::clock(VCO<1>::clock(), VCO<2>::clock(), VCO<3>::clock());
     uint8_t egOutput = EG::clock();
-#if 0
     level = VCF::clock(level, egOutput);
-#endif
     level = VCA::clock(level, egOutput);
     return level;
   }

@@ -42,14 +42,14 @@ public:
     } else {
       p = g_lpfTableQ1OverSqrt2 + (cutoff * 4);
     }
-    uint8_t b1OverA0 = *p++;
-    uint8_t b2OverA0 = *p++;
-    uint8_t a1OverA0 = *p++;
-    uint8_t a2OverA0 = *p++;
+    uint8_t b1OverA0 = pgm_read_byte(p++);
+    uint8_t b2OverA0 = pgm_read_byte(p++);
+    uint8_t a1OverA0 = pgm_read_byte(p++);
+    uint8_t a2OverA0 = pgm_read_byte(p++);
 
     int8_t x0 = a;
-    int8_t y0 = highByte(((int16_t)(b2OverA0 * x0) + (int16_t)(b1OverA0 * m_x1) + (int16_t)(b2OverA0 * m_x2) +
-                          (int16_t)(a1OverA0 * m_y1) - (int16_t)(a2OverA0 * m_y2)) << 2);
+    int8_t y0 = highByte(((b2OverA0 * x0) + (b1OverA0 * m_x1) + (b2OverA0 * m_x2) +
+                          (a1OverA0 * m_y1) - (a2OverA0 * m_y2)) << 2);
     m_x2 = m_x1;
     m_y2 = m_y1;
     m_x1 = x0;
