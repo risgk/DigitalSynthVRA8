@@ -39,8 +39,8 @@
     - Envelope: 0, ..., 127
 - VCA
 - EG
-    - Attack: 8, ..., 131, ..., 2089 [ms]
-    - Decay + Release: 8, ..., 131, ..., 2089 [ms]
+    - Attack: 16, ..., 262, ..., 4178 [ms]
+    - Decay + Release: 16, ..., 262, ..., 4178 [ms]
     - Sustain: 0, ..., 127
 
 ## Preset Programs
