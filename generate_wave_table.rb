@@ -67,7 +67,7 @@ FREQ_MAX = 8819  # refs "FreqTable.h"
 
 def generate_wave_tables(name, sine = false)
   wave_table_sels = (0..(FREQ_MAX / 256))
-  $file.printf("PROGMEM const uint8_t* g_waveTables%s[] = {\n", name)
+  $file.printf("const uint8_t* g_waveTables%s[] = {\n", name)
   wave_table_sels.each do |i|
     if sine 
       max = 1

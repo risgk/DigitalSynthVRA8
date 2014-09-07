@@ -17,6 +17,11 @@ class Synth
   static uint8_t m_noteNumber;
 
 public:
+  inline static void initialize()
+  {
+    programChange(0);
+  }
+
   inline static void receiveMIDIByte(uint8_t b)
   {
     if (IsDataByte(b)) {
@@ -80,15 +85,14 @@ public:
   {
     int8_t level = Mixer::clock(VCO<1>::clock(), VCO<2>::clock(), VCO<3>::clock());
     uint8_t egOutput = EG::clock();
+#if 0
     level = VCF::clock(level, egOutput);
+#endif
     level = VCA::clock(level, egOutput);
     return level;
   }
 
-#if 0
-// Temp
-  private:
-#endif
+private:
   inline static boolean IsRealTimeMessage(uint8_t b)
   {
     return b >= REAL_TIME_MESSAGE_MIN;

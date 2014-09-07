@@ -1045,7 +1045,7 @@ const uint8_t g_waveTableSineM1[] PROGMEM = {
    -38,  -36,  -34,  -32,  -29,  -27,  -24,  -22,  -20,  -17,  -15,  -12,  -10,   -7,   -5,   -2,
 };
 
-PROGMEM const uint8_t* g_waveTablesSawtooth[] = {
+const uint8_t* g_waveTablesSawtooth[] = {
   g_waveTableSawtoothM64,
   g_waveTableSawtoothM64,
   g_waveTableSawtoothM42,
@@ -1083,7 +1083,7 @@ PROGMEM const uint8_t* g_waveTablesSawtooth[] = {
   g_waveTableSawtoothM3,
 };
 
-PROGMEM const uint8_t* g_waveTablesSquare[] = {
+const uint8_t* g_waveTablesSquare[] = {
   g_waveTableSquareM64,
   g_waveTableSquareM64,
   g_waveTableSquareM42,
@@ -1121,7 +1121,7 @@ PROGMEM const uint8_t* g_waveTablesSquare[] = {
   g_waveTableSquareM3,
 };
 
-PROGMEM const uint8_t* g_waveTablesTriangle[] = {
+const uint8_t* g_waveTablesTriangle[] = {
   g_waveTableTriangleM64,
   g_waveTableTriangleM64,
   g_waveTableTriangleM42,
@@ -1159,7 +1159,7 @@ PROGMEM const uint8_t* g_waveTablesTriangle[] = {
   g_waveTableTriangleM3,
 };
 
-PROGMEM const uint8_t* g_waveTablesSine[] = {
+const uint8_t* g_waveTablesSine[] = {
   g_waveTableSineM1,
   g_waveTableSineM1,
   g_waveTableSineM1,

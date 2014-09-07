@@ -4,12 +4,9 @@
 #include "AudioOut.h"
 
 void setup() {
+  Synth::initialize();
   Serial.begin(SERIAL_SPEED);
   AudioOut::open();
-#if 1
-  // Temp
-  Synth::noteOn(48);
-#endif
 }
 
 void loop() {

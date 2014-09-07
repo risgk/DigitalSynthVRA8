@@ -12,7 +12,6 @@ class AudioOut
 public:
   inline static void open()
   {
-    // Speaker
     pinMode(SPEAKER_PIN, OUTPUT);
     pinMode(LED_PIN,     OUTPUT);
 
@@ -29,9 +28,11 @@ public:
   inline static void write(int8_t level)
   {
     if ((TIFR1 & 0x01) == 0) {
-      PORTB |= _BV(5);
-    } else {
+      // OK
       PORTB &= ~_BV(5);
+    } else {
+      // NG
+      PORTB |= _BV(5);
     }
     while ((TIFR1 & 0x01) == 0);
     TIFR1 = 0x01;

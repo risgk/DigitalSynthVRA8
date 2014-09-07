@@ -65,7 +65,7 @@ public:
   {
     m_phase += m_freq;
 
-    PROGMEM const uint8_t* waveTable = m_waveTables[highByte(m_freq)];
+    const uint8_t* waveTable = m_waveTables[highByte(m_freq)];
     uint8_t currIndex = highByte(m_phase);
     uint8_t nextIndex = currIndex + 0x01;
     int8_t currData = pgm_read_byte(waveTable + currIndex);
