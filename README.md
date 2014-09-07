@@ -8,15 +8,14 @@
 
 ## VRA8 Features
 
-- Arduino Uno, Serial MIDI (38400 bps), PWM Audio (Pin 6), Speaker
-- PWM Rate: 62500 Hz
-- Sampling Rate: 31250 Hz, Bit Depth: 8 bits
+- Arduino Uno, Serial MIDI (38400 bps), Speaker
+- PWM Audio (Pin 6), PWM Rate: 62500 Hz, Sampling Rate: 15625 Hz, Bit Depth: 8 bits
 - Recommending [Hairless MIDI<->Serial Bridge](http://projectgus.github.io/hairless-midiserial/) to connect PC
 
 ## VRA8.rb Features
 
-- Simulator of VRA8
-- Software Synthesizer for Windows
+- Simulator of VRA8, Software Synthesizer for Windows
+- PCM Audio, Sampling Rate: 15625 Hz, Bit Depth: 8 bits
 - Using Ruby (JRuby), UniMIDI, and win32-sound
     - `jgem install unimidi`
     - `jgem install win32-sound`

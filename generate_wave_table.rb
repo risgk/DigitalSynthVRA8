@@ -63,7 +63,7 @@ def generate_wave_table_sine
   end
 end
 
-FREQ_MAX = 4409  # refs "FreqTable.h"
+FREQ_MAX = 8819  # refs "FreqTable.h"
 
 def generate_wave_tables(name, sine = false)
   wave_table_sels = (0..(FREQ_MAX / 256))

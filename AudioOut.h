@@ -12,34 +12,27 @@ class AudioOut
 public:
   inline static void open()
   {
-    cli();
-
     // Speaker
     pinMode(SPEAKER_PIN, OUTPUT);
     pinMode(LED_PIN,     OUTPUT);
 
-    // Timer 0
+    // Timer 0 (62500 Hz)
     TCCR0A = (uint8_t) 0xC3;
     TCCR0B = (uint8_t) 0x01;
     OCR0A  = (uint8_t) 0x80;
 
-    // Timer 1
-    TCCR1A = (uint8_t) 0x02;
+    // Timer 1 (15625 Hz)
+    TCCR1A = (uint8_t) 0x03;
     TCCR1B = (uint8_t) 0x09;
-
-    sei();
   }
 
   inline static void write(int8_t level)
   {
-#if 1
-// Temp
-    if ((TIFR1 & 0x01) == 0){
+    if ((TIFR1 & 0x01) == 0) {
       PORTB |= _BV(5);
     } else {
       PORTB &= ~_BV(5);
     }
-#endif
     while ((TIFR1 & 0x01) == 0);
     TIFR1 = 0x01;
     OCR0A = (uint8_t) 0x80 - (uint8_t) level;

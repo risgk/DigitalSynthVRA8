@@ -4,11 +4,7 @@
 #include "AudioOut.h"
 
 void setup() {
-#if 1
-  Serial.begin(38400);
-#else
-  Serial.begin(31250);
-#endif
+  Serial.begin(SERIAL_SPEED);
   AudioOut::open();
 #if 1
   // Temp

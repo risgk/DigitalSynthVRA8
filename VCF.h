@@ -36,16 +36,16 @@ public:
       cutoff = 127;
     }
 
-    PROGMEM const uint8_t* p;
+    const uint8_t* p;
     if ((m_resonance & 0x40) != 0) {
       p = g_lpfTableQSqrt2      + (cutoff * 4);
     } else {
       p = g_lpfTableQ1OverSqrt2 + (cutoff * 4);
     }
-    uint8_t b1OverA0 = pgm_read_byte(p++);
-    uint8_t b2OverA0 = pgm_read_byte(p++);
-    uint8_t a1OverA0 = pgm_read_byte(p++);
-    uint8_t a2OverA0 = pgm_read_byte(p++);
+    uint8_t b1OverA0 = *p++;
+    uint8_t b2OverA0 = *p++;
+    uint8_t a1OverA0 = *p++;
+    uint8_t a2OverA0 = *p++;
 
     int8_t x0 = a;
     int8_t y0 = highByte(((b2OverA0 * x0) + (b1OverA0 * m_x1) + (b2OverA0 * m_x2) +

@@ -21,12 +21,12 @@ class EG
 public:
   inline static void setAttack(uint8_t attackTime)
   {
-    m_attackSpeed = pgm_read_byte(g_envTableSpeedFromTime + attackTime);
+    m_attackSpeed = *(g_envTableSpeedFromTime + attackTime);
   }
 
   inline static void setDecayPlusRelease(uint8_t decayPlusReleaseTime)
   {
-    m_decayPlusReleaseSpeed = pgm_read_byte(g_envTableSpeedFromTime + decayPlusReleaseTime);
+    m_decayPlusReleaseSpeed = *(g_envTableSpeedFromTime + decayPlusReleaseTime);
   }
 
   inline static void setSustain(uint8_t sustainLevel)
@@ -41,7 +41,7 @@ public:
       m_count = 0;
     } else {
       m_state = STATE_ATTACK;
-      m_count = pgm_read_byte(g_envTableAttackInverse + m_level) << 8;
+      m_count = *(g_envTableAttackInverse + m_level) << 8;
     }
   }
 
@@ -52,7 +52,7 @@ public:
     case STATE_DECAY:
     case STATE_SUSTAIN:
       m_state = STATE_RELEASE;
-      m_count = pgm_read_byte(g_envTableDecayPlusReleaseInverse + m_level) << 8;
+      m_count = *(g_envTableDecayPlusReleaseInverse + m_level) << 8;
     }
   }
 
@@ -69,7 +69,7 @@ public:
     case STATE_ATTACK:
       m_count += m_attackSpeed;
       if (highByte(m_count) < 255) {
-        m_level = pgm_read_byte(g_envTableAttack + highByte(m_count));
+        m_level = *(g_envTableAttack + highByte(m_count));
       } else {
         m_state = STATE_DECAY;
         m_count = 0;
@@ -78,7 +78,7 @@ public:
       break;
     case STATE_DECAY:
       m_count += m_decayPlusReleaseSpeed;
-      m_level = pgm_read_byte(g_envTableDecayPlusRelease + highByte(m_count));
+      m_level = *(g_envTableDecayPlusRelease + highByte(m_count));
       if (m_level <= m_sustainLevel) {
         m_state = STATE_SUSTAIN;
         m_level = m_sustainLevel;
@@ -90,7 +90,7 @@ public:
     case STATE_RELEASE:
       m_count += m_decayPlusReleaseSpeed;
       if (highByte(m_count) < 255) {
-        m_level = pgm_read_byte(g_envTableDecayPlusRelease + highByte(m_count));
+        m_level = *(g_envTableDecayPlusRelease + highByte(m_count));
       } else {
         m_state = STATE_IDLE;
         m_count = 0;
