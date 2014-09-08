@@ -16,7 +16,6 @@ SYNTH_BASS   = 4
 SAWTOOTH = 0
 SQUARE   = 1
 TRIANGLE = 2
-SINE     = 3
 
 ON  = 127
 OFF = 0

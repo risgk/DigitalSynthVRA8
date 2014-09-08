@@ -32,9 +32,6 @@ public:
     case TRIANGLE:
       m_waveTables = g_waveTablesTriangle;
       break;
-    case SINE:
-      m_waveTables = g_waveTablesSine;
-      break;
     }
   }
 

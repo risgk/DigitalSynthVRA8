@@ -22,7 +22,6 @@ const uint8_t SYNTH_BASS   = 4;
 const uint8_t SAWTOOTH = 0;
 const uint8_t SQUARE   = 1;
 const uint8_t TRIANGLE = 2;
-const uint8_t SINE     = 3;
 
 const uint8_t ON  = 127;
 const uint8_t OFF = 0;

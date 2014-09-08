@@ -5,17 +5,19 @@
 ## Concept
 
 - 8-bit Virtual Analog (Monophonic) Synthesizer
+- No Keyboard, Sound Generator
 
 ## VRA8 Features
 
-- Arduino Uno, Serial MIDI (38400 bps), Speaker
-- PWM Audio (Pin 6), PWM Rate: 62500 Hz, Sampling Rate: 15625 Hz, Bit Depth: 8 bits
+- Arduino Uno, Serial MIDI (38400 bps), Speaker + Resistance
+- PWM Audio (Pin 6), PWM Rate: 62500 Hz
+- Sampling Rate: 15625 Hz, Bit Depth: 8 bits
 - Recommending [Hairless MIDI<->Serial Bridge](http://projectgus.github.io/hairless-midiserial/) to connect PC
 
 ## VRA8.rb Features
 
 - Simulator of VRA8, Software Synthesizer for Windows
-- PCM Audio, Sampling Rate: 15625 Hz, Bit Depth: 8 bits
+- Sampling Rate: 15625 Hz, Bit Depth: 8 bits
 - Using Ruby (JRuby), UniMIDI, and win32-sound
     - `jgem install unimidi`
     - `jgem install win32-sound`
@@ -23,14 +25,14 @@
 ## Synthesizer Modules
 
 - VCO 1
-    - Waveform: Sawtooth, Square, Triangle, Sine
+    - Waveform: Sawtooth, Square, Triangle
     - Coarse Tune: -64, ..., +63 [semitone]
 - VCO 2
-    - Waveform: Sawtooth, Square, Triangle, Sine
+    - Waveform: Sawtooth, Square, Triangle
     - Coarse Tune: -64, ..., +63 [semitone]
     - Fine Tune: -10, 0, +10 [cent]
 - VCO 3
-    - Waveform: Sawtooth, Square, Triangle, Sine
+    - Waveform: Sawtooth, Square, Triangle
     - Coarse Tune: -64, ..., +63 [semitone]
     - Fine Tune: -10, 0, +10 [cent]
 - VCF

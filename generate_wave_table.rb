@@ -53,28 +53,14 @@ def generate_wave_table_triangle(max)
   end
 end
 
-def generate_wave_table_sine
-  generate_wave_table(1, "Sine") do |t, k|
-    if k == 1
-      (Math::PI / 2.0) * Math::sin((2.0 * Math::PI) * (t / 256.0))
-    else
-      0.0
-    end
-  end
-end
-
 FREQ_MAX = 8819  # refs "FreqTable.h"
 
-def generate_wave_tables(name, sine = false)
+def generate_wave_tables(name)
   wave_table_sels = (0..(FREQ_MAX / 256))
   $file.printf("const uint8_t* g_waveTables%s[] = {\n", name)
   wave_table_sels.each do |i|
-    if sine 
-      max = 1
-    elsif
-      max = 128 / (i + 1)
-      max = 64 if max == 128
-    end
+    max = 128 / (i + 1)
+    max = 64 if max == 128
     $file.printf("  g_waveTable%sM%d,\n", name, max)
   end
   $file.printf("};\n\n")
@@ -94,11 +80,8 @@ overtones.each do |max|
   generate_wave_table_triangle(max)
 end
 
-generate_wave_table_sine
-
 generate_wave_tables("Sawtooth")
 generate_wave_tables("Square")
 generate_wave_tables("Triangle")
-generate_wave_tables("Sine", true)
 
 $file.close
