@@ -35,6 +35,7 @@ inline uint8_t lowByte(uint16_t ui16)
 int main()
 {
   // setup
+  Synth::initialize();
   FILE* binFile = ::fopen("./sample_midi_stream.bin", "rb");
   WavFileOut::open("./a.wav");
 

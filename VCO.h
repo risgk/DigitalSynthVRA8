@@ -73,7 +73,7 @@ public:
     if (nextWeight == 0) {
       level = currData;
     } else {
-      uint8_t currWeight = 0 - nextWeight;
+      uint8_t currWeight = (uint8_t) 0 - nextWeight;
       level = highByte((currData * currWeight) + (nextData * nextWeight));
     }
 
@@ -84,7 +84,8 @@ private:
   inline static void updateFreq()
   {
     uint8_t pitch = m_noteNumber + m_courseTune;
-    if (pitch < (NOTE_NUMBER_MIN + 64) || pitch > (NOTE_NUMBER_MAX + 64)) {
+    if (pitch < (uint8_t) (NOTE_NUMBER_MIN + (uint8_t) 64) ||
+        pitch > (uint8_t) (NOTE_NUMBER_MAX + (uint8_t) 64)) {
       m_freq = 0;
     } else {
       uint8_t noteNumber = pitch - 64;

@@ -6,8 +6,8 @@
 
 class AudioOut
 {
-  static const int SPEAKER_PIN = 6;
-  static const int LED_PIN     = 13;
+  static const int SPEAKER_PIN = 6;   // PD6 (OC0A)
+  static const int LED_PIN     = 13;  // PB5
 
 public:
   inline static void open()
@@ -15,27 +15,27 @@ public:
     pinMode(SPEAKER_PIN, OUTPUT);
     pinMode(LED_PIN,     OUTPUT);
 
-    // Timer 0 (62500 Hz)
+    // Timer/Counter0 (8-bit Fast PWM, Inverting, 62500 Hz)
     TCCR0A = (uint8_t) 0xC3;
     TCCR0B = (uint8_t) 0x01;
     OCR0A  = (uint8_t) 0x80;
 
-    // Timer 1 (15625 Hz)
+    // Timer/Counter1 (10-bit Fast PWM, 15625 Hz)
     TCCR1A = (uint8_t) 0x03;
     TCCR1B = (uint8_t) 0x09;
   }
 
   inline static void write(int8_t level)
   {
-    if ((TIFR1 & 0x01) == 0) {
-      // OK
+    // LED is on during a slowdown
+    if ((TIFR1 & _BV(TOV1)) == 0) {
       PORTB &= ~_BV(5);
     } else {
-      // NG
       PORTB |= _BV(5);
     }
+
     while ((TIFR1 & 0x01) == 0);
-    TIFR1 = 0x01;
+    TIFR1 = _BV(TOV1);
     OCR0A = (uint8_t) 0x80 - (uint8_t) level;
   }
 };

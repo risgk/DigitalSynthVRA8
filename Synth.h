@@ -76,8 +76,6 @@ public:
         m_systemExclusive = true;
         break;
       }
-    } else { // real_time_message
-      // do nothing
     }
   }
 
