@@ -1,6 +1,7 @@
 #pragma once
 
 const boolean OPTION_BLACK_KEY_PROGRAM_CHANGE = true;
+const boolean OPTION_DEMO_MODE_ENABLED        = true;
 
 #if 1
 const uint16_t SERIAL_SPEED = 38400;

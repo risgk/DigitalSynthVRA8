@@ -80,7 +80,6 @@ public:
     return level;
   }
 
-private:
   inline static void updateFreq()
   {
     uint8_t pitch = m_noteNumber + m_courseTune;

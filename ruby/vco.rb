@@ -68,7 +68,6 @@ class VCO
     return level
   end
 
-  private
   def update_freq
     pitch = @note_number + @coarse_tune
     if (pitch < (NOTE_NUMBER_MIN + 64) || pitch > (NOTE_NUMBER_MAX + 64))

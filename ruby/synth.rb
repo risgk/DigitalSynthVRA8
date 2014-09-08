@@ -86,7 +86,6 @@ class Synth
     level = $vca.clock(level, eg_output)
   end
 
-  private
   def real_time_message?(b)
     b >= REAL_TIME_MESSAGE_MIN
   end

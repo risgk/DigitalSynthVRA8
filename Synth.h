@@ -88,7 +88,6 @@ public:
     return level;
   }
 
-private:
   inline static boolean IsRealTimeMessage(uint8_t b)
   {
     return b >= REAL_TIME_MESSAGE_MIN;
