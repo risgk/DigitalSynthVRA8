@@ -28,10 +28,10 @@ public:
   inline static void write(int8_t level)
   {
     // LED is on during a slowdown
-    if ((TIFR1 & _BV(TOV1)) == 0) {
-      PORTB &= ~_BV(5);
-    } else {
+    if (TIFR1 & _BV(TOV1)) {
       PORTB |= _BV(5);
+    } else {
+      PORTB &= ~_BV(5);
     }
 
     while ((TIFR1 & _BV(TOV1)) == 0);
