@@ -36,30 +36,19 @@ public:
 
   inline static void noteOn()
   {
-    if (m_level == 127) {
-      m_state = STATE_DECAY;
-      m_count = 0;
-    } else {
-      m_state = STATE_ATTACK;
-      m_count = *(g_envTableAttackInverse + m_level) << 8;
-    }
+    m_state = STATE_ATTACK;
+    m_count = *(g_envTableAttackInverse + m_level) << 8;
   }
 
   inline static void noteOff()
   {
-    switch (m_state) {
-    case STATE_ATTACK:
-    case STATE_DECAY:
-    case STATE_SUSTAIN:
-      m_state = STATE_RELEASE;
-      m_count = *(g_envTableDecayPlusReleaseInverse + m_level) << 8;
-    }
+    m_state = STATE_RELEASE;
+    m_count = *(g_envTableDecayPlusReleaseInverse + m_level) << 8;
   }
 
   inline static void soundOff()
   {
     m_state = STATE_IDLE;
-    m_level = 0;
   }
 
   inline static uint8_t clock()
@@ -67,12 +56,10 @@ public:
     switch (m_state) {
     case STATE_ATTACK:
       m_count += m_attackSpeed;
-      if (highByte(m_count) != (uint8_t) 255) {
-        m_level = *(g_envTableAttack + highByte(m_count));
-      } else {
+      m_level = *(g_envTableAttack + highByte(m_count));
+      if (highByte(m_count) == (uint8_t) 255) {
         m_state = STATE_DECAY;
         m_count = 0;
-        m_level = 127;
       }
       break;
     case STATE_DECAY:
@@ -88,11 +75,9 @@ public:
       break;
     case STATE_RELEASE:
       m_count += m_decayPlusReleaseSpeed;
-      if (highByte(m_count) != (uint8_t) 255) {
-        m_level = *(g_envTableDecayPlusRelease + highByte(m_count));
-      } else {
+      m_level = *(g_envTableDecayPlusRelease + highByte(m_count));
+      if (highByte(m_count) == (uint8_t) 255) {
         m_state = STATE_IDLE;
-        m_level = 0;
       }
       break;
     case STATE_IDLE:
