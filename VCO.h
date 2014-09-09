@@ -64,7 +64,7 @@ public:
 
     const uint8_t* waveTable = m_waveTables[highByte(m_freq)];
     uint8_t currIndex = highByte(m_phase);
-    uint8_t nextIndex = currIndex + 0x01;
+    uint8_t nextIndex = currIndex + 1;
     int8_t currData = pgm_read_byte(waveTable + currIndex);
     int8_t nextData = pgm_read_byte(waveTable + nextIndex);
 
@@ -83,18 +83,13 @@ public:
   inline static void updateFreq()
   {
     uint8_t pitch = m_noteNumber + m_courseTune;
-    if (pitch < (uint8_t) (NOTE_NUMBER_MIN + (uint8_t) 64) ||
-        pitch > (uint8_t) (NOTE_NUMBER_MAX + (uint8_t) 64)) {
-      m_freq = 0;
+    uint8_t noteNumber = pitch - (uint8_t) 64;
+    if (m_fineTune <= (uint8_t) 63) {
+      m_freq = pgm_read_word(g_freqTableMinus10Cent + noteNumber);
+    } else if (m_fineTune == (uint8_t) 64) {
+      m_freq = pgm_read_word(g_freqTable0Cent       + noteNumber);
     } else {
-      uint8_t noteNumber = pitch - 64;
-      if (m_fineTune <= 63) {
-        m_freq = pgm_read_word(g_freqTableMinus10Cent + noteNumber);
-      } else if (m_fineTune == 64) {
-        m_freq = pgm_read_word(g_freqTable0Cent       + noteNumber);
-      } else {
-        m_freq = pgm_read_word(g_freqTablePlus10Cent  + noteNumber);
-      }
+      m_freq = pgm_read_word(g_freqTablePlus10Cent  + noteNumber);
     }
   }
 };

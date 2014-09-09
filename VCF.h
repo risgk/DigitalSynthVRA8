@@ -31,16 +31,16 @@ public:
 
   inline static int8_t clock(int8_t a, uint8_t k)
   {
-    uint8_t cutoff = m_cutoff + highByte(m_envelope * (k << 1));
+    uint8_t cutoff = m_cutoff + highByte(m_envelope * (uint8_t) (k << (uint8_t) 1));
     if (cutoff > 127) {
       cutoff = 127;
     }
 
     const uint8_t* p;
     if ((m_resonance & 0x40) != 0) {
-      p = g_lpfTableQSqrt2      + (cutoff * 4);
+      p = g_lpfTableQSqrt2      + (uint16_t) (cutoff * (uint8_t) 4);
     } else {
-      p = g_lpfTableQ1OverSqrt2 + (cutoff * 4);
+      p = g_lpfTableQ1OverSqrt2 + (uint16_t) (cutoff * (uint8_t) 4);
     }
     uint8_t b1OverA0 = pgm_read_byte(p++);
     uint8_t b2OverA0 = pgm_read_byte(p++);

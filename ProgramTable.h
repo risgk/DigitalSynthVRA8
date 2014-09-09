@@ -6,6 +6,7 @@ const uint8_t g_programTable[] = {
   // VCO 3 Waveform, Coarse Tune, Fine Tune,
   // VCF Cutoff, Resonance, Envelope,
   // EG Attack, Decay + Release, Sustain
+  // Dummy, Dummy
 
   // Sub Osc Lead
   SAWTOOTH, 64,
@@ -13,6 +14,7 @@ const uint8_t g_programTable[] = {
   TRIANGLE, 52, 64,
   0, ON, 127,
   0, 80, 127,
+  64, 64,
 
   // Saw Lead
   SAWTOOTH, 64,
@@ -20,6 +22,7 @@ const uint8_t g_programTable[] = {
   SAWTOOTH, 64, 64,
   0, ON, 127,
   0, 80, 127,
+  64, 64,
 
   // Square Lead
   SQUARE, 64,
@@ -27,6 +30,7 @@ const uint8_t g_programTable[] = {
   SQUARE, 64, 64,
   0, OFF, 127,
   0, 80, 127,
+  64, 64,
 
   // Synth Pad
   SAWTOOTH, 64,
@@ -34,6 +38,7 @@ const uint8_t g_programTable[] = {
   TRIANGLE, 64, 64,
   0, OFF, 127,
   127, 127, 127,
+  64, 64,
 
   // Synth Bass
   TRIANGLE, 64,
@@ -41,4 +46,5 @@ const uint8_t g_programTable[] = {
   SAWTOOTH, 64, 64,
   0, ON, 127,
   0, 112, 0,
+  64, 64,
 };

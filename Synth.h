@@ -27,12 +27,12 @@ public:
     if (IsDataByte(b)) {
       if (m_systemExclusive) {
         // do nothing
-      } else if (m_systemDataRemaining > 0) {
+      } else if (m_systemDataRemaining != (uint8_t) 0) {
         m_systemDataRemaining--;
       } else if (m_runningStatus == NOTE_ON) {
         if (!IsDataByte(m_firstData)) {
           m_firstData = b;
-        } else if (b == 0x00) {
+        } else if (b == (uint8_t) 0) {
           noteOff(m_firstData);
           m_firstData = DATA_BYTE_INVALID;
         } else {
@@ -114,29 +114,31 @@ public:
       switch (noteNumber) {
       case 97:  // C#7
         programChange(0);
-        break;
+        return;
       case 99:  // D#7
         programChange(1);
-        break;
+        return;
       case 102:  // F#7
         programChange(2);
-        break;
+        return;
       case 104:  // G#7
         programChange(3);
-        break;
+        return;
       case 106:  // A#7
         programChange(4);
-        break;
+        return;
       }
     }
 
     uint8_t pitch2 = noteNumber + VCO<2>::coarseTune();
-    if (pitch2 < (NOTE_NUMBER_MIN + 64) || pitch2 > (NOTE_NUMBER_MAX + 64)) {
+    if (pitch2 < (uint8_t) (NOTE_NUMBER_MIN + (uint8_t) 64) ||
+        pitch2 > (uint8_t) (NOTE_NUMBER_MAX + (uint8_t) 64)) {
       return;
     }
 
     uint8_t pitch3 = noteNumber + VCO<3>::coarseTune();
-    if (pitch3 < (NOTE_NUMBER_MIN + 64) || pitch3 > (NOTE_NUMBER_MAX + 64)) {
+    if (pitch3 < (uint8_t) (NOTE_NUMBER_MIN + (uint8_t) 64) ||
+        pitch3 > (uint8_t) (NOTE_NUMBER_MAX + (uint8_t) 64)) {
       return;
     }
 
@@ -320,13 +322,12 @@ public:
     EG::noteOff();
   }
 
-  inline static void programChange(uint8_t program_number)
+  inline static void programChange(uint8_t programNumber)
   {
     soundOff();
-    const uint8_t* p = g_programTable + (program_number * PROGRAM_SIZE);
+    const uint8_t* p = g_programTable + (uint16_t) (programNumber * PROGRAM_SIZE);
     VCO<1>::setWaveform(*p++);
     VCO<1>::setCoarseTune(*p++);
-    VCO<1>::setFineTune(64);
     VCO<2>::setWaveform(*p++);
     VCO<2>::setCoarseTune(*p++);
     VCO<2>::setFineTune(*p++);
@@ -343,8 +344,8 @@ public:
   }
 };
 
-uint8_t Synth::m_systemExclusive = false;
+uint8_t Synth::m_systemExclusive     = false;
 uint8_t Synth::m_systemDataRemaining = 0;
-uint8_t Synth::m_runningStatus = STATUS_BYTE_INVALID;
-uint8_t Synth::m_firstData = DATA_BYTE_INVALID;
-uint8_t Synth::m_noteNumber = 60;
+uint8_t Synth::m_runningStatus       = STATUS_BYTE_INVALID;
+uint8_t Synth::m_firstData           = DATA_BYTE_INVALID;
+uint8_t Synth::m_noteNumber          = 60;

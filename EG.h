@@ -59,7 +59,6 @@ public:
   inline static void soundOff()
   {
     m_state = STATE_IDLE;
-    m_count = 0;
     m_level = 0;
   }
 
@@ -68,7 +67,7 @@ public:
     switch (m_state) {
     case STATE_ATTACK:
       m_count += m_attackSpeed;
-      if (highByte(m_count) < 255) {
+      if (highByte(m_count) != (uint8_t) 255) {
         m_level = *(g_envTableAttack + highByte(m_count));
       } else {
         m_state = STATE_DECAY;
@@ -89,11 +88,10 @@ public:
       break;
     case STATE_RELEASE:
       m_count += m_decayPlusReleaseSpeed;
-      if (highByte(m_count) < 255) {
+      if (highByte(m_count) != (uint8_t) 255) {
         m_level = *(g_envTableDecayPlusRelease + highByte(m_count));
       } else {
         m_state = STATE_IDLE;
-        m_count = 0;
         m_level = 0;
       }
       break;

@@ -13,7 +13,7 @@ const uint16_t SAMPLING_RATE = 15625;
 const uint8_t  NOTE_NUMBER_MIN = 24;
 const uint8_t  NOTE_NUMBER_MAX = 96;
 
-const uint8_t PROGRAM_SIZE = 14;
+const uint8_t PROGRAM_SIZE = 16;
 const uint8_t SUB_OSC_LEAD = 0;
 const uint8_t SAW_LEAD     = 1;
 const uint8_t SQUERE_LEAD  = 2;
