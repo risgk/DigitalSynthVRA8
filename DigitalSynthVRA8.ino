@@ -1,15 +1,12 @@
 #include "Arduino.h"
 #include "Common.h"
 #include "Synth.h"
+#include "SerialIn.h"
 #include "AudioOut.h"
 
 void setup() {
   Synth::initialize();
-
-  // Serial.begin(SERIAL_SPEED);
-  UBRR0 = (1000000 / SERIAL_SPEED) - 1;
-  UCSR0B = _BV(RXEN0);
-
+  SerialIn::open();
   AudioOut::open();
 }
 
@@ -30,11 +27,8 @@ void loop() {
     }
     count++;
 #else
-    // if (Serial.available() > 0) {
-    if (UCSR0A & _BV(RXC0)) {
-      // uint8_t b = Serial.read();
-      uint8_t b = UDR0;
-
+    if (SerialIn::available()) {
+      uint8_t b = SerialIn::read();
       Synth::receiveMIDIByte(b);
     }
 #endif
