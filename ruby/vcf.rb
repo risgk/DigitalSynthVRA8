@@ -45,7 +45,7 @@ class VCF
     end
 
     x0 = a
-    y0 = high_byte(((b2_over_a0 *  x0) + (b1_over_a0 * @x1) + (b2_over_a0 * @x2) +
+    y0 = high_byte(((b2_over_a0 *  x0) + (b1_over_a0 * @x1) + (b2_over_a0 * @x2) -
                     (a1_over_a0 * @y1) - (a2_over_a0 * @y2)) << 2)
     @x2 = @x1
     @y2 = @y1

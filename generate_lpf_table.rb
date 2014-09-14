@@ -21,10 +21,10 @@ def generate_lpf_table(name, q)
 
     b1_over_a0 = ((b1 / a0) * 64.0).round.to_i
     b2_over_a0 = ((b2 / a0) * 64.0).round.to_i
-    a1_over_a0 = ((a1 / a0) * (-64.0)).round.to_i
+    a1_over_a0 = ((a1 / a0) * 64.0).round.to_i
     a2_over_a0 = ((a2 / a0) * 64.0).round.to_i
 
-    $file.printf("%3d, %3d, %3d, %3d,", b1_over_a0, b2_over_a0, a1_over_a0, a2_over_a0)
+    $file.printf("%4d, %4d, %4d, %4d,", b1_over_a0, b2_over_a0, a1_over_a0, a2_over_a0)
     if i == 127
       $file.printf("\n")
     elsif i % 4 == 3
