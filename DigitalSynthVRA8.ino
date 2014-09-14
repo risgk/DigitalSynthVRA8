@@ -5,7 +5,11 @@
 
 void setup() {
   Synth::initialize();
-  Serial.begin(SERIAL_SPEED);
+
+  // Serial.begin(SERIAL_SPEED);
+  UBRR0 = (1000000 / SERIAL_SPEED) - 1;
+  UCSR0B = _BV(RXEN0);
+
   AudioOut::open();
 }
 
@@ -29,8 +33,11 @@ void loop() {
       count++;
     }
 #else
-    if (Serial.available() > 0) {
-      uint8_t b = Serial.read();
+    // if (Serial.available() > 0) {
+    if (UCSR0A & _BV(RXC0)) {
+      // uint8_t b = Serial.read();
+      uint8_t b = UDR0;
+
       Synth::receiveMIDIByte(b);
     }
 #endif
