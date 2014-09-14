@@ -1,6 +1,6 @@
-# Digital Synth VRA8 V0.10
+# Digital Synth VRA8 V0.xx
 
-2014-09-14 ISGK Instruments
+20xx-xx-xx ISGK Instruments
 
 ## Concept
 
@@ -65,8 +65,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-09-14       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.10          
+      ISGK Instruments                                                Date: 20xx-xx-xx       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.xx          
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
