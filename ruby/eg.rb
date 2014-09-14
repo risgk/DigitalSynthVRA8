@@ -10,22 +10,22 @@ class EG
 
   def initialize
     @attack_speed = 255
-    @decay_plus_release_speed = 255
+    @decay_speed = 255
     @sustain_level = 127
     @state = STATE_IDLE
     @count = 0
     @level = 0
   end
 
-  def set_attack(attack_time)
+  def set_attack_time(attack_time)
     @attack_speed = $env_table_speed_from_time[attack_time]
   end
 
-  def set_decay_plus_release(decay_plus_release_time)
-    @decay_plus_release_speed = $env_table_speed_from_time[decay_plus_release_time]
+  def set_decay_time(decay_time)
+    @decay_speed = $env_table_speed_from_time[decay_time]
   end
 
-  def set_sustain(sustain_level)
+  def set_sustain_level(sustain_level)
     @sustain_level = sustain_level
   end
 
@@ -43,7 +43,7 @@ class EG
     case (@state)
     when STATE_ATTACK, STATE_DECAY, STATE_SUSTAIN
       @state = STATE_RELEASE
-      @count = $env_table_decay_plus_release_inverse[@level] << 8
+      @count = $env_table_decay_inverse[@level] << 8
     end
   end
 
@@ -65,8 +65,8 @@ class EG
         @level = 127
       end
     when STATE_DECAY
-      @count += @decay_plus_release_speed
-      @level = $env_table_decay_plus_release[high_byte(@count)]
+      @count += @decay_speed
+      @level = $env_table_decay[high_byte(@count)]
       if (@level <= @sustain_level)
         @state = STATE_SUSTAIN
         @level = @sustain_level
@@ -74,9 +74,9 @@ class EG
     when STATE_SUSTAIN
       @level = @sustain_level
     when STATE_RELEASE
-      @count += @decay_plus_release_speed
+      @count += @decay_speed
       if (high_byte(@count) < 255)
-        @level = $env_table_decay_plus_release[high_byte(@count)]
+        @level = $env_table_decay[high_byte(@count)]
       else
         @state = STATE_IDLE
         @count = 0

@@ -10,7 +10,7 @@ class AudioOut
   static const int LED_PIN     = 13;  // PB5
 
 public:
-  inline static void open()
+  static void open()
   {
     pinMode(SPEAKER_PIN, OUTPUT);
     pinMode(LED_PIN,     OUTPUT);
@@ -25,9 +25,9 @@ public:
     TCCR1B = 0x09;
   }
 
-  inline static void write(int8_t level)
+  static void write(int8_t level)
   {
-    // LED is on during a slowdown
+    // LED is on during a overload
     if (TIFR1 & _BV(TOV1)) {
       PORTB |= _BV(5);
     } else {

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "Common.h"
 
-class WavFileOut
+class WAVFileOut
 {
   static const uint16_t SEC = 30;
 
@@ -13,7 +13,7 @@ class WavFileOut
   static boolean  m_closed;
 
 public:
-  inline static void open(const char* path)
+  static void open(const char* path)
   {
     m_file = fopen(path, "wb");
     fwrite("RIFF", 1, 4,m_file);
@@ -23,8 +23,8 @@ public:
     fwrite("\x10\x00\x00\x00", 1, 4,m_file);
     fwrite("\x01\x00\x01\x00", 1, 4,m_file);
     uint32_t a[1] = {SAMPLING_RATE};
-    fwrite(a, 1, 4, m_file);
-    fwrite(a, 1, 4, m_file);
+    fwrite(a, 4, 1, m_file);
+    fwrite(a, 4, 1, m_file);
     fwrite("\x01\x00\x08\x00", 1, 4,m_file);
     fwrite("data", 1, 4,m_file);
     fwrite("\x00\x00\x00\x00", 1, 4,m_file);
@@ -33,7 +33,7 @@ public:
     m_closed = false;
   }
 
-  inline static void write(uint8_t level)
+  static void write(uint8_t level)
   {
     if (m_dataSize < m_maxSize) {
       uint8_t a[1] = {(uint8_t) level + (uint8_t) 0x80};
@@ -45,7 +45,7 @@ public:
     }
   }
 
-  inline static void close()
+  static void close()
   {
     if (!m_closed) {
       fpos_t fileSize = 0;
@@ -53,17 +53,17 @@ public:
       fgetpos(m_file, &fileSize);
       fseek(m_file, 4, SEEK_SET);
       uint32_t a[1] = {fileSize - 8};
-      fwrite(a, 1, 4,m_file);
+      fwrite(a, 4, 1, m_file);
       fseek(m_file, 40, SEEK_SET);
       uint32_t a2[1] = {fileSize - 36};
-      fwrite(a2, 1, 4,m_file);
+      fwrite(a, 4, 1, m_file);
       fclose(m_file);
       printf("Recording end.\n");
     }
   }
 };
 
-FILE*    WavFileOut::m_file     = 0;
-uint32_t WavFileOut::m_maxSize  = SAMPLING_RATE * SEC;
-uint32_t WavFileOut::m_dataSize = 0;
-boolean  WavFileOut::m_closed   = false;
+FILE*    WAVFileOut::m_file     = 0;
+uint32_t WAVFileOut::m_maxSize  = SAMPLING_RATE * SEC;
+uint32_t WAVFileOut::m_dataSize = 0;
+boolean  WAVFileOut::m_closed   = false;

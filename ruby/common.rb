@@ -45,12 +45,12 @@ VCO_2_FINE_TUNE       = 44
 VCO_3_WAVEFORM        = 45
 VCO_3_COARSE_TUNE     = 46
 VCO_3_FINE_TUNE       = 47
-VCF_CUTOFF            = 48
+VCF_CUTOFF_FREQUENCY  = 48
 VCF_RESONANCE         = 49
-VCF_ENVELOPE          = 50
-EG_ATTACK             = 51
-EG_DECAY_PLUS_RELEASE = 52
-EG_SUSTAIN            = 53
+VCF_ENVELOPE_AMOUNT   = 50
+EG_ATTACK_TIME        = 51
+EG_DECAY_TIME         = 52
+EG_SUSTAIN_LEVEL      = 53
 ALL_NOTES_OFF         = 123
 
 def high_byte(ui16)

@@ -174,18 +174,18 @@ class Synth
       set_vco_3_coarse_tune(value)
     when VCO_3_FINE_TUNE
       set_vco_3_fine_tune(value)
-    when VCF_CUTOFF
-      set_vcf_cutoff(value)
+    when VCF_CUTOFF_FREQUENCY
+      set_vcf_cutoff_frequency(value)
     when VCF_RESONANCE
       set_vcf_resonance(value)
-    when VCF_ENVELOPE
-      set_vcf_envelope(value)
-    when EG_ATTACK
-      set_eg_attack(value)
-    when EG_DECAY_PLUS_RELEASE
-      set_decay_plus_release(value)
-    when EG_SUSTAIN
-      set_eg_sustain(value)
+    when VCF_ENVELOPE_AMOUNT
+      set_vcf_envelope_amount(value)
+    when EG_ATTACK_TIME
+      set_eg_attack_time(value)
+    when EG_DECAY_TIME
+      set_decay_time(value)
+    when EG_SUSTAIN_LEVEL
+      set_eg_sustain_level(value)
     when ALL_NOTES_OFF
       all_notes_off(value)
     end
@@ -239,9 +239,9 @@ class Synth
     reset_phase
   end
 
-  def set_vcf_cutoff(value)
+  def set_vcf_cutoff_frequency(value)
     sound_off
-    $vcf.set_cutoff(value)
+    $vcf.set_cutoff_frequency(value)
     reset_phase
   end
 
@@ -251,27 +251,27 @@ class Synth
     reset_phase
   end
 
-  def set_vcf_envelope(value)
+  def set_vcf_envelope_amount(value)
     sound_off
-    $vcf.set_envelope(value)
+    $vcf.set_envelope_amount(value)
     reset_phase
   end
 
-  def set_eg_attack(value)
+  def set_eg_attack_time(value)
     sound_off
-    $eg.set_attack(value)
+    $eg.set_attack_time(value)
     reset_phase
   end
 
-  def set_decay_plus_release(value)
+  def set_decay_time(value)
     sound_off
-    $eg.set_decay_plus_release(value)
+    $eg.set_decay_time(value)
     reset_phase
   end
 
-  def set_eg_sustain(value)
+  def set_eg_sustain_level(value)
     sound_off
-    $eg.set_sustain(value)
+    $eg.set_sustain_level(value)
     reset_phase
   end
 
@@ -291,12 +291,12 @@ class Synth
     $vco_3.set_waveform($program_table[i + 5])
     $vco_3.set_coarse_tune($program_table[i + 6])
     $vco_3.set_fine_tune($program_table[i + 7])
-    $vcf.set_cutoff($program_table[i + 8])
+    $vcf.set_cutoff_frequency($program_table[i + 8])
     $vcf.set_resonance($program_table[i + 9])
-    $vcf.set_envelope($program_table[i + 10])
-    $eg.set_attack($program_table[i + 11])
-    $eg.set_decay_plus_release($program_table[i + 12])
-    $eg.set_sustain($program_table[i + 13])
+    $vcf.set_envelope_amount($program_table[i + 10])
+    $eg.set_attack_time($program_table[i + 11])
+    $eg.set_decay_time($program_table[i + 12])
+    $eg.set_sustain_level($program_table[i + 13])
     reset_phase
   end
 end

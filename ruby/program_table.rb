@@ -2,8 +2,8 @@ $program_table = [
   # VCO 1 Waveform, Coarse Tune,
   # VCO 2 Waveform, Coarse Tune, Fine Tune,
   # VCO 3 Waveform, Coarse Tune, Fine Tune,
-  # VCF Cutoff, Resonance, Envelope,
-  # EG Attack, Decay + Release, Sustain
+  # VCF Cutoff Frequency, Resonance, Envelope Amount,
+  # EG Attack Time, Decay Time, Sustain Level
 
   # Sub Osc Lead
   SAWTOOTH, 64,

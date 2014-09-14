@@ -1,6 +1,6 @@
-# Digital Synthesizer VRA8 V0.xx
+# Digital Synth VRA8 V0.xx
 
-2014-09-07 ISGK
+2014-09-14 ISGK Instruments
 
 ## Concept
 
@@ -9,10 +9,12 @@
 
 ## VRA8 Features
 
-- Arduino Uno, Serial MIDI (38400 bps), Speaker + Resistance
-- PWM Audio (Pin 6), PWM Rate: 62500 Hz
+- Arduino Uno, Serial MIDI In (38400 bps), PWM Audio Out (Pin 6), PWM Rate: 62500 Hz
 - Sampling Rate: 15625 Hz, Bit Depth: 8 bits
 - Recommending [Hairless MIDI<->Serial Bridge](http://projectgus.github.io/hairless-midiserial/) to connect PC
+- Files
+    - "DigitalSynthVRA8.ino" for Arduino Uno.
+    - "MakeSampleWavFile.cc" for Debugging on PC, makes a sample WAV file.
 
 ## VRA8.rb Features
 
@@ -21,8 +23,11 @@
 - Using Ruby (JRuby), UniMIDI, and win32-sound
     - `jgem install unimidi`
     - `jgem install win32-sound`
+- Usage
+    - `jruby vra8.rb` starts VRA8.rb. Select a MIDI input.
+    - `jruby vra8.rb sample_midi_stream.bin` makes a sample WAV file.
 
-## Synthesizer Modules
+## Synth Modules
 
 - VCO 1
     - Waveform: Sawtooth, Square, Triangle
@@ -36,14 +41,15 @@
     - Coarse Tune: -64, ..., +63 [semitone]
     - Fine Tune: -10, 0, +10 [cent]
 - VCF
-    - Cutoff: SR/16, ..., SR/8, ..., SR/4
+    - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
+    - Cutoff Frequency: SR/16, ..., SR/8, ..., SR/4
     - Resonance: OFF, ON
-    - Envelope: 0, ..., 127
+    - Envelope Amount: 0, ..., 127
 - VCA
 - EG
-    - Attack: 16, ..., 262, ..., 4178 [ms]
-    - Decay + Release: 16, ..., 262, ..., 4178 [ms]
-    - Sustain: 0, ..., 127
+    - Attack Time: 16, ..., 262, ..., 4178 [ms]
+    - Decay Time: 16, ..., 262, ..., 4178 [ms]
+    - Sustainn Level: 0, ..., 127
 
 ## Preset Programs
 
@@ -59,8 +65,8 @@
 
 ## MIDI Implementation Chart
 
-      Digital Synthesizer                                             Date: 2014-xx-xx       
-      Model: VRA8                     MIDI Implementation Chart       Version: 0.xx          
+      ISGK Instruments                                                Date: 2014-xx-xx       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.xx          
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
@@ -90,12 +96,12 @@
     |                            45 | x             | o             | VCO 3 Waveform        |
     |                            46 | x             | o             | VCO 3 Coarse Tune     |
     |                            47 | x             | o             | VCO 3 Fine Tune       |
-    |                            48 | x             | o             | VCF Cutoff            |
+    |                            48 | x             | o             | VCF Cutoff Frequency  |
     |                            49 | x             | o             | VCF Resonance         |
-    |                            50 | x             | o             | VCF Envelope          |
-    |                            51 | x             | o             | EG Attack             |
-    |                            52 | x             | o             | EG Decay + Release    |
-    |                            53 | x             | o             | EG Sustain            |
+    |                            50 | x             | o             | VCF Envelope Amount   |
+    |                            51 | x             | o             | EG Attack Time        |
+    |                            52 | x             | o             | EG Decay Time         |
+    |                            53 | x             | o             | EG Sustain Level      |
     +-------------------------------+---------------+---------------+-----------------------+
     | Program                       | x             | o             |                       |
     | Change       : True Number    | ************* | 0-4           |                       |

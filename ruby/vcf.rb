@@ -3,41 +3,41 @@ require './lpf_table'
 
 class VCF
   def initialize
-    @cutoff = 127
+    @cutoff_frequency = 127
     @resonance = OFF
-    @envelope = 0
+    @envelope_amount = 0
     @x1 = 0
     @x2 = 0
     @y1 = 0
     @y2 = 0
   end
 
-  def set_cutoff(cutoff)
-    @cutoff = cutoff
+  def set_cutoff_frequency(cutoff_frequency)
+    @cutoff_frequency = cutoff_frequency
   end
 
   def set_resonance(resonance)
     @resonance = resonance
   end
 
-  def set_envelope(envelope)
-    @envelope = envelope
+  def set_envelope_amount(envelope_amount)
+    @envelope_amount = envelope_amount
   end
 
   def clock(a, k)
-    cutoff = @cutoff + high_byte(@envelope * (k << 1))
-    if (cutoff > 127)
-      cutoff = 127
+    cutoff_frequency = @cutoff_frequency + high_byte(@envelope_amount * (k << 1))
+    if (cutoff_frequency > 127)
+      cutoff_frequency = 127
     end
 
     if ((@resonance & 0x40) != 0)
-      i = cutoff * 4
+      i = cutoff_frequency * 4
       b1_over_a0 = $lpf_table_q_sqrt_2[i + 0]
       b2_over_a0 = $lpf_table_q_sqrt_2[i + 1]
       a1_over_a0 = $lpf_table_q_sqrt_2[i + 2]
       a2_over_a0 = $lpf_table_q_sqrt_2[i + 3]
     else
-      i = cutoff * 4
+      i = cutoff_frequency * 4
       b1_over_a0 = $lpf_table_q_1_over_sqrt_2[i + 0]
       b2_over_a0 = $lpf_table_q_1_over_sqrt_2[i + 1]
       a1_over_a0 = $lpf_table_q_1_over_sqrt_2[i + 2]

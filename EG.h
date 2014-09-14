@@ -12,46 +12,46 @@ class EG
   static const uint8_t STATE_IDLE    = 4;
 
   static uint8_t  m_attackSpeed;
-  static uint8_t  m_decayPlusReleaseSpeed;
+  static uint8_t  m_decaySpeed;
   static uint8_t  m_sustainLevel;
   static uint8_t  m_state;
   static uint16_t m_count;
   static int8_t   m_level;
 
 public:
-  inline static void setAttack(uint8_t attackTime)
+  static void setAttackTime(uint8_t attackTime)
   {
     m_attackSpeed = *(g_envTableSpeedFromTime + attackTime);
   }
 
-  inline static void setDecayPlusRelease(uint8_t decayPlusReleaseTime)
+  static void setDecayTime(uint8_t decayTime)
   {
-    m_decayPlusReleaseSpeed = *(g_envTableSpeedFromTime + decayPlusReleaseTime);
+    m_decaySpeed = *(g_envTableSpeedFromTime + decayTime);
   }
 
-  inline static void setSustain(uint8_t sustainLevel)
+  static void setSustainLevel(uint8_t sustainLevel)
   {
     m_sustainLevel = sustainLevel;
   }
 
-  inline static void noteOn()
+  static void noteOn()
   {
     m_state = STATE_ATTACK;
     m_count = *(g_envTableAttackInverse + m_level) << 8;
   }
 
-  inline static void noteOff()
+  static void noteOff()
   {
     m_state = STATE_RELEASE;
-    m_count = *(g_envTableDecayPlusReleaseInverse + m_level) << 8;
+    m_count = *(g_envTableDecayInverse + m_level) << 8;
   }
 
-  inline static void soundOff()
+  static void soundOff()
   {
     m_state = STATE_IDLE;
   }
 
-  inline static uint8_t clock()
+  static uint8_t clock()
   {
     switch (m_state) {
     case STATE_ATTACK:
@@ -63,8 +63,8 @@ public:
       }
       break;
     case STATE_DECAY:
-      m_count += m_decayPlusReleaseSpeed;
-      m_level = *(g_envTableDecayPlusRelease + highByte(m_count));
+      m_count += m_decaySpeed;
+      m_level = *(g_envTableDecay + highByte(m_count));
       if (m_level <= m_sustainLevel) {
         m_state = STATE_SUSTAIN;
         m_level = m_sustainLevel;
@@ -74,8 +74,8 @@ public:
       m_level = m_sustainLevel;
       break;
     case STATE_RELEASE:
-      m_count += m_decayPlusReleaseSpeed;
-      m_level = *(g_envTableDecayPlusRelease + highByte(m_count));
+      m_count += m_decaySpeed;
+      m_level = *(g_envTableDecay + highByte(m_count));
       if (highByte(m_count) == (uint8_t) 255) {
         m_state = STATE_IDLE;
       }
@@ -89,9 +89,9 @@ public:
   }
 };
 
-uint8_t  EG::m_attackSpeed           = 255;
-uint8_t  EG::m_decayPlusReleaseSpeed = 255;
-uint8_t  EG::m_sustainLevel          = 127;
-uint8_t  EG::m_state                 = STATE_IDLE;
-uint16_t EG::m_count                 = 0;
-int8_t   EG::m_level                 = 0;
+uint8_t  EG::m_attackSpeed  = 255;
+uint8_t  EG::m_decaySpeed   = 255;
+uint8_t  EG::m_sustainLevel = 127;
+uint8_t  EG::m_state        = STATE_IDLE;
+uint16_t EG::m_count        = 0;
+int8_t   EG::m_level        = 0;

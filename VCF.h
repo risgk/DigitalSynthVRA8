@@ -6,21 +6,21 @@
 class VCF
 {
   static const uint8_t* m_lpfTable;
-  static uint8_t        m_cutoff;
+  static uint8_t        m_cutoffFrequency;
   static uint8_t        m_resonance;
-  static uint8_t        m_envelope;
+  static uint8_t        m_envelopeAmount;
   static int8_t         m_x1;
   static int8_t         m_x2;
   static int8_t         m_y1;
   static int8_t         m_y2;
 
 public:
-  inline static void setCutoff(uint8_t cutoff)
+  static void setCutoffFrequency(uint8_t cutoffFrequency)
   {
-    m_cutoff = cutoff;
+    m_cutoffFrequency = cutoffFrequency;
   }
 
-  inline static void setResonance(uint8_t resonance)
+  static void setResonance(uint8_t resonance)
   {
     m_resonance = resonance;
     if (resonance & 0x40) {
@@ -30,19 +30,19 @@ public:
     }
   }
 
-  inline static void setEnvelope(uint8_t envelope)
+  static void setEnvelopeAmount(uint8_t envelopeAmount)
   {
-    m_envelope = envelope;
+    m_envelopeAmount = envelopeAmount;
   }
 
-  inline static int8_t clock(int8_t a, uint8_t k)
+  static int8_t clock(int8_t a, uint8_t k)
   {
-    uint8_t cutoff = m_cutoff + highByte(m_envelope * (uint8_t) (k << (uint8_t) 1));
-    if (cutoff & 0x80) {
-      cutoff = 127;
+    uint8_t cutoffFrequency = m_cutoffFrequency + highByte(m_envelopeAmount * (uint8_t) (k << (uint8_t) 1));
+    if (cutoffFrequency & 0x80) {
+      cutoffFrequency = 127;
     }
 
-    const uint8_t* p = m_lpfTable + (uint16_t) (cutoff * (uint8_t) 4);
+    const uint8_t* p = m_lpfTable + (uint16_t) (cutoffFrequency * (uint8_t) 4);
     uint8_t b1OverA0 = pgm_read_byte(p++);
     uint8_t b2OverA0 = pgm_read_byte(p++);
     uint8_t a1OverA0 = pgm_read_byte(p++);
@@ -61,9 +61,9 @@ public:
 };
 
 const uint8_t* VCF::m_lpfTable  = g_lpfTableQ1OverSqrt2;
-uint8_t        VCF::m_cutoff    = 127;
+uint8_t        VCF::m_cutoffFrequency    = 127;
 uint8_t        VCF::m_resonance = 0;
-uint8_t        VCF::m_envelope  = 0;
+uint8_t        VCF::m_envelopeAmount  = 0;
 int8_t         VCF::m_x1        = 0;
 int8_t         VCF::m_x2        = 0;
 int8_t         VCF::m_y1        = 0;

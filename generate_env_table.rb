@@ -59,16 +59,16 @@ $file.printf("const uint8_t g_envTableAttackInverse[] = {\n  ")
 end
 $file.printf("};\n\n")
 
-$env_table_decay_plus_release = []
+$env_table_decay = []
 
-$file.printf("const uint8_t g_envTableDecayPlusRelease[] = {\n  ")
+$file.printf("const uint8_t g_envTableDecay[] = {\n  ")
 (0..255).each do |i|
   if i == 255
     level = 0
   else
     level = (127 * (0.5 ** (i / 40.0))).floor.to_i
   end
-  $env_table_decay_plus_release[i] = level
+  $env_table_decay[i] = level
 
   $file.printf("%3d,", level)
   if i == 255
@@ -81,11 +81,11 @@ $file.printf("const uint8_t g_envTableDecayPlusRelease[] = {\n  ")
 end
 $file.printf("};\n\n")
 
-$file.printf("const uint8_t g_envTableDecayPlusReleaseInverse[] = {\n  ")
+$file.printf("const uint8_t g_envTableDecayInverse[] = {\n  ")
 (0..127).each do |level|
   decay_count = 255
   (0..255).each do |i|
-    if level >= $env_table_decay_plus_release[i]
+    if level >= $env_table_decay[i]
       decay_count = i
       break
     end

@@ -30,14 +30,14 @@ inline uint8_t lowByte(uint16_t ui16)
 #include <stdio.h>
 #include "Common.h"
 #include "Synth.h"
-#include "WavFileOut.h"
+#include "WAVFileOut.h"
 
 int main()
 {
   // setup
   Synth::initialize();
   FILE* binFile = ::fopen("./sample_midi_stream.bin", "rb");
-  WavFileOut::open("./a.wav");
+  WAVFileOut::open("./a.wav");
 
   // loop
   int c;
@@ -46,12 +46,12 @@ int main()
     Synth::receiveMIDIByte(b);
     for (uint16_t i = 0; i < 10; i++) {
       uint8_t level = Synth::clock();
-      WavFileOut::write(level);
+      WAVFileOut::write(level);
     }
   }
 
   // teardown
-  WavFileOut::close();
+  WAVFileOut::close();
   ::fclose(binFile);
 
   return 0;

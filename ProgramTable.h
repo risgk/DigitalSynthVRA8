@@ -4,8 +4,8 @@ const uint8_t g_programTable[] = {
   // VCO 1 Waveform, Coarse Tune,
   // VCO 2 Waveform, Coarse Tune, Fine Tune,
   // VCO 3 Waveform, Coarse Tune, Fine Tune,
-  // VCF Cutoff, Resonance, Envelope,
-  // EG Attack, Decay + Release, Sustain
+  // VCF Cutoff Frequency, Resonance, Envelope Amount,
+  // EG Attack Time, Decay Time, Sustain Level
   // Dummy, Dummy
 
   // Sub Osc Lead

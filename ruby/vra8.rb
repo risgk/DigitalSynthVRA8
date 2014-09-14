@@ -9,7 +9,7 @@ $synth = Synth.new
 
 if ARGV.length == 1
   File::open(ARGV[0], "rb") do |bin_file|
-    wav_file_out = WavFileOut.new("./a.wav")
+    wav_file_out = WAVFileOut.new("./a.wav")
     while(c = bin_file.read(1)) do
       b = c.ord
       $synth.receive_midi_byte(b)
@@ -25,7 +25,7 @@ else
   require "thread"
   q = Queue.new
   t = Thread.new do
-    wav_file_out = WavFileOut.new("./a.wav") if OPTION_RECORDING
+    wav_file_out = WAVFileOut.new("./a.wav") if OPTION_RECORDING
     AudioOut::open
     loop do
       if (!q.empty?)

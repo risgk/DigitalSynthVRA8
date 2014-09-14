@@ -17,12 +17,12 @@ class Synth
   static uint8_t m_noteNumber;
 
 public:
-  inline static void initialize()
+  static void initialize()
   {
     programChange(0);
   }
 
-  inline static void receiveMIDIByte(uint8_t b)
+  static void receiveMIDIByte(uint8_t b)
   {
     if (IsDataByte(b)) {
       if (m_systemExclusive) {
@@ -79,7 +79,7 @@ public:
     }
   }
 
-  inline static int8_t clock()
+  static int8_t clock()
   {
     int8_t level = Mixer::clock(VCO<1>::clock(), VCO<2>::clock(), VCO<3>::clock());
     uint8_t egOutput = EG::clock();
@@ -88,28 +88,29 @@ public:
     return level;
   }
 
-  inline static boolean IsRealTimeMessage(uint8_t b)
+  static boolean IsRealTimeMessage(uint8_t b)
   {
     return b >= REAL_TIME_MESSAGE_MIN;
   }
 
-  inline static boolean IsSystemMessage(uint8_t b)
+  static boolean IsSystemMessage(uint8_t b)
   {
     return b >= SYSTEM_MESSAGE_MIN;
   }
 
-  inline static boolean IsStatusByte(uint8_t b)
+  static boolean IsStatusByte(uint8_t b)
   {
     return b >= STATUS_BYTE_MIN;
   }
 
-  inline static boolean IsDataByte(uint8_t b)
+  static boolean IsDataByte(uint8_t b)
   {
     return b <= DATA_BYTE_MAX;
   }
 
-  inline static void noteOn(uint8_t noteNumber)
+  static void noteOn(uint8_t noteNumber)
   {
+#if 0
     if (OPTION_BLACK_KEY_PROGRAM_CHANGE) {
       switch (noteNumber) {
       case 97:  // C#7
@@ -141,6 +142,7 @@ public:
         pitch3 > (uint8_t) (NOTE_NUMBER_MAX + (uint8_t) 64)) {
       return;
     }
+#endif
 
     m_noteNumber = noteNumber;
     VCO<1>::noteOn(m_noteNumber);
@@ -149,26 +151,26 @@ public:
     EG::noteOn();
   }
 
-  inline static void noteOff(uint8_t noteNumber)
+  static void noteOff(uint8_t noteNumber)
   {
     if (noteNumber == m_noteNumber) {
       EG::noteOff();
     }
   }
 
-  inline static void soundOff()
+  static void soundOff()
   {
     EG::soundOff();
   }
 
-  inline static void resetPhase()
+  static void resetPhase()
   {
     VCO<1>::resetPhase();
     VCO<2>::resetPhase();
     VCO<3>::resetPhase();
   }
 
-  inline static void controlChange(uint8_t controller_number, uint8_t value)
+  static void controlChange(uint8_t controller_number, uint8_t value)
   {
     switch (controller_number) {
     case ALL_NOTES_OFF:
@@ -196,133 +198,133 @@ public:
       setVCO3CoarseTune(value);
       break;
     case VCO_3_FINE_TUNE:
-      setVCO3_fine_tune(value);
+      setVCO3FineTune(value);
       break;
-    case VCF_CUTOFF:
-      setVCFCutoff(value);
+    case VCF_CUTOFF_FREQUENCY:
+      setVCFCutoffFrequency(value);
       break;
     case VCF_RESONANCE:
       setVCFResonance(value);
       break;
-    case VCF_ENVELOPE:
-      setVCFEnvelope(value);
+    case VCF_ENVELOPE_AMOUNT:
+      setVCFEnvelopeAmount(value);
       break;
-    case EG_ATTACK:
-      setEGAttack(value);
+    case EG_ATTACK_TIME:
+      setEGAttackTime(value);
       break;
-    case EG_DECAY_PLUS_RELEASE:
-      setEGDecayPlusRelease(value);
+    case EG_DECAY_TIME:
+      setEGDecayTime(value);
       break;
-    case EG_SUSTAIN:
-      setEGSustain(value);
+    case EG_SUSTAIN_LEVEL:
+      setEGSustainLevel(value);
       break;
     }
   }
 
-  inline static void setVCO1Waveform(uint8_t value)
+  static void setVCO1Waveform(uint8_t value)
   {
     soundOff();
     VCO<1>::setWaveform(value);
     resetPhase();
   }
 
-  inline static void setVCO1CoarseTune(uint8_t value)
+  static void setVCO1CoarseTune(uint8_t value)
   {
     soundOff();
     VCO<1>::setCoarseTune(value);
     resetPhase();
   }
 
-  inline static void setVCO2Waveform(uint8_t value)
+  static void setVCO2Waveform(uint8_t value)
   {
     soundOff();
     VCO<2>::setWaveform(value);
     resetPhase();
   }
 
-  inline static void setVCO2CoarseTune(uint8_t value)
+  static void setVCO2CoarseTune(uint8_t value)
   {
     soundOff();
     VCO<2>::setCoarseTune(value);
     resetPhase();
   }
 
-  inline static void setVCO2_fine_tune(uint8_t value)
+  static void setVCO2_fine_tune(uint8_t value)
   {
     soundOff();
     VCO<2>::setFineTune(value);
     resetPhase();
   }
 
-  inline static void setVCO3Waveform(uint8_t value)
+  static void setVCO3Waveform(uint8_t value)
   {
     soundOff();
     VCO<3>::setWaveform(value);
     resetPhase();
   }
 
-  inline static void setVCO3CoarseTune(uint8_t value)
+  static void setVCO3CoarseTune(uint8_t value)
   {
     soundOff();
     VCO<3>::setCoarseTune(value);
     resetPhase();
   }
 
-  inline static void setVCO3_fine_tune(uint8_t value)
+  static void setVCO3FineTune(uint8_t value)
   {
     soundOff();
     VCO<3>::setFineTune(value);
     resetPhase();
   }
 
-  inline static void setVCFCutoff(uint8_t value)
+  static void setVCFCutoffFrequency(uint8_t value)
   {
     soundOff();
-    VCF::setCutoff(value);
+    VCF::setCutoffFrequency(value);
     resetPhase();
   }
 
-  inline static void setVCFResonance(uint8_t value)
+  static void setVCFResonance(uint8_t value)
   {
     soundOff();
     VCF::setResonance(value);
     resetPhase();
   }
 
-  inline static void setVCFEnvelope(uint8_t value)
+  static void setVCFEnvelopeAmount(uint8_t value)
   {
     soundOff();
-    VCF::setEnvelope(value);
+    VCF::setEnvelopeAmount(value);
     resetPhase();
   }
 
-  inline static void setEGAttack(uint8_t value)
+  static void setEGAttackTime(uint8_t value)
   {
     soundOff();
-    EG::setAttack(value);
+    EG::setAttackTime(value);
     resetPhase();
   }
 
-  inline static void setEGDecayPlusRelease(uint8_t value)
+  static void setEGDecayTime(uint8_t value)
   {
     soundOff();
-    EG::setDecayPlusRelease(value);
+    EG::setDecayTime(value);
     resetPhase();
   }
 
-  inline static void setEGSustain(uint8_t value)
+  static void setEGSustainLevel(uint8_t value)
   {
     soundOff();
-    EG::setSustain(value);
+    EG::setSustainLevel(value);
     resetPhase();
   }
 
-  inline static void allNotesOff(uint8_t value)
+  static void allNotesOff(uint8_t value)
   {
     EG::noteOff();
   }
 
-  inline static void programChange(uint8_t programNumber)
+  static void programChange(uint8_t programNumber)
   {
     soundOff();
     const uint8_t* p = g_programTable + (uint16_t) (programNumber * PROGRAM_SIZE);
@@ -334,12 +336,12 @@ public:
     VCO<3>::setWaveform(*p++);
     VCO<3>::setCoarseTune(*p++);
     VCO<3>::setFineTune(*p++);
-    VCF::setCutoff(*p++);
+    VCF::setCutoffFrequency(*p++);
     VCF::setResonance(*p++);
-    VCF::setEnvelope(*p++);
-    EG::setAttack(*p++);
-    EG::setDecayPlusRelease(*p++);
-    EG::setSustain(*p++);
+    VCF::setEnvelopeAmount(*p++);
+    EG::setAttackTime(*p++);
+    EG::setDecayTime(*p++);
+    EG::setSustainLevel(*p++);
     resetPhase();
   }
 };

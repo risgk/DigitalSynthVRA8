@@ -15,12 +15,12 @@ class VCO
   static uint16_t        m_freq;
 
 public:
-  inline static void resetPhase()
+  static void resetPhase()
   {
     m_phase = 0;
   }
 
-  inline static void setWaveform(uint8_t waveform)
+  static void setWaveform(uint8_t waveform)
   {
     switch (waveform) {
     case SAWTOOTH:
@@ -35,30 +35,30 @@ public:
     }
   }
 
-  inline static void setCoarseTune(uint8_t coarseTune)
+  static void setCoarseTune(uint8_t coarseTune)
   {
     m_courseTune = coarseTune;
     updateFreq();
   }
 
-  inline static uint8_t coarseTune()
+  static uint8_t coarseTune()
   {
     return m_courseTune;
   }
 
-  inline static void setFineTune(uint8_t fineTune)
+  static void setFineTune(uint8_t fineTune)
   {
     m_fineTune = fineTune;
     updateFreq();
   }
 
-  inline static void noteOn(uint8_t noteNumber)
+  static void noteOn(uint8_t noteNumber)
   {
     m_noteNumber = noteNumber;
     updateFreq();
   }
 
-  inline static uint8_t clock()
+  static uint8_t clock()
   {
     m_phase += m_freq;
 
@@ -80,7 +80,7 @@ public:
     return level;
   }
 
-  inline static void updateFreq()
+  static void updateFreq()
   {
     uint8_t pitch = m_noteNumber + m_courseTune;
     uint8_t noteNumber = pitch - (uint8_t) 64;

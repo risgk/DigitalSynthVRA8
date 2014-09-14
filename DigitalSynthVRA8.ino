@@ -12,13 +12,13 @@ void setup() {
 void loop() {
   while(true) {
     static boolean demo = true;
-#if 1
+#if 0
     if (Serial.available() > 0) {
       uint8_t b = Serial.read();
       Synth::receiveMIDIByte(b);
     }
 #else
-  // TODO: Demo Mode
+// TODO: Demo Mode
     if (demo) {
       static uint16_t count = 0;
       switch (count) {
