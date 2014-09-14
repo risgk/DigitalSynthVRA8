@@ -15,23 +15,20 @@ void setup() {
 
 void loop() {
   while(true) {
-    static boolean demo = true;
-#ifdef OPTION_DEMO_MODE_ENABLED
-    if (demo) {
-      static uint16_t count = 0;
-      switch (count) {
-      case      0: Synth::noteOn (48); break;
-      case   2500: Synth::noteOff(48); break;
-      case   5000: Synth::noteOn (53); break;
-      case   7500: Synth::noteOff(53); break;
-      case  10000: Synth::noteOn (55); break;
-      case  12500: Synth::noteOff(55); break;
-      case  15000: Synth::noteOn (53); break;
-      case  17500: Synth::noteOff(53); break;
-      case  19999: count = 65535u;     break;
-      }
-      count++;
+#ifdef OPTION_DEMO_MODE
+    static uint16_t count = 0;
+    switch (count) {
+    case      0: Synth::noteOn (48);       break;
+    case   2500: Synth::noteOff(48);       break;
+    case   5000: Synth::noteOn (53);       break;
+    case   7500: Synth::noteOff(53);       break;
+    case  10000: Synth::noteOn (55);       break;
+    case  12500: Synth::noteOff(55);       break;
+    case  15000: Synth::noteOn (53);       break;
+    case  17500: Synth::noteOff(53);       break;
+    case  19999: count = (uint16_t) 65535; break;
     }
+    count++;
 #else
     // if (Serial.available() > 0) {
     if (UCSR0A & _BV(RXC0)) {

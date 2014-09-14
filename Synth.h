@@ -111,22 +111,24 @@ public:
   static void noteOn(uint8_t noteNumber)
   {
 #ifdef OPTION_BLACK_KEY_PROGRAM_CHANGE
-    switch (noteNumber) {
-    case 97:  // C#7
-      programChange(0);
-      return;
-    case 99:  // D#7
-      programChange(1);
-      return;
-    case 102:  // F#7
-      programChange(2);
-      return;
-    case 104:  // G#7
-      programChange(3);
-      return;
-    case 106:  // A#7
-      programChange(4);
-      return;
+    if (noteNumber > 96) {
+      switch (noteNumber) {
+      case 97:  // C#7
+        programChange(0);
+        return;
+      case 99:  // D#7
+        programChange(1);
+        return;
+      case 102:  // F#7
+        programChange(2);
+        return;
+      case 104:  // G#7
+        programChange(3);
+        return;
+      case 106:  // A#7
+        programChange(4);
+        return;
+      }
     }
 #endif
 

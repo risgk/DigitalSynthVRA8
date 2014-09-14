@@ -82,8 +82,7 @@ public:
 
   static void updateFreq()
   {
-    uint8_t pitch = m_noteNumber + m_courseTune;
-    uint8_t noteNumber = pitch - (uint8_t) 64;
+    uint8_t noteNumber = m_noteNumber + m_courseTune - (uint8_t) 64;
     if (m_fineTune <= (uint8_t) 63) {
       m_freq = pgm_read_word(g_freqTableMinus10Cent + noteNumber);
     } else if (m_fineTune == (uint8_t) 64) {

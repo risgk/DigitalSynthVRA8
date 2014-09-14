@@ -1,7 +1,8 @@
 #pragma once
 
 #define OPTION_BLACK_KEY_PROGRAM_CHANGE
-//#define OPTION_DEMO_MODE_ENABLED
+//#define OPTION_DEMO_MODE
+#define OPTION_OVERLOAD_LED
 
 //const uint16_t SERIAL_SPEED    = 31250;
 const uint16_t SERIAL_SPEED    = 38400;

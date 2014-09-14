@@ -27,13 +27,13 @@ public:
 
   static void write(int8_t level)
   {
-    // LED is on during a overload
+#ifdef OPTION_OVERLOAD_LED
     if (TIFR1 & _BV(TOV1)) {
       PORTB |= _BV(5);
     } else {
       PORTB &= ~_BV(5);
     }
-
+#endif
     while ((TIFR1 & _BV(TOV1)) == 0);
     TIFR1 = _BV(TOV1);
     OCR0A = (uint8_t) 0x80 - (uint8_t) level;
