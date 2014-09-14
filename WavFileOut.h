@@ -56,7 +56,7 @@ public:
       fwrite(a, 4, 1, m_file);
       fseek(m_file, 40, SEEK_SET);
       uint32_t a2[1] = {fileSize - 36};
-      fwrite(a, 4, 1, m_file);
+      fwrite(a2, 4, 1, m_file);
       fclose(m_file);
       printf("Recording end.\n");
     }
