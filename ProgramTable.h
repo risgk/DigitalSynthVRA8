@@ -12,7 +12,7 @@ const uint8_t g_programTable[] = {
   SAWTOOTH, 64,
   SAWTOOTH, 64, 74,
   TRIANGLE, 52, 64,
-  0, ON, 127,
+  64, ON, 64,
   0, 80, 127,
   64, 64,
 
@@ -20,7 +20,7 @@ const uint8_t g_programTable[] = {
   SAWTOOTH, 64,
   SAWTOOTH, 64, 74,
   SAWTOOTH, 64, 64,
-  0, ON, 127,
+  64, ON, 64,
   0, 80, 127,
   64, 64,
 
@@ -28,15 +28,15 @@ const uint8_t g_programTable[] = {
   SQUARE, 64,
   SQUARE, 64, 74,
   SQUARE, 64, 64,
-  0, OFF, 127,
-  0, 80, 127,
+  64, OFF, 64,
+  16, 80, 127,
   64, 64,
 
   // Synth Pad
   SAWTOOTH, 64,
   SAWTOOTH, 64, 74,
   TRIANGLE, 64, 64,
-  0, OFF, 127,
+  0, ON, 127,
   127, 127, 127,
   64, 64,
 

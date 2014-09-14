@@ -5,7 +5,7 @@
 ## Concept
 
 - 8-bit Virtual Analog (Monophonic) Synthesizer
-- No Keyboard, Sound Generator
+- No Keyboard, MIDI Sound Module
 
 ## VRA8 Features
 
@@ -13,8 +13,8 @@
 - Sampling Rate: 15625 Hz, Bit Depth: 8 bits
 - Recommending [Hairless MIDI<->Serial Bridge](http://projectgus.github.io/hairless-midiserial/) to connect PC
 - Files
-    - "DigitalSynthVRA8.ino" for Arduino Uno.
-    - "MakeSampleWavFile.cc" for Debugging on PC, makes a sample WAV file.
+    - "DigitalSynthVRA8.ino" for Arduino Uno
+    - "MakeSampleWavFile.cc" for Debugging on PC, makes a sample WAV file
 
 ## VRA8.rb Features
 
@@ -24,8 +24,8 @@
     - `jgem install unimidi`
     - `jgem install win32-sound`
 - Usage
-    - `jruby vra8.rb` starts VRA8.rb. Select a MIDI input.
-    - `jruby vra8.rb sample_midi_stream.bin` makes a sample WAV file.
+    - `jruby vra8.rb` starts VRA8.rb
+    - `jruby vra8.rb sample_midi_stream.bin` makes a sample WAV file
 
 ## Synth Modules
 

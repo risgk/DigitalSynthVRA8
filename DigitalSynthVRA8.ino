@@ -12,13 +12,7 @@ void setup() {
 void loop() {
   while(true) {
     static boolean demo = true;
-#if 0
-    if (Serial.available() > 0) {
-      uint8_t b = Serial.read();
-      Synth::receiveMIDIByte(b);
-    }
-#else
-// TODO: Demo Mode
+#ifdef OPTION_DEMO_MODE_ENABLED
     if (demo) {
       static uint16_t count = 0;
       switch (count) {
@@ -33,6 +27,11 @@ void loop() {
       case  19999: count = 65535u;     break;
       }
       count++;
+    }
+#else
+    if (Serial.available() > 0) {
+      uint8_t b = Serial.read();
+      Synth::receiveMIDIByte(b);
     }
 #endif
     int8_t level = Synth::clock();

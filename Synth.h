@@ -110,26 +110,25 @@ public:
 
   static void noteOn(uint8_t noteNumber)
   {
-#if 0
-    if (OPTION_BLACK_KEY_PROGRAM_CHANGE) {
-      switch (noteNumber) {
-      case 97:  // C#7
-        programChange(0);
-        return;
-      case 99:  // D#7
-        programChange(1);
-        return;
-      case 102:  // F#7
-        programChange(2);
-        return;
-      case 104:  // G#7
-        programChange(3);
-        return;
-      case 106:  // A#7
-        programChange(4);
-        return;
-      }
+#ifdef OPTION_BLACK_KEY_PROGRAM_CHANGE
+    switch (noteNumber) {
+    case 97:  // C#7
+      programChange(0);
+      return;
+    case 99:  // D#7
+      programChange(1);
+      return;
+    case 102:  // F#7
+      programChange(2);
+      return;
+    case 104:  // G#7
+      programChange(3);
+      return;
+    case 106:  // A#7
+      programChange(4);
+      return;
     }
+#endif
 
     uint8_t pitch2 = noteNumber + VCO<2>::coarseTune();
     if (pitch2 < (uint8_t) (NOTE_NUMBER_MIN + (uint8_t) 64) ||
@@ -142,7 +141,6 @@ public:
         pitch3 > (uint8_t) (NOTE_NUMBER_MAX + (uint8_t) 64)) {
       return;
     }
-#endif
 
     m_noteNumber = noteNumber;
     VCO<1>::noteOn(m_noteNumber);
