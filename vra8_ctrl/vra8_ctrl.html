@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+<title>VRA8 CTRL</title>
+<script>
+
+const MIDI_CH = 0;
+
+var midi = null;
+var output = null;
+
+navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+
+function echoMIDIMessage(event) {
+  if (output) {
+    output.send(event.data, event.timestamp);
+  }
+}
+
+function controlChange(controllerNumber, value) {
+  document.getElementById("inputCC" + String(controllerNumber)).value = value;
+  document.getElementById("spanCC" + String(controllerNumber)).innerHTML = value;
+  if (output) {
+    output.send([0xB0, 20, 0]);
+    output.send([0xB0 | MIDI_CH, controllerNumber, parseInt(value)]);
+  }
+}
+
+function resetParameters() {
+  controlChange(40, 0  );
+  controlChange(41, 64 );
+  controlChange(42, 0  );
+  controlChange(43, 64 );
+  controlChange(44, 64 );
+  controlChange(45, 0  );
+  controlChange(46, 64 );
+  controlChange(47, 64 );
+  controlChange(48, 127);
+  controlChange(49, 0  );
+  controlChange(50, 0  );
+  controlChange(51, 0  );
+  controlChange(52, 0  );
+  controlChange(53, 127);
+}
+
+function onMIDISuccess(midiAccess) {
+  console.log("MIDI ready!");
+  try {
+    var input = midiAccess.inputs()[0];  // TODO
+    input.onmidimessage = echoMIDIMessage;
+    output = midiAccess.outputs()[2];  // TODO
+  }
+  catch (e) {
+    console.error("Exception! Couldn't get i/o ports." + e);
+  }
+  resetParameters();
+}
+
+function onMIDIFailure(msg) {
+  console.log("Failed to get MIDI access - " + msg);
+}
+
+</script>
+</head>
+<body>
+<h1>VRA8 CTRL</h1>
+
+<h2>MIDI Port</h2>
+
+<table>
+<tr align="left">
+<th>Input</th>
+<th><select id="selectInputPort" size="1"  onChange="changeInputPort()"></select></th>
+</tr>
+<tr align="left">
+<th>Output</th>
+<th><select id="selectOutputPort" size="1"  onChange="changeOutputPort()"></select></th>
+</tr>
+</table>
+
+<h2>Controller</h2>
+
+<table>
+<tr align="left"><th>VCO 1 Waveform      </th><th><input id="inputCC40" type="range" min="0"  max="2"   step="1"   onchange="controlChange(40, value)"></th><th><span id="spanCC40">0</span></th></tr>
+<tr align="left"><th>VCO 1 Coarse Tune   </th><th><input id="inputCC41" type="range" min="0"  max="127" step="1"   onchange="controlChange(41, value)"></th><th><span id="spanCC41">0</span></th></tr>
+<tr align="left"><th>VCO 2 Waveform      </th><th><input id="inputCC42" type="range" min="0"  max="2"   step="1"   onchange="controlChange(42, value)"></th><th><span id="spanCC42">0</span></th></tr>
+<tr align="left"><th>VCO 2 Coarse Tune   </th><th><input id="inputCC43" type="range" min="0"  max="127" step="1"   onchange="controlChange(43, value)"></th><th><span id="spanCC43">0</span></th></tr>
+<tr align="left"><th>VCO 2 Fine Tune     </th><th><input id="inputCC44" type="range" min="54" max="74"  step="10"  onchange="controlChange(44, value)"></th><th><span id="spanCC44">0</span></th></tr>
+<tr align="left"><th>VCO 3 Waveform      </th><th><input id="inputCC45" type="range" min="0"  max="2"   step="1"   onchange="controlChange(45, value)"></th><th><span id="spanCC45">0</span></th></tr>
+<tr align="left"><th>VCO 3 Coarse Tune   </th><th><input id="inputCC46" type="range" min="0"  max="127" step="1"   onchange="controlChange(46, value)"></th><th><span id="spanCC46">0</span></th></tr>
+<tr align="left"><th>VCO 3 Fine Tune     </th><th><input id="inputCC47" type="range" min="54" max="74"  step="10"  onchange="controlChange(47, value)"></th><th><span id="spanCC47">0</span></th></tr>
+<tr align="left"><th>VCF Cutoff Frequency</th><th><input id="inputCC48" type="range" min="0"  max="127" step="1"   onchange="controlChange(48, value)"></th><th><span id="spanCC48">0</span></th></tr>
+<tr align="left"><th>VCF Resonance       </th><th><input id="inputCC49" type="range" min="0"  max="127" step="127" onchange="controlChange(49, value)"></th><th><span id="spanCC49">0</span></th></tr>
+<tr align="left"><th>VCF Envelope Amount </th><th><input id="inputCC50" type="range" min="0"  max="127" step="1"   onchange="controlChange(50, value)"></th><th><span id="spanCC50">0</span></th></tr>
+<tr align="left"><th>EG Attack Time      </th><th><input id="inputCC51" type="range" min="0"  max="127" step="1"   onchange="controlChange(51, value)"></th><th><span id="spanCC51">0</span></th></tr>
+<tr align="left"><th>EG Decay Time       </th><th><input id="inputCC52" type="range" min="0"  max="127" step="1"   onchange="controlChange(52, value)"></th><th><span id="spanCC52">0</span></th></tr>
+<tr align="left"><th>EG Sustain Level    </th><th><input id="inputCC53" type="range" min="0"  max="127" step="1"   onchange="controlChange(53, value)"></th><th><span id="spanCC53">0</span></th></tr>
+</table>
+
+</body>
+</html>
