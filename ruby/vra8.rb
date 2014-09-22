@@ -22,7 +22,7 @@ if ARGV.length == 1
   end
 else
   require 'unimidi'
-  require "thread"
+  require 'thread'
   q = Queue.new
   t = Thread.new do
     wav_file_out = WAVFileOut.new("./a.wav") if OPTION_RECORDING

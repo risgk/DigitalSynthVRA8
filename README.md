@@ -1,15 +1,27 @@
-# Digital Synth VRA8 V0.10
+# Digital Synth VRA8 V0.20
 
-2014-09-14 ISGK Instruments
+2014-09-22 ISGK Instruments  
+[https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
+
+## What's New
+
+- V0.20: VRA8 CTRL released
+
+## Known Issues
+
+- VRA8.rb cannot receive a MIDI data byte having a value of 0 (VRA8 can receive it)
+    - Depending on unimidi (0.4.3)?
 
 ## Concept
 
 - 8-bit Virtual Analog (Monophonic) Synthesizer
 - No Keyboard, MIDI Sound Module
+- For Arduino Uno
 
 ## VRA8 Features
 
-- Arduino Uno, Serial MIDI In (38400 bps), PWM Audio Out (Pin 6), PWM Rate: 62500 Hz
+- Sketch for Arduino Uno
+- Serial MIDI In (38400 bps), PWM Audio Out (Pin 6), PWM Rate: 62500 Hz
 - Sampling Rate: 15625 Hz, Bit Depth: 8 bits
 - Recommending [Hairless MIDI<->Serial Bridge](http://projectgus.github.io/hairless-midiserial/) to connect PC
 - Files
@@ -27,29 +39,36 @@
     - `jruby vra8.rb` starts VRA8.rb
     - `jruby vra8.rb sample_midi_stream.bin` makes a sample WAV file
 
+## VRA8 CTRL Features
+
+- Parameter Editor (MIDI Controller) for VRA8, HTML5 App
+- Please enable Web MIDI API of Google Chrome
+    - `chrome://flags/#enable-web-midi`
+- Recommending [loopMIDI](http://www.tobias-erichsen.de/software/loopmidi.html) (virtual loopback MIDI cable) to connect VRA8
+
 ## Synth Modules
 
 - VCO 1
-    - Waveform: Sawtooth, Square, Triangle
-    - Coarse Tune: -64, ..., +63 [semitone]
+    - Waveform: Sawtooth(0), Square(1), Triangle(2)
+    - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
 - VCO 2
-    - Waveform: Sawtooth, Square, Triangle
-    - Coarse Tune: -64, ..., +63 [semitone]
-    - Fine Tune: -10, 0, +10 [cent]
+    - Waveform: Sawtooth(0), Square(1), Triangle(2)
+    - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
+    - Fine Tune: -10(54), 0(64), +10(74) [cent]
 - VCO 3
-    - Waveform: Sawtooth, Square, Triangle
-    - Coarse Tune: -64, ..., +63 [semitone]
-    - Fine Tune: -10, 0, +10 [cent]
+    - Waveform: Sawtooth(0), Square(1), Triangle(2)
+    - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
+    - Fine Tune: -10(54), 0(64), +10(74) [cent]
 - VCF
     - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
-    - Cutoff Frequency: SR/16, ..., SR/8, ..., SR/4
-    - Resonance: OFF, ON
-    - Envelope Amount: 0, ..., 127
+    - Cutoff Frequency: 977(0), ..., 1953(64), ..., 3906(127) [Hz]
+    - Resonance: Off(0), On(127)
+    - Envelope Amount: 0(0), ..., 50(64), ..., 100(127) [%]
 - VCA
 - EG
-    - Attack Time: 16, ..., 262, ..., 4178 [ms]
-    - Decay Time: 16, ..., 262, ..., 4178 [ms]
-    - Sustainn Level: 0, ..., 127
+    - Attack Time: 16(0), ..., 262(64), ..., 4178(127) [ms]
+    - Decay Time: 16(0), ..., 262(64), ..., 4178(127) [ms]
+    - Sustain Level: 0(0), ..., 50(64), ..., 100(127) [%]
 
 ## Preset Programs
 
@@ -65,8 +84,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-09-14       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.10          
+      ISGK Instruments                                                Date: 2014-09-22       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.20          
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+

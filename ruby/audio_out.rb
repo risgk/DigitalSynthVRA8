@@ -8,7 +8,7 @@ class AudioOut
     include Windows::SoundStructs
 
     BUFFER_SIZE = 500
-    NUM_OF_BUFFER = 8
+    NUM_OF_BUFFER = 4
 
     WAVE_MAPPER = -1
     WHDR_DONE = 0x00000001

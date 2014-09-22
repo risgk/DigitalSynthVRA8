@@ -189,7 +189,7 @@ public:
       setVCO2CoarseTune(value);
       break;
     case VCO_2_FINE_TUNE:
-      setVCO2_fine_tune(value);
+      setVCO2FineTune(value);
       break;
     case VCO_3_WAVEFORM:
       setVCO3Waveform(value);
@@ -249,7 +249,7 @@ public:
     resetPhase();
   }
 
-  static void setVCO2_fine_tune(uint8_t value)
+  static void setVCO2FineTune(uint8_t value)
   {
     soundOff();
     VCO<2>::setFineTune(value);
