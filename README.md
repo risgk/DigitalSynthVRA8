@@ -1,11 +1,12 @@
-# Digital Synth VRA8 V0.20
+# Digital Synth VRA8 V0.21
 
-2014-09-22 ISGK Instruments  
+2014-09-23 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
-- V0.20: VRA8 CTRL released
+- V0.21: VRA8 CTRL supports Google Chrome 39 API
+- V0.20: VRA8 CTRL is released
 
 ## Known Issues
 
@@ -84,8 +85,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-09-22       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.20          
+      ISGK Instruments                                                Date: 2014-09-23       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.21          
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
