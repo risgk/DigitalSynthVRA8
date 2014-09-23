@@ -1,17 +1,13 @@
-# Digital Synth VRA8 V0.21
+# Digital Synth VRA8 V0.22
 
 2014-09-23 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
+- V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
 - V0.21: VRA8 CTRL supports Google Chrome 39 API
 - V0.20: VRA8 CTRL is released
-
-## Known Issues
-
-- VRA8.rb cannot receive a MIDI data byte having a value of 0 (VRA8 can receive it)
-    - Depending on unimidi (0.4.3)?
 
 ## Concept
 
@@ -86,7 +82,7 @@
 ## MIDI Implementation Chart
 
       ISGK Instruments                                                Date: 2014-09-23       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.21          
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.22          
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
