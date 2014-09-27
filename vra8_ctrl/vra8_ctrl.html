@@ -5,12 +5,11 @@
 td {
 text-align: left;
 }
-button.key {
+td.key {
 text-align: center;
 width: 48px;
 height: 64px;
-margin: 4px;
-border: 1px solid #999;
+border: 2px solid #999;
 }
 </style>
 <script>
@@ -111,6 +110,12 @@ function noteOn(noteNumber) {
   }
 }
 
+function noteOff(noteNumber) {
+  if (midiOutput) {
+    midiOutput.send([0x80 | MIDI_CH, noteNumber, 0]);
+  }
+}
+
 </script>
 </head>
 <body>
@@ -152,14 +157,14 @@ function noteOn(noteNumber) {
 
 <table>
 <tr>
-<td><button class="key" onclick="noteOn(48)">C3</td>
-<td><button class="key" onclick="noteOn(50)">D3</td>
-<td><button class="key" onclick="noteOn(52)">E3</td>
-<td><button class="key" onclick="noteOn(53)">F3</td>
-<td><button class="key" onclick="noteOn(55)">G3</td>
-<td><button class="key" onclick="noteOn(57)">A3</td>
-<td><button class="key" onclick="noteOn(59)">B3</td>
-<td><button class="key" onclick="noteOn(60)">C4</td>
+<td class="key" onmouseover="noteOn(48)" onmouseout="noteOff(48)">C3</td>
+<td class="key" onmouseover="noteOn(50)" onmouseout="noteOff(50)">D3</td>
+<td class="key" onmouseover="noteOn(52)" onmouseout="noteOff(52)">E3</td>
+<td class="key" onmouseover="noteOn(53)" onmouseout="noteOff(53)">F3</td>
+<td class="key" onmouseover="noteOn(55)" onmouseout="noteOff(55)">G3</td>
+<td class="key" onmouseover="noteOn(57)" onmouseout="noteOff(57)">A3</td>
+<td class="key" onmouseover="noteOn(59)" onmouseout="noteOff(59)">B3</td>
+<td class="key" onmouseover="noteOn(60)" onmouseout="noteOff(60)">C4</td>
 </tr>
 </table>
 
