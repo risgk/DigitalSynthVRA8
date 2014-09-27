@@ -5,6 +5,13 @@
 td {
 text-align: left;
 }
+button.key {
+text-align: center;
+width: 48px;
+height: 64px;
+margin: 4px;
+border: 1px solid #999;
+}
 </style>
 <script>
 
@@ -98,6 +105,12 @@ function resetControllers() {
   onChangeControlChange(53, 127);
 }
 
+function noteOn(noteNumber) {
+  if (midiOutput) {
+    midiOutput.send([0x90 | MIDI_CH, noteNumber, 127]);
+  }
+}
+
 </script>
 </head>
 <body>
@@ -133,6 +146,21 @@ function resetControllers() {
 <tr><td>EG Attack Time      </td><td><input id="inputCC51" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(51, value)"></td><td><span id="spanCC51">0</span></td></tr>
 <tr><td>EG Decay Time       </td><td><input id="inputCC52" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(52, value)"></td><td><span id="spanCC52">0</span></td></tr>
 <tr><td>EG Sustain Level    </td><td><input id="inputCC53" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(53, value)"></td><td><span id="spanCC53">0</span></td></tr>
+</table>
+
+<h2>Software Keybord</h2>
+
+<table>
+<tr>
+<td><button class="key" onclick="noteOn(48)">C3</td>
+<td><button class="key" onclick="noteOn(50)">D3</td>
+<td><button class="key" onclick="noteOn(52)">E3</td>
+<td><button class="key" onclick="noteOn(53)">F3</td>
+<td><button class="key" onclick="noteOn(55)">G3</td>
+<td><button class="key" onclick="noteOn(57)">A3</td>
+<td><button class="key" onclick="noteOn(59)">B3</td>
+<td><button class="key" onclick="noteOn(60)">C4</td>
+</tr>
 </table>
 
 </body>
