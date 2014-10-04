@@ -5,6 +5,12 @@
 td {
 text-align: left;
 }
+td.key {
+text-align: center;
+width: 48px;
+height: 64px;
+border: 2px solid #999;
+}
 </style>
 <script>
 
@@ -64,13 +70,17 @@ function onMIDIFailure(msg) {
 function onChangeInputPort(){
   var selectInputPort = document.getElementById("selectInputPort");
   midiInput = midiInputs[selectInputPort.selectedIndex];
-  midiInput.onmidimessage = echoMIDIMessage;
+  if (midiInput) {
+    midiInput.onmidimessage = echoMIDIMessage;
+  }
 }
 
 function onChangeOutputPort() {
   var selectOutputPort = document.getElementById("selectOutputPort");
   midiOutput = midiOutputs[selectOutputPort.selectedIndex];
-  resetControllers();
+  if (midiOutput) {
+    resetControllers();
+  }
 }
 
 function onChangeControlChange(controllerNumber, value) {
@@ -96,6 +106,18 @@ function resetControllers() {
   onChangeControlChange(51, 0  );
   onChangeControlChange(52, 0  );
   onChangeControlChange(53, 127);
+}
+
+function noteOn(noteNumber) {
+  if (midiOutput) {
+    midiOutput.send([0x90 | MIDI_CH, noteNumber, 127]);
+  }
+}
+
+function noteOff(noteNumber) {
+  if (midiOutput) {
+    midiOutput.send([0x80 | MIDI_CH, noteNumber, 0]);
+  }
 }
 
 </script>
@@ -133,6 +155,21 @@ function resetControllers() {
 <tr><td>EG Attack Time      </td><td><input id="inputCC51" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(51, value)"></td><td><span id="spanCC51">0</span></td></tr>
 <tr><td>EG Decay Time       </td><td><input id="inputCC52" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(52, value)"></td><td><span id="spanCC52">0</span></td></tr>
 <tr><td>EG Sustain Level    </td><td><input id="inputCC53" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(53, value)"></td><td><span id="spanCC53">0</span></td></tr>
+</table>
+
+<h2>Software Keyboard</h2>
+
+<table>
+<tr>
+<td class="key" onmouseover="noteOn(48)" onmouseout="noteOff(48)">C3</td>
+<td class="key" onmouseover="noteOn(50)" onmouseout="noteOff(50)">D3</td>
+<td class="key" onmouseover="noteOn(52)" onmouseout="noteOff(52)">E3</td>
+<td class="key" onmouseover="noteOn(53)" onmouseout="noteOff(53)">F3</td>
+<td class="key" onmouseover="noteOn(55)" onmouseout="noteOff(55)">G3</td>
+<td class="key" onmouseover="noteOn(57)" onmouseout="noteOff(57)">A3</td>
+<td class="key" onmouseover="noteOn(59)" onmouseout="noteOff(59)">B3</td>
+<td class="key" onmouseover="noteOn(60)" onmouseout="noteOff(60)">C4</td>
+</tr>
 </table>
 
 </body>

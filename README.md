@@ -1,10 +1,11 @@
-# Digital Synth VRA8 V0.22
+# Digital Synth VRA8 V0.23
 
-2014-09-23 ISGK Instruments  
+2014-10-04 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
+- V0.23: Add VRA8 CTRL Software Keybord
 - V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
 - V0.21: VRA8 CTRL supports Google Chrome 39 API
 - V0.20: VRA8 CTRL is released
@@ -81,8 +82,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-09-23       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.22          
+      ISGK Instruments                                                Date: 2014-10-04       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.23          
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
