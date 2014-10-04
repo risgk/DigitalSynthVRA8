@@ -5,7 +5,7 @@
 
 ## What's New
 
-- V0.23: Add VRA8 CTRL Software Keybord
+- V0.23: Add VRA8 CTRL Software Keyboard
 - V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
 - V0.21: VRA8 CTRL supports Google Chrome 39 API
 - V0.20: VRA8 CTRL is released
