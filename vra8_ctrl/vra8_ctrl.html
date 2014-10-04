@@ -70,13 +70,17 @@ function onMIDIFailure(msg) {
 function onChangeInputPort(){
   var selectInputPort = document.getElementById("selectInputPort");
   midiInput = midiInputs[selectInputPort.selectedIndex];
-  midiInput.onmidimessage = echoMIDIMessage;
+  if (midiInput) {
+    midiInput.onmidimessage = echoMIDIMessage;
+  }
 }
 
 function onChangeOutputPort() {
   var selectOutputPort = document.getElementById("selectOutputPort");
   midiOutput = midiOutputs[selectOutputPort.selectedIndex];
-  resetControllers();
+  if (midiOutput) {
+    resetControllers();
+  }
 }
 
 function onChangeControlChange(controllerNumber, value) {
