@@ -17,18 +17,16 @@ def generate_lpf_table(name, q)
     a1 = (-2.0) * Math::cos(w0)
     a2 = 1.0 - alpha
 
-    b1_over_a0 = ((b1 / a0) * 64.0).round.to_i
-    b2_over_a0 = ((b2 / a0) * 64.0).round.to_i
-    a1_over_a0 = ((a1 / a0) * 64.0).round.to_i
-    a2_over_a0 = ((a2 / a0) * 64.0).round.to_i
+    b1_over_a0 = b1 / a0
+    b2_over_a0 = b2 / a0
+    a1_over_a0 = a1 / a0
+    a2_over_a0 = a2 / a0
 
-    $file.printf("%4d, %4d, %4d, %4d,", b1_over_a0, b2_over_a0, a1_over_a0, a2_over_a0)
+    $file.printf("%f, %f, %f, %f,", b1_over_a0, b2_over_a0, a1_over_a0, a2_over_a0)
     if i == 127
       $file.printf("\n")
-    elsif i % 4 == 3
-      $file.printf("\n  ")
     else
-      $file.printf(" ")
+      $file.printf("\n  ")
     end
   end
   $file.printf("]\n\n")

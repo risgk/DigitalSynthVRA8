@@ -51,7 +51,7 @@ def generate_wave_table_triangle(max)
   end
 end
 
-FREQ_MAX = 8819  # refs "freq_table.rb"
+FREQ_MAX = 2897  # refs "freq_table.rb"
 
 def generate_wave_tables(name)
   wave_table_sels = (0..(FREQ_MAX / 256))

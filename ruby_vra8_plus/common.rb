@@ -2,7 +2,7 @@ OPTION_BLACK_KEY_PROGRAM_CHANGE = true
 OPTION_RECORDING                = false
 
 MIDI_CH         = 0
-SAMPLING_RATE   = 15625
+SAMPLING_RATE   = 48000
 NOTE_NUMBER_MIN = 24
 NOTE_NUMBER_MAX = 96
 
@@ -54,9 +54,9 @@ EG_SUSTAIN_LEVEL      = 53
 ALL_NOTES_OFF         = 123
 
 def high_byte(ui16)
-  ui16 >> 8
+  ui16 / 256
 end
 
 def low_byte(ui16)
-  ui16 & 0xFF
+  ui16 % 256
 end

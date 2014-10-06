@@ -4,16 +4,15 @@ $file = File::open("env_table.rb", "w")
 
 $file.printf("$env_table_speed_from_time = [\n  ")
 (0..127).each do |time|
-  speed = (256.0 * (0.5 ** (time / 16.0))).floor.to_i
-  speed = 255 if speed == 256
+  speed = (256.0 * (0.5 ** (time / 16.0)))
+  speed = 255.0 if speed >= 256.0
+  speed /= 3.0
 
-  $file.printf("%3d,", speed)
+  $file.printf("%f,", speed)
   if time == 127
     $file.printf("\n")
-  elsif time % 16 == 15
-    $file.printf("\n  ")
   else
-    $file.printf(" ")
+    $file.printf("\n  ")
   end
 end
 $file.printf("]\n\n")

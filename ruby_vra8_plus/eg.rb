@@ -35,7 +35,7 @@ class EG
       @count = 0
     else
       @state = STATE_ATTACK
-      @count = $env_table_attack_inverse[@level] << 8
+      @count = $env_table_attack_inverse[@level] * 256
     end
   end
 
@@ -43,7 +43,7 @@ class EG
     case (@state)
     when STATE_ATTACK, STATE_DECAY, STATE_SUSTAIN
       @state = STATE_RELEASE
-      @count = $env_table_decay_inverse[@level] << 8
+      @count = $env_table_decay_inverse[@level] * 256
     end
   end
 
