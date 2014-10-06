@@ -8,6 +8,7 @@ def generate_lpf_table(name, q)
   $file.printf("$lpf_table_%s = [\n  ", name)
   (0..127).each do |i|
     f0_over_fs = (2.0 ** (i / (127.0 / 2.0))) / (2.0 ** 4.0)
+    f0_over_fs /= 3.0
     w0 = 2.0 * Math::PI * f0_over_fs
     alpha = Math::sin(w0) / (2.0 * q)
 
