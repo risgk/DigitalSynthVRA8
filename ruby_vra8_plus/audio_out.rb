@@ -7,7 +7,7 @@ class AudioOut
   class << self
     include Windows::SoundStructs
 
-    BUFFER_SIZE = 4000
+    BUFFER_SIZE = 500
     NUM_OF_BUFFER = 4
 
     WAVE_MAPPER = -1
