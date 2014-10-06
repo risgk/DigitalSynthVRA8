@@ -81,9 +81,9 @@ class Synth
 
   def clock
     level = $mixer.clock($vco_1.clock, $vco_2.clock, $vco_3.clock)
-    eg_output = $eg.clock
-    level = $vcf.clock(level, eg_output)
-    level = $vca.clock(level, eg_output)
+     eg_output = $eg.clock
+     level = $vcf.clock(level, eg_output)
+     level = $vca.clock(level, eg_output)
   end
 
   def real_time_message?(b)
@@ -104,22 +104,24 @@ class Synth
 
   def note_on(note_number)
     if (OPTION_BLACK_KEY_PROGRAM_CHANGE)
-      case (note_number)
-      when 97  # C#7
-        program_change(0)
-        return
-      when 99  # D#7
-        program_change(1)
-        return
-      when 102  # F#7
-        program_change(2)
-        return
-      when 104  # G#7
-        program_change(3)
-        return
-      when 106  # A#7
-        program_change(4)
-        return
+      if (note_number > 96)
+        case (note_number)
+        when 97  # C#7
+          program_change(0)
+          return
+        when 99  # D#7
+          program_change(1)
+          return
+        when 102  # F#7
+          program_change(2)
+          return
+        when 104  # G#7
+          program_change(3)
+          return
+        when 106  # A#7
+          program_change(4)
+          return
+        end
       end
     end
 

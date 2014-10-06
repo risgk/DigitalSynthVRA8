@@ -52,11 +52,3 @@ EG_ATTACK_TIME        = 51
 EG_DECAY_TIME         = 52
 EG_SUSTAIN_LEVEL      = 53
 ALL_NOTES_OFF         = 123
-
-def high_byte(ui16)
-  ui16 / 256
-end
-
-def low_byte(ui16)
-  ui16 % 256
-end

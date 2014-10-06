@@ -50,19 +50,21 @@ class VCO
     @phase += @freq
     @phase &= 0xFFFF
 
-    wave_table = @wave_tables[high_byte(@freq)]
-    curr_index = high_byte(@phase)
+    wave_table = @wave_tables[@freq / 256]
+    curr_index = @phase / 256
     next_index = curr_index + 0x01
     next_index &= 0xFF
     curr_data = wave_table[curr_index]
     next_data = wave_table[next_index]
 
-    next_weight = low_byte(@phase)
+    next_weight = @phase % 256
     if (next_weight == 0)
       level = curr_data
     else
       curr_weight = 0x100 - next_weight
-      level = high_byte((curr_data * curr_weight) + (next_data * next_weight))
+      level =  (curr_data * curr_weight)
+      level += (next_data * next_weight)
+      level /= 256
     end
 
     return level

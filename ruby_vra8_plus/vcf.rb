@@ -25,7 +25,7 @@ class VCF
   end
 
   def clock(a, k)
-    cutoff_frequency = @cutoff_frequency + high_byte(@envelope_amount * (k * 2))
+    cutoff_frequency = @cutoff_frequency + @envelope_amount * k / 128
     if (cutoff_frequency > 127)
       cutoff_frequency = 127
     end
@@ -45,8 +45,11 @@ class VCF
     end
 
     x0 = a
-    y0 = ((b2_over_a0 *  x0) + (b1_over_a0 * @x1) + (b2_over_a0 * @x2) -
-          (a1_over_a0 * @y1) - (a2_over_a0 * @y2)).floor.to_i
+    y0 =  (b2_over_a0 *  x0)
+    y0 += (b1_over_a0 * @x1)
+    y0 += (b2_over_a0 * @x2)
+    y0 -= (a1_over_a0 * @y1)
+    y0 -= (a2_over_a0 * @y2)
     @x2 = @x1
     @y2 = @y1
     @x1 = x0

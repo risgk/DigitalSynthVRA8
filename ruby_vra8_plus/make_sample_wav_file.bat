@@ -1,1 +1,1 @@
-jruby vra8.rb sample_midi_stream.bin
+jruby vra8_plus.rb sample_midi_stream.bin

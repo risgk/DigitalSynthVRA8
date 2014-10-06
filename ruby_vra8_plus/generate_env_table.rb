@@ -8,11 +8,13 @@ $file.printf("$env_table_speed_from_time = [\n  ")
   speed = 255.0 if speed >= 256.0
   speed /= 3.0
 
-  $file.printf("%f,", speed)
+  $file.printf("%E,", speed)
   if time == 127
     $file.printf("\n")
-  else
+  elsif time % 8 == 7
     $file.printf("\n  ")
+  else
+    $file.printf(" ")
   end
 end
 $file.printf("]\n\n")

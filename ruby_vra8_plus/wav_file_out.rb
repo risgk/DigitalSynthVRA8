@@ -11,18 +11,19 @@ class WAVFileOut
     @file.write("fmt ")
     @file.write([16].pack("V"))
     @file.write([1, 1].pack("v*"))
-    @file.write([SAMPLING_RATE, SAMPLING_RATE].pack("V*"))
-    @file.write([1, 8].pack("v*"))
+    @file.write([SAMPLING_RATE, SAMPLING_RATE * 2].pack("V*"))
+    @file.write([2, 16].pack("v*"))
     @file.write("data")
     @file.write([0].pack("V"))
-    @max_size = SAMPLING_RATE * SEC
+    @max_size = SAMPLING_RATE * 2 * SEC
     @data_size = 0
     @closed = false
   end
 
   def write(level)
     if (@data_size < @max_size)
-      @file.write([level + 0x80].pack("C"))
+      l = (level * 32768).to_i
+      @file.write([l].pack("s"))
       @data_size += 1
     else
       close

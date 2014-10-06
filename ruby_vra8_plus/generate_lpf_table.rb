@@ -22,7 +22,7 @@ def generate_lpf_table(name, q)
     a1_over_a0 = a1 / a0
     a2_over_a0 = a2 / a0
 
-    $file.printf("%f, %f, %f, %f,", b1_over_a0, b2_over_a0, a1_over_a0, a2_over_a0)
+    $file.printf("%+f, %+f, %+f, %+f,", b1_over_a0, b2_over_a0, a1_over_a0, a2_over_a0)
     if i == 127
       $file.printf("\n")
     else

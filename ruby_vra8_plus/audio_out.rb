@@ -7,7 +7,7 @@ class AudioOut
   class << self
     include Windows::SoundStructs
 
-    BUFFER_SIZE = 1000
+    BUFFER_SIZE = 4000
     NUM_OF_BUFFER = 4
 
     WAVE_MAPPER = -1
@@ -15,16 +15,16 @@ class AudioOut
 
     def open
       @hwaveout = HWAVEOUT.new
-      @waveformatex = WAVEFORMATEX.new(SAMPLING_RATE, 8, 1)
+      @waveformatex = WAVEFORMATEX.new(SAMPLING_RATE, 16, 1)
       waveOutOpen(@hwaveout.pointer, WAVE_MAPPER, @waveformatex.pointer, 0, 0, 0)
 
       @buffer = []
       @wavehdr = []
-      @array = Array.new(BUFFER_SIZE, 0x80)
+      @array = Array.new(BUFFER_SIZE, 0)
       (0...NUM_OF_BUFFER).each do |i|
-        @buffer[i] = FFI::MemoryPointer.new(:uint8, BUFFER_SIZE)
-        @buffer[i].write_array_of_uint8(@array)
-        @wavehdr[i] = WAVEHDR.new(@buffer[i], BUFFER_SIZE)
+        @buffer[i] = FFI::MemoryPointer.new(:int16, BUFFER_SIZE)
+        @buffer[i].write_array_of_int16(@array)
+        @wavehdr[i] = WAVEHDR.new(@buffer[i], BUFFER_SIZE * 2)
         waveOutPrepareHeader(@hwaveout[:i], @wavehdr[i].pointer, @wavehdr[i].size)
         waveOutWrite(@hwaveout[:i], @wavehdr[i].pointer, @wavehdr[i].size)
       end
@@ -34,13 +34,14 @@ class AudioOut
     end
 
     def write(level)
-      @array.push(level + 0x80)
+      l = (level * 32768).to_i
+      @array.push(l)
       if (@array.length == BUFFER_SIZE)
         while ((@wavehdr[@index][:dwFlags] & WHDR_DONE) == 0)
           # do nothing
         end
         waveOutUnprepareHeader(@hwaveout[:i], @wavehdr[@index].pointer, @wavehdr[@index].size)
-        @buffer[@index].write_array_of_uint8(@array)
+        @buffer[@index].write_array_of_int16(@array)
         waveOutPrepareHeader(@hwaveout[:i], @wavehdr[@index].pointer, @wavehdr[@index].size)
         waveOutWrite(@hwaveout[:i], @wavehdr[@index].pointer, @wavehdr[@index].size)
         @index = (@index + 1) % NUM_OF_BUFFER
