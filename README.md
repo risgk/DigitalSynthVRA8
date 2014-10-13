@@ -1,11 +1,12 @@
-# Digital Synth VRA8 V0.23
+# Digital Synth VRA8 1.0.0
 
-2014-10-04 ISGK Instruments  
+2014-10-13 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
-- V0.23: Add VRA8 CTRL Software Keybord
+- v1.0.0: Introduce Semantic Versioning
+- V0.23: Add VRA8 CTRL Software Keyboard
 - V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
 - V0.21: VRA8 CTRL supports Google Chrome 39 API
 - V0.20: VRA8 CTRL is released
@@ -36,6 +37,8 @@
 - Usage
     - `jruby vra8.rb` starts VRA8.rb
     - `jruby vra8.rb sample_midi_stream.bin` makes a sample WAV file
+- Known Issues
+    - VRA8.rb uses the full power of 2 CPU cores...
 
 ## VRA8 CTRL Features
 
@@ -82,8 +85,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-10-04       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 0.23          
+      ISGK Instruments                                                Date: 2014-10-13       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.0         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
