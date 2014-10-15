@@ -1,10 +1,11 @@
-# Digital Synth VRA8 1.0.0
+# Digital Synth VRA8 1.0.x
 
-2014-10-13 ISGK Instruments  
+20xx-xx-xx ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
+- v1.0.x: Fix MIDI Implementation Chart
 - v1.0.0: Introduce Semantic Versioning
 - V0.23: Add VRA8 CTRL Software Keyboard
 - V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
@@ -85,15 +86,15 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-10-13       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.0         
+      ISGK Instruments                                                Date: 20xx-xx-xx       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.x         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
     | Basic        Default          | x             | 1             |                       |
-    | Channel      Changed          | x             | 1             |                       |
+    | Channel      Changed          | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
-    | Mode         Default          | x             | Mode 4        |                       |
+    | Mode         Default          | x             | Mode 4 (M=1)  |                       |
     |              Messages         | x             | x             |                       |
     |              Altered          | ************* |               |                       |
     +-------------------------------+---------------+---------------+-----------------------+
