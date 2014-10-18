@@ -33,7 +33,6 @@ function echoMIDIMessage(event) {
 function onMIDISuccess(midiAccess) {
   console.log("MIDI ready!");
   midi = midiAccess;
-  var selectInputPort = document.getElementById("selectInputPort");
 
   // refs http://www.slideshare.net/toyoshim/web-midi-api-update
   if (typeof midi.inputs === "function") {
@@ -52,6 +51,7 @@ function onMIDISuccess(midiAccess) {
     }
   }
 
+  var selectInputPort = document.getElementById("selectInputPort");
   for (var i = 0; i < midiInputs.length; i++) {
     selectInputPort.appendChild(new Option(midiInputs[i].name))
   }
