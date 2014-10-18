@@ -56,11 +56,11 @@
 - VCO 2
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(54), 0(64), +10(74) [cent]
+    - Fine Tune: -10(51), 0(64), +10(77) [cent]
 - VCO 3
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(54), 0(64), +10(74) [cent]
+    - Fine Tune: -10(51), 0(64), +10(77) [cent]
 - VCF
     - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
     - Cutoff Frequency: 977(0), ..., 1953(64), ..., 3906(127) [Hz]
