@@ -5,7 +5,7 @@
 
 ## What's New
 
-- v1.0.x: Fix MIDI Implementation Chart
+- v1.0.x: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
 - v1.0.0: Introduce Semantic Versioning
 - V0.23: Add VRA8 CTRL Software Keyboard
 - V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
