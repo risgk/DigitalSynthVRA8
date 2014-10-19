@@ -1,11 +1,11 @@
-# Digital Synth VRA8 1.0.x
+# Digital Synth VRA8 1.0.1
 
-20xx-xx-xx ISGK Instruments  
+2014-10-19 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
-- v1.0.x: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
+- v1.0.1: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
 - v1.0.0: Introduce Semantic Versioning
 - V0.23: Add VRA8 CTRL Software Keyboard
 - V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
@@ -86,8 +86,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 20xx-xx-xx       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.x         
+      ISGK Instruments                                                Date: 2014-10-19       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.1         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
