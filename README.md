@@ -1,10 +1,11 @@
-# Digital Synth VRA8 1.0.1
+# Digital Synth VRA8 1.0.2
 
 2014-10-19 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
+- v1.0.2: Fix sample_midi_stream (38400 bps)
 - v1.0.1: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
 - v1.0.0: Introduce Semantic Versioning
 - V0.23: Add VRA8 CTRL Software Keyboard
@@ -87,7 +88,7 @@
 ## MIDI Implementation Chart
 
       ISGK Instruments                                                Date: 2014-10-19       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.1         
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.2         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
