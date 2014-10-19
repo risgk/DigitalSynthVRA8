@@ -44,7 +44,7 @@ int main()
   while ((c = ::fgetc(binFile)) != EOF) {
     uint8_t b = static_cast<uint8_t>(c);
     Synth::receiveMIDIByte(b);
-    for (uint16_t i = 0; i < 10; i++) {
+    for (uint16_t i = 0; i < 4; i++) {
       uint8_t level = Synth::clock();
       WAVFileOut::write(level);
     }

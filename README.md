@@ -5,6 +5,7 @@
 
 ## What's New
 
+- v1.0.2: Fix sample_midi_stream (38400 bps)
 - v1.0.1: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
 - v1.0.0: Introduce Semantic Versioning
 - V0.23: Add VRA8 CTRL Software Keyboard

@@ -13,7 +13,7 @@ if ARGV.length == 1
     while(c = bin_file.read(1)) do
       b = c.ord
       $synth.receive_midi_byte(b)
-      10.times do
+      4.times do
         level = $synth.clock
         wav_file_out.write(level)
       end
