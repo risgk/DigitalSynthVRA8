@@ -170,9 +170,9 @@ public:
     VCO<3>::resetPhase();
   }
 
-  static void controlChange(uint8_t controller_number, uint8_t value)
+  static void controlChange(uint8_t controllerNumber, uint8_t value)
   {
-    switch (controller_number) {
+    switch (controllerNumber) {
     case ALL_NOTES_OFF:
       allNotesOff(value);
       break;

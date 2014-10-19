@@ -1,10 +1,11 @@
-# Digital Synth VRA8 1.0.0
+# Digital Synth VRA8 1.0.1
 
-2014-10-13 ISGK Instruments  
+2014-10-19 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
+- v1.0.1: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
 - v1.0.0: Introduce Semantic Versioning
 - V0.23: Add VRA8 CTRL Software Keyboard
 - V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
@@ -55,11 +56,11 @@
 - VCO 2
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(54), 0(64), +10(74) [cent]
+    - Fine Tune: -10(51), 0(64), +10(77) [cent]
 - VCO 3
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(54), 0(64), +10(74) [cent]
+    - Fine Tune: -10(51), 0(64), +10(77) [cent]
 - VCF
     - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
     - Cutoff Frequency: 977(0), ..., 1953(64), ..., 3906(127) [Hz]
@@ -85,15 +86,15 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-10-13       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.0         
+      ISGK Instruments                                                Date: 2014-10-19       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.1         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
     | Basic        Default          | x             | 1             |                       |
-    | Channel      Changed          | x             | 1             |                       |
+    | Channel      Changed          | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
-    | Mode         Default          | x             | Mode 4        |                       |
+    | Mode         Default          | x             | Mode 4 (M=1)  |                       |
     |              Messages         | x             | x             |                       |
     |              Altered          | ************* |               |                       |
     +-------------------------------+---------------+---------------+-----------------------+
