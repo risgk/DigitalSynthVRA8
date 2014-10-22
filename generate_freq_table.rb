@@ -13,16 +13,16 @@ $c4_to_b4 = []
   $c4_to_b4[i] = freq
 end
 
-def generate_freq_table(fine_tune, name)
+def generate_freq_table(detune, name)
   $file.printf("const uint16_t g_freqTable%s[] PROGMEM = {\n  ", name)
   (0..127).each do |note_number|
     if note_number < NOTE_NUMBER_MIN || note_number > NOTE_NUMBER_MAX
       freq = 0
     else
       base = ($c4_to_b4[note_number % 12] * (2 ** (note_number / 12 - 5))).to_i
-      delta_abs = ((base * (2.0 ** (fine_tune.abs / 1200.0))).round - base).to_i
-      delta_abs = 1 if (fine_tune != 0 && delta_abs == 0)
-      freq = (fine_tune >= 0.0) ? (base + delta_abs) : (base - delta_abs)
+      delta_abs = ((base * (2.0 ** (detune.abs / 1200.0))).round - base).to_i
+      delta_abs = 1 if (detune != 0 && delta_abs == 0)
+      freq = (detune >= 0.0) ? (base + delta_abs) : (base - delta_abs)
     end
 
     $file.printf("%5d,", freq)

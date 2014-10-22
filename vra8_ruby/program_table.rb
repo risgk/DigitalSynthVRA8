@@ -8,7 +8,7 @@ $program_table = [
 
   # Sub Osc Lead
   SAWTOOTH, 64,
-  SAWTOOTH, 64, 77,
+  SAWTOOTH, 64, 70,
   TRIANGLE, 52, 64,
   64, ON, 64,
   0, 80, 127,
@@ -16,7 +16,7 @@ $program_table = [
 
   # Saw Lead
   SAWTOOTH, 64,
-  SAWTOOTH, 64, 77,
+  SAWTOOTH, 64, 70,
   SAWTOOTH, 64, 64,
   64, ON, 64,
   0, 80, 127,
@@ -24,7 +24,7 @@ $program_table = [
 
   # Square Lead
   SQUARE, 64,
-  SQUARE, 64, 77,
+  SQUARE, 64, 70,
   SQUARE, 64, 64,
   64, OFF, 64,
   16, 80, 127,
@@ -32,7 +32,7 @@ $program_table = [
 
   # Synth Pad
   SAWTOOTH, 64,
-  SAWTOOTH, 64, 77,
+  SAWTOOTH, 64, 70,
   TRIANGLE, 64, 64,
   0, ON, 127,
   127, 127, 127,
@@ -40,7 +40,7 @@ $program_table = [
 
   # Synth Bass
   TRIANGLE, 64,
-  SAWTOOTH, 64, 77,
+  SAWTOOTH, 64, 70,
   SAWTOOTH, 64, 64,
   0, ON, 127,
   0, 112, 0,
