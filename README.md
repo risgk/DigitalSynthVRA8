@@ -1,10 +1,11 @@
-# Digital Synth VRA8 1.0.2
+# Digital Synth VRA8 1.0.x
 
-2014-10-19 ISGK Instruments  
+2014-10-xx ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
+- v1.0.3: Refix the unit of Fine Tune
 - v1.0.2: Fix sample_midi_stream (38400 bps)
 - v1.0.1: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
 - v1.0.0: Introduce Semantic Versioning
@@ -57,11 +58,11 @@
 - VCO 2
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(51), 0(64), +10(77) [cent]
+    - Fine Tune: -10(58), 0(64), +10(70) [cent]
 - VCO 3
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(51), 0(64), +10(77) [cent]
+    - Fine Tune: -10(58), 0(64), +10(70) [cent]
 - VCF
     - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
     - Cutoff Frequency: 977(0), ..., 1953(64), ..., 3906(127) [Hz]
@@ -87,8 +88,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-10-19       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.2         
+      ISGK Instruments                                                Date: 2014-10-xx       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.x         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
