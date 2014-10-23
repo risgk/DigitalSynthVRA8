@@ -279,9 +279,7 @@ public:
 
   static void setVCFCutoffFrequency(uint8_t value)
   {
-    soundOff();
     VCF::setCutoffFrequency(value);
-    resetPhase();
   }
 
   static void setVCFResonance(uint8_t value)
