@@ -1,11 +1,11 @@
-# Digital Synth VRA8 1.0.x
+# Digital Synth VRA8 1.0.4
 
-20xx-xx-xx ISGK Instruments  
+2014-10-26 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## What's New
 
-- v1.0.x: Enable changing VCF Cutoff Frequency during Note On, Fix the explanation of Decay Time
+- v1.0.4: Enable changing VCF Cutoff Frequency during Note On, Fix the explanation of Decay Time
 - v1.0.3: Refix the unit of Fine Tune
 - v1.0.2: Fix sample_midi_stream (38400 bps)
 - v1.0.1: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
@@ -89,8 +89,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 20xx-xx-xx       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.x         
+      ISGK Instruments                                                Date: 2014-10-26       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.0.4         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
