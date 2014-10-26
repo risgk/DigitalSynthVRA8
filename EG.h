@@ -77,7 +77,6 @@ public:
     case STATE_RELEASE:
       m_count += m_decaySpeed;
       m_level = *(g_envTableDecay + highByte(m_count));
-      m_level = highByte(m_level * (uint8_t) 254);
       if (highByte(m_count) == (uint8_t) 255) {
         m_state = STATE_IDLE;
       }

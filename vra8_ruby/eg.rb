@@ -75,7 +75,6 @@ class EG
     when STATE_RELEASE
       @count += @decay_speed
       @level = $env_table_decay[high_byte(@count)]
-      @level = high_byte(@level * 254)
       if (high_byte(@count) == 255)
         @state = STATE_IDLE
       end
