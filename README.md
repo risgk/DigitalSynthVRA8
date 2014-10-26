@@ -5,6 +5,7 @@
 
 ## What's New
 
+- v1.1.0: Improve EG (Fix the problem of Decay); Enable real time control of VCF
 - v1.0.4: Enable changing VCF Cutoff Frequency during Note On, Fix the explanation of Decay Time
 - v1.0.3: Refix the unit of Fine Tune
 - v1.0.2: Fix sample_midi_stream (38400 bps)
