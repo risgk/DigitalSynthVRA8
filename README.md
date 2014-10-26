@@ -5,7 +5,7 @@
 
 ## What's New
 
-- v1.0.x: Enable changing VCF Cutoff Frequency during Note On
+- v1.0.x: Enable changing VCF Cutoff Frequency during Note On, Fix the explanation of Decay Time
 - v1.0.3: Refix the unit of Fine Tune
 - v1.0.2: Fix sample_midi_stream (38400 bps)
 - v1.0.1: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
@@ -72,7 +72,7 @@
 - VCA
 - EG
     - Attack Time: 16(0), ..., 262(64), ..., 4178(127) [ms]
-    - Decay Time: 16(0), ..., 262(64), ..., 4178(127) [ms]
+    - Decay Time: 12(0), ..., 197(64), ..., 3134(127) [ms]
     - Sustain Level: 0(0), ..., 50(64), ..., 100(127) [%]
 
 ## Preset Programs
