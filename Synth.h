@@ -284,16 +284,12 @@ public:
 
   static void setVCFResonance(uint8_t value)
   {
-    soundOff();
     VCF::setResonance(value);
-    resetPhase();
   }
 
   static void setVCFEnvelopeAmount(uint8_t value)
   {
-    soundOff();
     VCF::setEnvelopeAmount(value);
-    resetPhase();
   }
 
   static void setEGAttackTime(uint8_t value)

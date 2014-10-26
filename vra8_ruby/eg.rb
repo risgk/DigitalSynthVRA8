@@ -57,30 +57,26 @@ class EG
     case (@state)
     when STATE_ATTACK
       @count += @attack_speed
-      if (high_byte(@count) < 255)
-        @level = $env_table_attack[high_byte(@count)]
-      else
+      @level = $env_table_attack[high_byte(@count)]
+      if (high_byte(@count) == 255)
         @state = STATE_DECAY
         @count = 0
-        @level = 127
       end
     when STATE_DECAY
       @count += @decay_speed
       @level = $env_table_decay[high_byte(@count)]
-      if (@level <= @sustain_level)
+      @level = high_byte(@level * ((127 - @sustain_level) << 1))
+      @level += @sustain_level
+      if (high_byte(@count) == 255)
         @state = STATE_SUSTAIN
-        @level = @sustain_level
       end
     when STATE_SUSTAIN
       @level = @sustain_level
     when STATE_RELEASE
       @count += @decay_speed
-      if (high_byte(@count) < 255)
-        @level = $env_table_decay[high_byte(@count)]
-      else
+      @level = $env_table_decay[high_byte(@count)]
+      if (high_byte(@count) == 255)
         @state = STATE_IDLE
-        @count = 0
-        @level = 0
       end
     when STATE_IDLE
       @level = 0

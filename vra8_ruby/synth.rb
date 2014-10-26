@@ -240,21 +240,15 @@ class Synth
   end
 
   def set_vcf_cutoff_frequency(value)
-    sound_off
     $vcf.set_cutoff_frequency(value)
-    reset_phase
   end
 
   def set_vcf_resonance(value)
-    sound_off
     $vcf.set_resonance(value)
-    reset_phase
   end
 
   def set_vcf_envelope_amount(value)
-    sound_off
     $vcf.set_envelope_amount(value)
-    reset_phase
   end
 
   def set_eg_attack_time(value)

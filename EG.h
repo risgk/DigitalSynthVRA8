@@ -65,9 +65,10 @@ public:
     case STATE_DECAY:
       m_count += m_decaySpeed;
       m_level = *(g_envTableDecay + highByte(m_count));
-      if (m_level <= m_sustainLevel) {
+      m_level = highByte(m_level * (uint8_t) ((127 - m_sustainLevel) << (uint8_t) 1));
+      m_level += m_sustainLevel;
+      if (highByte(m_count) == (uint8_t) 255) {
         m_state = STATE_SUSTAIN;
-        m_level = m_sustainLevel;
       }
       break;
     case STATE_SUSTAIN:
