@@ -132,6 +132,12 @@ public:
     }
 #endif
 
+    uint8_t pitch1 = noteNumber + VCO<1>::coarseTune();
+    if (pitch1 < (uint8_t) (NOTE_NUMBER_MIN + (uint8_t) 64) ||
+        pitch1 > (uint8_t) (NOTE_NUMBER_MAX + (uint8_t) 64)) {
+      return;
+    }
+
     uint8_t pitch2 = noteNumber + VCO<2>::coarseTune();
     if (pitch2 < (uint8_t) (NOTE_NUMBER_MIN + (uint8_t) 64) ||
         pitch2 > (uint8_t) (NOTE_NUMBER_MAX + (uint8_t) 64)) {
