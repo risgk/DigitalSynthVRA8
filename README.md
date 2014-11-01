@@ -1,4 +1,4 @@
-# Digital Synth VRA8 1.2.0
+# Digital Synth VRA8 1.2.1
 
 2014-11-01 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
@@ -78,7 +78,7 @@
 ## MIDI Implementation Chart
 
       ISGK Instruments                                                Date: 2014-11-01       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.2.0         
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.2.1         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
