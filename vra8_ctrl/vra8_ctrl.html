@@ -11,20 +11,70 @@ td.key {
   height: 64px;
   border: 2px solid #999;
 }
+td.keyh {
+  text-align: center;
+  width: 20px;
+  height: 64px;
+  border: 2px solid #999;
+}
 </style>
 <script>
+const MIDI_CH        = 0;
+const NOTE_ON        = 0x90;
+const NOTE_OFF       = 0x80;
+const CONTROL_CHANGE = 0xB0;
+</script>
+<script>
+var transpose = 0;
 
-const MIDI_CH = 0;
+window.onload = function() {
+  if (navigator.requestMIDIAccess) {
+    navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+  } else {
+    console.log("No MIDI support present in your browser.");
+  }
 
+  var result = loadParameters();
+  if (!result) {
+    onChangeTranspose(0);
+    resetControllers();
+  }
+};
+
+function loadParameters() {
+  var value;
+  for (var i = 40; i <= 53; i++) {
+    value = localStorage.getItem("keyCC" + String(i));
+    if (!value) {
+      return false;
+    }
+    onChangeControlChange(i, value);
+  }
+
+  value = localStorage.getItem("keyTranspose");
+  if (!value) {
+    return false;
+  }
+  onChangeTranspose(value);
+
+  return true;
+}
+
+function onChangeTranspose(value) {
+  document.getElementById("inputTranspose").value = parseInt(value);
+  document.getElementById("spanTranspose").innerHTML = value;
+  localStorage.setItem("keyTranspose", value);
+  transpose = parseInt(value);
+}
+</script>
+<script>
 var midi        = null;
 var midiInputs  = null;
 var midiInput   = null;
 var midiOutputs = null;
 var midiOutput  = null;
 
-navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
-
-function echoMIDIMessage(event) {
+function onMIDIMessage(event) {
   if (midiOutput) {
     midiOutput.send(event.data, event.timestamp);
   }
@@ -71,7 +121,7 @@ function onChangeInputPort(){
   var selectInputPort = document.getElementById("selectInputPort");
   midiInput = midiInputs[selectInputPort.selectedIndex];
   if (midiInput) {
-    midiInput.onmidimessage = echoMIDIMessage;
+    midiInput.onmidimessage = onMIDIMessage;
   }
 }
 
@@ -79,15 +129,20 @@ function onChangeOutputPort() {
   var selectOutputPort = document.getElementById("selectOutputPort");
   midiOutput = midiOutputs[selectOutputPort.selectedIndex];
   if (midiOutput) {
-    resetControllers();
+    var result = loadParameters();
+    if (!result) {
+      onChangeTranspose(0);
+      resetControllers();
+    }
   }
 }
 
-function onChangeControlChange(controllerNumber, value) {
-  document.getElementById("inputCC" + String(controllerNumber)).value = value;
-  document.getElementById("spanCC" + String(controllerNumber)).innerHTML = value;
+function onChangeControlChange(number, value) {
+  document.getElementById("inputCC" + String(number)).value = parseInt(value);
+  document.getElementById("spanCC" + String(number)).innerHTML = value;
+  localStorage.setItem("keyCC" + String(number), value);
   if (midiOutput) {
-    midiOutput.send([0xB0 | MIDI_CH, controllerNumber, parseInt(value)]);
+    midiOutput.send([(CONTROL_CHANGE | MIDI_CH), number, parseInt(value)]);
   }
 }
 
@@ -96,69 +151,98 @@ function resetControllers() {
   onChangeControlChange(41, 64 );
   onChangeControlChange(42, 0  );
   onChangeControlChange(43, 64 );
-  onChangeControlChange(44, 64 );
-  onChangeControlChange(45, 0  );
-  onChangeControlChange(46, 64 );
+  onChangeControlChange(44, 70 );
+  onChangeControlChange(45, 2  );
+  onChangeControlChange(46, 52 );
   onChangeControlChange(47, 64 );
-  onChangeControlChange(48, 127);
-  onChangeControlChange(49, 0  );
-  onChangeControlChange(50, 0  );
-  onChangeControlChange(51, 0  );
-  onChangeControlChange(52, 0  );
+  onChangeControlChange(48, 64 );
+  onChangeControlChange(49, 127);
+  onChangeControlChange(50, 64 );
+  onChangeControlChange(51, 0 );
+  onChangeControlChange(52, 80 );
   onChangeControlChange(53, 127);
 }
 
 function noteOn(noteNumber) {
   if (midiOutput) {
-    midiOutput.send([0x90 | MIDI_CH, noteNumber, 127]);
+    midiOutput.send([(NOTE_ON | MIDI_CH), noteNumber + transpose, 127]);
   }
 }
 
 function noteOff(noteNumber) {
   if (midiOutput) {
-    midiOutput.send([0x80 | MIDI_CH, noteNumber, 0]);
+    midiOutput.send([(NOTE_OFF | MIDI_CH), noteNumber + transpose, 0]);
   }
 }
-
 </script>
 </head>
 <body>
-<h1>VRA8 CTRL</h1>
+<h1>VRA8 CTRL 1.2.0</h1>
 
-<h2>MIDI Settings</h2>
+<p>Digital Synth VRA8 Controller<p>
+
+<h2>Synth Settings</h2>
 
 <table>
 <tr>
 <td>MIDI IN</td>
-<td><select id="selectInputPort" size="1"  onchange="onChangeInputPort()"></select></td>
+<td colspan="2"><select id="selectInputPort" size="1" onchange="onChangeInputPort()"></select></td>
 </tr>
 <tr>
 <td>MIDI OUT</td>
-<td><select id="selectOutputPort" size="1"  onchange="onChangeOutputPort()"></select></td>
+<td colspan="2"><select id="selectOutputPort" size="1" onchange="onChangeOutputPort()"></select></td>
 </tr>
 </table>
+
+<p>We recommend Google Chrome (Please enable Web MIDI API)</p>
 
 <h2>Controllers</h2>
 
 <table>
-<tr><td>VCO 1 Waveform      </td><td><input id="inputCC40" type="range" min="0"  max="2"   step="1"   onchange="onChangeControlChange(40, value)"></td><td><span id="spanCC40">0</span></td></tr>
-<tr><td>VCO 1 Coarse Tune   </td><td><input id="inputCC41" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(41, value)"></td><td><span id="spanCC41">0</span></td></tr>
-<tr><td>VCO 2 Waveform      </td><td><input id="inputCC42" type="range" min="0"  max="2"   step="1"   onchange="onChangeControlChange(42, value)"></td><td><span id="spanCC42">0</span></td></tr>
-<tr><td>VCO 2 Coarse Tune   </td><td><input id="inputCC43" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(43, value)"></td><td><span id="spanCC43">0</span></td></tr>
-<tr><td>VCO 2 Fine Tune     </td><td><input id="inputCC44" type="range" min="58" max="70"  step="6"   onchange="onChangeControlChange(44, value)"></td><td><span id="spanCC44">0</span></td></tr>
-<tr><td>VCO 3 Waveform      </td><td><input id="inputCC45" type="range" min="0"  max="2"   step="1"   onchange="onChangeControlChange(45, value)"></td><td><span id="spanCC45">0</span></td></tr>
-<tr><td>VCO 3 Coarse Tune   </td><td><input id="inputCC46" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(46, value)"></td><td><span id="spanCC46">0</span></td></tr>
-<tr><td>VCO 3 Fine Tune     </td><td><input id="inputCC47" type="range" min="58" max="70"  step="6"   onchange="onChangeControlChange(47, value)"></td><td><span id="spanCC47">0</span></td></tr>
-<tr><td>VCF Cutoff Frequency</td><td><input id="inputCC48" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(48, value)"></td><td><span id="spanCC48">0</span></td></tr>
-<tr><td>VCF Resonance       </td><td><input id="inputCC49" type="range" min="0"  max="127" step="127" onchange="onChangeControlChange(49, value)"></td><td><span id="spanCC49">0</span></td></tr>
-<tr><td>VCF Envelope Amount </td><td><input id="inputCC50" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(50, value)"></td><td><span id="spanCC50">0</span></td></tr>
-<tr><td>EG Attack Time      </td><td><input id="inputCC51" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(51, value)"></td><td><span id="spanCC51">0</span></td></tr>
-<tr><td>EG Decay Time       </td><td><input id="inputCC52" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(52, value)"></td><td><span id="spanCC52">0</span></td></tr>
-<tr><td>EG Sustain Level    </td><td><input id="inputCC53" type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(53, value)"></td><td><span id="spanCC53">0</span></td></tr>
+<tr><td>VCO 1 Waveform      </td><td><input id="inputCC40"  type="range" min="0"  max="2"   step="1"   onchange="onChangeControlChange(40, value)"></td><td><span id="spanCC40">-1</span></td></tr>
+<tr><td>VCO 1 Coarse Tune   </td><td><input id="inputCC41"  type="range" min="16" max="112" step="1"   onchange="onChangeControlChange(41, value)"></td><td><span id="spanCC41">-1</span></td></tr>
+<tr><td>VCO 2 Waveform      </td><td><input id="inputCC42"  type="range" min="0"  max="2"   step="1"   onchange="onChangeControlChange(42, value)"></td><td><span id="spanCC42">-1</span></td></tr>
+<tr><td>VCO 2 Coarse Tune   </td><td><input id="inputCC43"  type="range" min="16" max="112" step="1"   onchange="onChangeControlChange(43, value)"></td><td><span id="spanCC43">-1</span></td></tr>
+<tr><td>VCO 2 Fine Tune     </td><td><input id="inputCC44"  type="range" min="58" max="70"  step="6"   onchange="onChangeControlChange(44, value)"></td><td><span id="spanCC44">-1</span></td></tr>
+<tr><td>VCO 3 Waveform      </td><td><input id="inputCC45"  type="range" min="0"  max="2"   step="1"   onchange="onChangeControlChange(45, value)"></td><td><span id="spanCC45">-1</span></td></tr>
+<tr><td>VCO 3 Coarse Tune   </td><td><input id="inputCC46"  type="range" min="16" max="112" step="1"   onchange="onChangeControlChange(46, value)"></td><td><span id="spanCC46">-1</span></td></tr>
+<tr><td>VCO 3 Fine Tune     </td><td><input id="inputCC47"  type="range" min="58" max="70"  step="6"   onchange="onChangeControlChange(47, value)"></td><td><span id="spanCC47">-1</span></td></tr>
+<tr><td>VCF Cutoff Frequency</td><td><input id="inputCC48"  type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(48, value)"></td><td><span id="spanCC48">-1</span></td></tr>
+<tr><td>VCF Resonance       </td><td><input id="inputCC49"  type="range" min="0"  max="127" step="127" onchange="onChangeControlChange(49, value)"></td><td><span id="spanCC49">-1</span></td></tr>
+<tr><td>VCF Envelope Amount </td><td><input id="inputCC50"  type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(50, value)"></td><td><span id="spanCC50">-1</span></td></tr>
+<tr><td>EG Attack Time      </td><td><input id="inputCC51"  type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(51, value)"></td><td><span id="spanCC51">-1</span></td></tr>
+<tr><td>EG Decay Time       </td><td><input id="inputCC52"  type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(52, value)"></td><td><span id="spanCC52">-1</span></td></tr>
+<tr><td>EG Sustain Level    </td><td><input id="inputCC53"  type="range" min="0"  max="127" step="1"   onchange="onChangeControlChange(53, value)"></td><td><span id="spanCC53">-1</span></td></tr>
 </table>
+
+<p><input id="inputReset" type="button" value="Reset Controllers" onclick ="resetControllers()"></p>
 
 <h2>Software Keyboard</h2>
 
+<table>
+<tr>
+<td class="keyh"></td>
+<td class="key" onmouseover="noteOn(49)" onmouseout="noteOff(49)">C#3</td>
+<td class="key" onmouseover="noteOn(51)" onmouseout="noteOff(51)">D#3</td>
+<td class="keyh"></td>
+<td class="keyh"></td>
+<td class="key" onmouseover="noteOn(54)" onmouseout="noteOff(54)">F#3</td>
+<td class="key" onmouseover="noteOn(56)" onmouseout="noteOff(56)">G#3</td>
+<td class="key" onmouseover="noteOn(58)" onmouseout="noteOff(58)">A#3</td>
+<td class="keyh"></td>
+<td class="keyh"></td>
+<td class="key" onmouseover="noteOn(61)" onmouseout="noteOff(61)">C#4</td>
+<td class="key" onmouseover="noteOn(63)" onmouseout="noteOff(63)">D#4</td>
+<td class="keyh"></td>
+<td class="keyh"></td>
+<td class="key" onmouseover="noteOn(66)" onmouseout="noteOff(66)">F#4</td>
+<td class="key" onmouseover="noteOn(68)" onmouseout="noteOff(68)">G#4</td>
+<td class="key" onmouseover="noteOn(70)" onmouseout="noteOff(70)">A#4</td>
+<td class="keyh"></td>
+<td class="keyh"></td>
+<td class="keyh"></td>
+</tr>
+</table>
 <table>
 <tr>
 <td class="key" onmouseover="noteOn(48)" onmouseout="noteOff(48)">C3</td>
@@ -169,8 +253,30 @@ function noteOff(noteNumber) {
 <td class="key" onmouseover="noteOn(57)" onmouseout="noteOff(57)">A3</td>
 <td class="key" onmouseover="noteOn(59)" onmouseout="noteOff(59)">B3</td>
 <td class="key" onmouseover="noteOn(60)" onmouseout="noteOff(60)">C4</td>
+<td class="key" onmouseover="noteOn(62)" onmouseout="noteOff(62)">D4</td>
+<td class="key" onmouseover="noteOn(64)" onmouseout="noteOff(64)">E4</td>
+<td class="key" onmouseover="noteOn(65)" onmouseout="noteOff(65)">F4</td>
+<td class="key" onmouseover="noteOn(67)" onmouseout="noteOff(67)">G4</td>
+<td class="key" onmouseover="noteOn(69)" onmouseout="noteOff(69)">A4</td>
+<td class="key" onmouseover="noteOn(71)" onmouseout="noteOff(71)">B4</td>
+<td class="key" onmouseover="noteOn(72)" onmouseout="noteOff(72)">C5</td>
 </tr>
 </table>
+
+<table>
+<tr>
+<td>Transpose</td>
+<td><input id="inputTranspose" type="range" min="-48" max="48" step="12" onchange="onChangeTranspose(value)" ></td><td><span id="spanTranspose" >-1</span></td>
+</tr>
+</table>
+
+<h2>About</h2>
+
+<p>Made by ISGK Instruments (<a href="https://github.com/risgk/DigitalSynthVRA8">View on GitHub</a>)</p>
+
+<h2>License</h2>
+
+<p><a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a></p>
 
 </body>
 </html>

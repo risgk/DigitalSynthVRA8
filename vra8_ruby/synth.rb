@@ -123,6 +123,11 @@ class Synth
       end
     end
 
+    pitch_1 = note_number + $vco_1.coarse_tune
+    if (pitch_1 < (NOTE_NUMBER_MIN + 64) || pitch_1 > (NOTE_NUMBER_MAX + 64))
+      return
+    end
+
     pitch_2 = note_number + $vco_2.coarse_tune
     if (pitch_2 < (NOTE_NUMBER_MIN + 64) || pitch_2 > (NOTE_NUMBER_MAX + 64))
       return
