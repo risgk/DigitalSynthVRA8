@@ -22,8 +22,6 @@ var midiInput   = null;
 var midiOutputs = null;
 var midiOutput  = null;
 
-navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
-
 function echoMIDIMessage(event) {
   if (midiOutput) {
     midiOutput.send(event.data, event.timestamp);
@@ -119,6 +117,14 @@ function noteOff(noteNumber) {
     midiOutput.send([0x80 | MIDI_CH, noteNumber, 0]);
   }
 }
+
+window.onload = function() {
+  if (navigator.requestMIDIAccess) {
+    navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+  } else {
+    console.log("No MIDI support present in your browser.");
+  }
+};
 
 </script>
 </head>
