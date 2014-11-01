@@ -1,20 +1,7 @@
-# Digital Synth VRA8 1.1.0
+# Digital Synth VRA8 1.2.0
 
-2014-10-27 ISGK Instruments  
+2014-11-01 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
-
-## What's New
-
-- v1.1.0: Improve EG (Fix the problem of Decay); Enable real time control of VCF
-- v1.0.4: Enable changing VCF Cutoff Frequency during Note On, Fix the explanation of Decay Time
-- v1.0.3: Refix the unit of Fine Tune
-- v1.0.2: Fix sample_midi_stream (38400 bps)
-- v1.0.1: Fix the unit of Fine Tune, Fix MIDI Implementation Chart
-- v1.0.0: Introduce Semantic Versioning
-- V0.23: Add VRA8 CTRL Software Keyboard
-- V0.22: Add a workaround: midi-jruby (0.0.12) cannot receive a data byte 2 with a value of 0
-- V0.21: VRA8 CTRL supports Google Chrome 39 API
-- V0.20: VRA8 CTRL is released
 
 ## Concept
 
@@ -90,8 +77,8 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-10-27       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.1.0         
+      ISGK Instruments                                                Date: 2014-11-01       
+      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.2.0         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function                      | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
