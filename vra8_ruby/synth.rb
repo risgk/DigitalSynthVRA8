@@ -25,57 +25,56 @@ class Synth
   end
 
   def receive_midi_byte(b)
-    if (real_time_message?(b))
-      # do nothing
-    elsif (system_message?(b))
-      case (b)
-      when EOX
-        @system_exclusive = false
-        @system_data_remaining = 0
-      when SONG_SELECT, TIME_CODE
-        @system_data_remaining = 1
-      when SONG_POSITION
-        @system_data_remaining = 2
-      when SYSTEM_EXCLUSIVE
-        @system_exclusive = true
-      end
-    elsif (status_byte?(b))
-      @running_status = b
-      @first_data = DATA_BYTE_INVALID
-    else
+    if data_byte?(b)
       if (@system_exclusive)
         # do nothing
-      elsif (@system_data_remaining > 0)
+      elsif (@system_data_remaining != 0)
         @system_data_remaining -= 1
-      elsif (@running_status == PROGRAM_CHANGE)
-        program_change(b)
-      elsif (@running_status == CONTROL_CHANGE)
+      elsif (@running_status == (NOTE_ON | MIDI_CH))
         if (!data_byte?(@first_data))
           @first_data = b
+        elsif (b == 0x00)
+          note_off(@first_data)
+          @first_data = DATA_BYTE_INVALID
         else
-          control_change(@first_data, b)
+          note_on(@first_data)
           @first_data = DATA_BYTE_INVALID
         end
-      elsif (@running_status == NOTE_OFF)
+      elsif (@running_status == (NOTE_OFF | MIDI_CH))
         if (!data_byte?(@first_data))
           @first_data = b
         else
           note_off(@first_data)
           @first_data = DATA_BYTE_INVALID
         end
-      elsif (@running_status == NOTE_ON)
+      elsif (@running_status == (PROGRAM_CHANGE | MIDI_CH))
+        program_change(b)
+      elsif (@running_status == (CONTROL_CHANGE | MIDI_CH))
         if (!data_byte?(@first_data))
           @first_data = b
         else
-          if (b == 0x00)
-            note_off(@first_data)
-            @first_data = DATA_BYTE_INVALID
-          else
-            note_on(@first_data)
-            @first_data = DATA_BYTE_INVALID
-          end
+          control_change(@first_data, b)
+          @first_data = DATA_BYTE_INVALID
         end
       end
+    elsif (system_message?(b))
+      case (b)
+      when EOX, TUNE_REQUEST
+        @system_exclusive = false
+        @system_data_remaining = 0
+      when SONG_SELECT, TIME_CODE
+        @system_exclusive = false
+        @system_data_remaining = 1
+      when SONG_POSITION
+        @system_exclusive = false
+        @system_data_remaining = 2
+      when SYSTEM_EXCLUSIVE
+        @system_exclusive = true
+      end
+    elsif (status_byte?(b))
+      @system_exclusive = false
+      @running_status = b
+      @first_data = DATA_BYTE_INVALID
     end
   end
 

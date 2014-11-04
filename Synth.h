@@ -29,7 +29,7 @@ public:
         // do nothing
       } else if (m_systemDataRemaining != (uint8_t) 0) {
         m_systemDataRemaining--;
-      } else if (m_runningStatus == NOTE_ON) {
+      } else if (m_runningStatus == (NOTE_ON | MIDI_CH)) {
         if (!IsDataByte(m_firstData)) {
           m_firstData = b;
         } else if (b == (uint8_t) 0) {
@@ -39,16 +39,16 @@ public:
           noteOn(m_firstData);
           m_firstData = DATA_BYTE_INVALID;
         }
-      } else if (m_runningStatus == NOTE_OFF) {
+      } else if (m_runningStatus == (NOTE_OFF | MIDI_CH)) {
         if (!IsDataByte(m_firstData)) {
           m_firstData = b;
         } else {
           noteOff(m_firstData);
           m_firstData = DATA_BYTE_INVALID;
         }
-      } else if (m_runningStatus == PROGRAM_CHANGE) {
+      } else if (m_runningStatus == (PROGRAM_CHANGE | MIDI_CH)) {
         programChange(b);
-      } else if (m_runningStatus == CONTROL_CHANGE) {
+      } else if (m_runningStatus == (CONTROL_CHANGE | MIDI_CH)) {
         if (!IsDataByte(m_firstData)) {
           m_firstData = b;
         } else {
@@ -56,26 +56,30 @@ public:
           m_firstData = DATA_BYTE_INVALID;
         }
       }
-    } else if (IsStatusByte(b)) {
-      m_runningStatus = b;
-      m_firstData = DATA_BYTE_INVALID;
     } else if (IsSystemMessage(b)) {
       switch (b) {
       case EOX:
+      case TUNE_REQUEST:
         m_systemExclusive = false;
         m_systemDataRemaining = 0;
         break;
       case SONG_SELECT:
       case TIME_CODE:
+        m_systemExclusive = false;
         m_systemDataRemaining = 1;
         break;
       case SONG_POSITION:
+        m_systemExclusive = false;
         m_systemDataRemaining = 2;
         break;
       case SYSTEM_EXCLUSIVE:
         m_systemExclusive = true;
         break;
       }
+    } else if (IsStatusByte(b)) {
+      m_systemExclusive = false;
+      m_runningStatus = b;
+      m_firstData = DATA_BYTE_INVALID;
     }
   }
 
