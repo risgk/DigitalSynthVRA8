@@ -75,11 +75,11 @@ class VCO
     else
       note_number = pitch - 64
       if (@fine_tune <= 63)
-        @freq = $freq_table_minus_10_cent[note_number]
+        @freq = $freq_table_detune_minus[note_number]
       elsif (@fine_tune == 64)
-        @freq = $freq_table_0_cent[note_number]
+        @freq = $freq_table_detune_none[note_number]
       else
-        @freq = $freq_table_plus_10_cent[note_number]
+        @freq = $freq_table_detune_plus[note_number]
       end
     end
   end

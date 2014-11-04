@@ -47,20 +47,20 @@
 - VCO 2
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(58), 0(64), +10(70) [cent]
+    - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCO 3
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(58), 0(64), +10(70) [cent]
+    - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCF
     - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
     - Cutoff Frequency: 977(0), ..., 1953(64), ..., 3906(127) [Hz]
-    - Resonance: Off(0), On(127)
+    - Resonance: Q=0.7(0), Q=1.4(127)
     - Envelope Amount: 0(0), ..., 50(64), ..., 100(127) [%]
 - VCA
 - EG
-    - Attack Time: 16(0), ..., 262(64), ..., 4178(127) [ms]
-    - Decay Time: 12(0), ..., 197(64), ..., 3134(127) [ms]
+    - Attack Time: 8(0), ..., 131(64), ..., 2081(127) [ms]
+    - Decay Time: 8(0), ..., 131(64), ..., 2081(127) [ms]
     - Sustain Level: 0(0), ..., 50(64), ..., 100(127) [%]
 
 ## Preset Programs

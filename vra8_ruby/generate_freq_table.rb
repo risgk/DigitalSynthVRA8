@@ -35,8 +35,8 @@ def generate_freq_table(detune, name)
   $file.printf("]\n\n")
 end
 
-generate_freq_table(-10.0, "minus_10_cent")
-generate_freq_table(0.0, "0_cent")
-generate_freq_table(10.0, "plus_10_cent")
+generate_freq_table(-9.375, "detune_minus")
+generate_freq_table(0.0, "detune_none")
+generate_freq_table(9.375, "detune_plus")
 
 $file.close

@@ -57,7 +57,7 @@ public:
     case STATE_ATTACK:
       m_count += m_attackSpeed;
       m_level = *(g_envTableAttack + highByte(m_count));
-      if (highByte(m_count) == (uint8_t) 255) {
+      if (highByte(m_count) == (uint8_t) 127) {
         m_state = STATE_DECAY;
         m_count = 0;
       }
@@ -67,7 +67,7 @@ public:
       m_level = *(g_envTableDecay + highByte(m_count));
       m_level = highByte(m_level * (uint8_t) ((127 - m_sustainLevel) << (uint8_t) 1));
       m_level += m_sustainLevel;
-      if (highByte(m_count) == (uint8_t) 255) {
+      if (highByte(m_count) == (uint8_t) 254) {
         m_state = STATE_SUSTAIN;
       }
       break;
@@ -77,7 +77,7 @@ public:
     case STATE_RELEASE:
       m_count += m_decaySpeed;
       m_level = *(g_envTableDecay + highByte(m_count));
-      if (highByte(m_count) == (uint8_t) 255) {
+      if (highByte(m_count) == (uint8_t) 254) {
         m_state = STATE_IDLE;
       }
       break;
