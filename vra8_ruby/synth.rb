@@ -59,17 +59,21 @@ class Synth
       end
     elsif (system_message?(b))
       case (b)
-      when EOX, TUNE_REQUEST
+      when SYSTEM_EXCLUSIVE
+        @system_exclusive = true
+        @running_status = STATUS_BYTE_INVALID
+      when EOX, TUNE_REQUEST, 0xF4, 0xF5
         @system_exclusive = false
         @system_data_remaining = 0
-      when SONG_SELECT, TIME_CODE
+        @running_status = STATUS_BYTE_INVALID
+      when TIME_CODE, SONG_SELECT
         @system_exclusive = false
         @system_data_remaining = 1
+        @running_status = STATUS_BYTE_INVALID
       when SONG_POSITION
         @system_exclusive = false
         @system_data_remaining = 2
-      when SYSTEM_EXCLUSIVE
-        @system_exclusive = true
+        @running_status = STATUS_BYTE_INVALID
       end
     elsif (status_byte?(b))
       @system_exclusive = false

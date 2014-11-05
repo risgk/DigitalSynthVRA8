@@ -58,22 +58,28 @@ public:
       }
     } else if (IsSystemMessage(b)) {
       switch (b) {
+      case SYSTEM_EXCLUSIVE:
+        m_systemExclusive = true;
+        m_runningStatus = STATUS_BYTE_INVALID;
+        break;
       case EOX:
       case TUNE_REQUEST:
+      case 0xF4:
+      case 0xF5:
         m_systemExclusive = false;
         m_systemDataRemaining = 0;
+        m_runningStatus = STATUS_BYTE_INVALID;
         break;
-      case SONG_SELECT:
       case TIME_CODE:
+      case SONG_SELECT:
         m_systemExclusive = false;
         m_systemDataRemaining = 1;
+        m_runningStatus = STATUS_BYTE_INVALID;
         break;
       case SONG_POSITION:
         m_systemExclusive = false;
         m_systemDataRemaining = 2;
-        break;
-      case SYSTEM_EXCLUSIVE:
-        m_systemExclusive = true;
+        m_runningStatus = STATUS_BYTE_INVALID;
         break;
       }
     } else if (IsStatusByte(b)) {
