@@ -78,7 +78,7 @@
 ## MIDI Implementation Chart
 
       [Virtual Analog Synthesizer]                                    Date: 2014-xx-xx       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.x.x         
+      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 1.x.x         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function...                   | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
