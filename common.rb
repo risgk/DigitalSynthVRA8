@@ -1,5 +1,5 @@
-MIDI_CH = 0
-SAMPLING_RATE = 15625
+MIDI_CH         = 0
+SAMPLING_RATE   = 15625
 NOTE_NUMBER_MIN = 24
 NOTE_NUMBER_MAX = 96
 
@@ -9,7 +9,7 @@ SQUERE_LEAD  = 2
 SYNTH_PAD    = 3
 SYNTH_BASS   = 4
 
-NOTE_ON               = (0x90 | MIDI_CH)
-NOTE_OFF              = (0x80 | MIDI_CH)
-PROGRAM_CHANGE        = (0xC0 | MIDI_CH)
+NOTE_OFF              = 0x80
+NOTE_ON               = 0x90
+PROGRAM_CHANGE        = 0xC0
 ACTIVE_SENSING        = 0xFE

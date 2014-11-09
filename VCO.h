@@ -84,11 +84,11 @@ public:
   {
     uint8_t noteNumber = m_noteNumber + m_courseTune - (uint8_t) 64;
     if (m_fineTune <= (uint8_t) 63) {
-      m_freq = pgm_read_word(g_freqTableMinus10Cent + noteNumber);
+      m_freq = pgm_read_word(g_freqTableDetuneMinus + noteNumber);
     } else if (m_fineTune == (uint8_t) 64) {
-      m_freq = pgm_read_word(g_freqTable0Cent       + noteNumber);
+      m_freq = pgm_read_word(g_freqTableDetuneNone  + noteNumber);
     } else {
-      m_freq = pgm_read_word(g_freqTablePlus10Cent  + noteNumber);
+      m_freq = pgm_read_word(g_freqTableDetunePlus  + noteNumber);
     }
   }
 };

@@ -3,13 +3,13 @@ require './common'
 $file = File::open("sample_midi_stream.bin", "wb")
 
 def program_change(program_number)
-    $file.write([PROGRAM_CHANGE, program_number].pack("C*"))
+    $file.write([(PROGRAM_CHANGE | MIDI_CH), program_number].pack("C*"))
 end
 
 def play(note_number, length)
-  $file.write([NOTE_ON,  note_number, 64].pack("C*"))
+  $file.write([(NOTE_ON  | MIDI_CH), note_number, 64].pack("C*"))
   (length * 7 / 8).times { $file.write([ACTIVE_SENSING].pack("C")) }
-  $file.write([NOTE_OFF, note_number, 64].pack("C*"))
+  $file.write([(NOTE_OFF | MIDI_CH), note_number, 64].pack("C*"))
   (length * 1 / 8).times { $file.write([ACTIVE_SENSING].pack("C")) }
 end
 

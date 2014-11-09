@@ -1,6 +1,6 @@
-# Digital Synth VRA8 1.2.1
+# Digital Synth VRA8 2.0.0
 
-2014-11-01 ISGK Instruments  
+2014-11-09 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## Concept
@@ -47,20 +47,20 @@
 - VCO 2
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(58), 0(64), +10(70) [cent]
+    - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCO 3
     - Waveform: Sawtooth(0), Square(1), Triangle(2)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
-    - Fine Tune: -10(58), 0(64), +10(70) [cent]
+    - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCF
     - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
     - Cutoff Frequency: 977(0), ..., 1953(64), ..., 3906(127) [Hz]
-    - Resonance: Off(0), On(127)
+    - Resonance: Q=0.7(0), Q=1.4(127)
     - Envelope Amount: 0(0), ..., 50(64), ..., 100(127) [%]
 - VCA
 - EG
-    - Attack Time: 16(0), ..., 262(64), ..., 4178(127) [ms]
-    - Decay Time: 12(0), ..., 197(64), ..., 3134(127) [ms]
+    - Attack Time: 8(0), ..., 131(64), ..., 2081(127) [ms]
+    - Decay Time: 8(0), ..., 131(64), ..., 2081(127) [ms]
     - Sustain Level: 0(0), ..., 50(64), ..., 100(127) [%]
 
 ## Preset Programs
@@ -77,10 +77,10 @@
 
 ## MIDI Implementation Chart
 
-      ISGK Instruments                                                Date: 2014-11-01       
-      Model: Digital Synth VRA8       MIDI Implementation Chart       Version: 1.2.1         
+      [Virtual Analog Synthesizer]                                    Date: 2014-11-09       
+      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 2.0.0         
     +-------------------------------+---------------+---------------+-----------------------+
-    | Function                      | Transmitted   | Recognized    | Remarks               |
+    | Function...                   | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
     | Basic        Default          | x             | 1             |                       |
     | Channel      Changed          | x             | x             |                       |
@@ -92,48 +92,48 @@
     | Note                          | x             | 0-127         |                       |
     | Number       : True Voice     | ************* | 24-96         |                       |
     +-------------------------------+---------------+---------------+-----------------------+
-    | Velocity     Note On          | x             | x  *1         |                       |
-    |              Note Off         | x             | x  *2         |                       |
+    | Velocity     Note ON          | x             | x             |                       |
+    |              Note OFF         | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
     | After        Key's            | x             | x             |                       |
-    | Touch        Channel's        | x             | x             |                       |
+    | Touch        Ch's             | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
     | Pitch Bend                    | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
-    | Control                    40 | x             | o             | VCO 1 Waveform        |
-    | Change                     41 | x             | o             | VCO 1 Coarse Tune     |
-    |                            42 | x             | o             | VCO 2 Waveform        |
-    |                            43 | x             | o             | VCO 2 Coarse Tune     |
-    |                            44 | x             | o             | VCO 2 Fine Tune       |
-    |                            45 | x             | o             | VCO 3 Waveform        |
-    |                            46 | x             | o             | VCO 3 Coarse Tune     |
-    |                            47 | x             | o             | VCO 3 Fine Tune       |
-    |                            48 | x             | o             | VCF Cutoff Frequency  |
-    |                            49 | x             | o             | VCF Resonance         |
-    |                            50 | x             | o             | VCF Envelope Amount   |
-    |                            51 | x             | o             | EG Attack Time        |
-    |                            52 | x             | o             | EG Decay Time         |
-    |                            53 | x             | o             | EG Sustain Level      |
+    | Control                    14 | x             | o             | VCO 1 Waveform        |
+    | Change                     15 | x             | o             | VCO 1 Coarse Tune     |
+    |                            16 | x             | o             | VCO 2 Waveform        |
+    |                            17 | x             | o             | VCO 2 Coarse Tune     |
+    |                            18 | x             | o             | VCO 2 Fine Tune       |
+    |                            19 | x             | o             | VCO 3 Waveform        |
+    |                            20 | x             | o             | VCO 3 Coarse Tune     |
+    |                            21 | x             | o             | VCO 3 Fine Tune       |
+    |                            22 | x             | o             | VCF Cutoff Frequency  |
+    |                            23 | x             | o             | VCF Resonance         |
+    |                            24 | x             | o             | VCF Envelope Amount   |
+    |                            25 | x             | o             | EG Attack Time        |
+    |                            26 | x             | o             | EG Decay Time         |
+    |                            27 | x             | o             | EG Sustain Level      |
     +-------------------------------+---------------+---------------+-----------------------+
-    | Program                       | x             | o             |                       |
-    | Change       : True Number    | ************* | 0-4           |                       |
+    | Program                       | x             | o 0-4         |                       |
+    | Change       : True #         | ************* | 0-4           |                       |
     +-------------------------------+---------------+---------------+-----------------------+
     | System Exclusive              | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
-    | System       : Song Position  | x             | x             |                       |
-    | Common       : Song Select    | x             | x             |                       |
-    |              : Tune Request   | x             | x             |                       |
+    | System       : Song Pos       | x             | x             |                       |
+    | Common       : Song Sel       | x             | x             |                       |
+    |              : Tune           | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
     | System       : Clock          | x             | x             |                       |
     | Real Time    : Commands       | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
-    | Aux          : Local On/Off   | x             | x             |                       |
-    | Messages     : All Notes Off  | x             | o             |                       |
-    |              : Active Sensing | x             | x             |                       |
-    |              : System Reset   | x             | x             |                       |
+    | Aux          : Local ON/OFF   | x             | x             |                       |
+    | Messages     : All Notes OFF  | x             | o             |                       |
+    |              : Active Sense   | x             | x             |                       |
+    |              : Reset          | x             | x             |                       |
     +-------------------------------+---------------+---------------+-----------------------+
-    | Notes                         | *1  9nH v=1-127                                       |
-    |                               | *2  9nH v=0 or 8nH v=0-127                            |
+    | Notes                         |                                                       |
+    |                               |                                                       |
     +-------------------------------+-------------------------------------------------------+
       Mode 1: Omni On,  Poly          Mode 2: Omni On,  Mono          o: Yes                 
       Mode 3: Omni Off, Poly          Mode 4: Omni Off, Mono          x: No                  
