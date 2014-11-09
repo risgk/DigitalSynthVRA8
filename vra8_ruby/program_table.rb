@@ -11,7 +11,7 @@ $program_table = [
   SAWTOOTH, 64, 70,
   TRIANGLE, 52, 64,
   64, ON, 64,
-  0, 80, 127,
+  16, 96, 127,
   64, 64,
 
   # Saw Lead
@@ -19,7 +19,7 @@ $program_table = [
   SAWTOOTH, 64, 70,
   SAWTOOTH, 64, 64,
   64, ON, 64,
-  0, 80, 127,
+  16, 96, 127,
   64, 64,
 
   # Square Lead
@@ -27,7 +27,7 @@ $program_table = [
   SQUARE, 64, 70,
   SQUARE, 64, 64,
   64, OFF, 64,
-  16, 80, 127,
+  32, 96, 127,
   64, 64,
 
   # Synth Pad
@@ -43,6 +43,6 @@ $program_table = [
   SAWTOOTH, 64, 70,
   SAWTOOTH, 64, 64,
   0, ON, 127,
-  0, 112, 0,
+  16, 112, 0,
   64, 64,
 ]
