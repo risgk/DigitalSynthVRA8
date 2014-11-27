@@ -1,6 +1,6 @@
-# Digital Synth VRA8 2.0.0
+# Digital Synth VRA8 3.0.0
 
-2014-11-09 ISGK Instruments  
+2014-11-27 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## Concept
@@ -54,14 +54,14 @@
     - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCF
     - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
-    - Cutoff Frequency: 977(0), ..., 1953(64), ..., 3906(127) [Hz]
+    - Cutoff Frequency: 976.6(0), ..., 1953.1(64), ..., 3906.3(127) [Hz]
     - Resonance: Q=0.7(0), Q=1.4(127)
-    - Envelope Amount: 0(0), ..., 50(64), ..., 100(127) [%]
+    - Envelope Amount: 0(0), ..., 50.4(64), ..., 100(127) [%]
 - VCA
 - EG
-    - Attack Time: 8(0), ..., 131(64), ..., 2081(127) [ms]
-    - Decay Time: 8(0), ..., 131(64), ..., 2081(127) [ms]
-    - Sustain Level: 0(0), ..., 50(64), ..., 100(127) [%]
+    - Attack Time: 10(0), ..., 98.2(42), ..., 1018.3(85), ..., 10000(127) [ms]
+    - Decay Time: 10(0), ..., 98.2(42), ..., 1018.3(85), ..., 10000(127) [ms]
+    - Sustain Level: 0(0), ..., 50.4(64), ..., 100(127) [%]
 
 ## Preset Programs
 
@@ -77,8 +77,8 @@
 
 ## MIDI Implementation Chart
 
-      [Virtual Analog Synthesizer]                                    Date: 2014-11-09       
-      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 2.0.0         
+      [Virtual Analog Synthesizer]                                    Date: 2014-11-27       
+      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 3.0.0         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function...                   | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+

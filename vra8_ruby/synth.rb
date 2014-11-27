@@ -260,21 +260,15 @@ class Synth
   end
 
   def set_eg_attack_time(value)
-    sound_off
     $eg.set_attack_time(value)
-    reset_phase
   end
 
   def set_decay_time(value)
-    sound_off
     $eg.set_decay_time(value)
-    reset_phase
   end
 
   def set_eg_sustain_level(value)
-    sound_off
     $eg.set_sustain_level(value)
-    reset_phase
   end
 
   def all_notes_off(value)

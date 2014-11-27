@@ -4,12 +4,13 @@
 //#define OPTION_DEMO_MODE
 #define OPTION_OVERLOAD_LED
 
-//const uint16_t SERIAL_SPEED    = 31250;
-const uint16_t SERIAL_SPEED    = 38400;
-const uint8_t  MIDI_CH         = 0;
-const uint16_t SAMPLING_RATE   = 15625;
-const uint8_t  NOTE_NUMBER_MIN = 24;
-const uint8_t  NOTE_NUMBER_MAX = 96;
+//const uint16_t SERIAL_SPEED       = 31250;
+const uint16_t SERIAL_SPEED       = 38400;
+const uint8_t  MIDI_CH            = 0;
+const uint16_t SAMPLING_RATE      = 15625;
+const uint8_t  NOTE_NUMBER_MIN    = 24;
+const uint8_t  NOTE_NUMBER_MAX    = 96;
+const uint8_t  EG_UPDATE_INTERVAL = 25;
 
 const uint8_t PROGRAM_SIZE = 16;
 const uint8_t SUB_OSC_LEAD = 0;
