@@ -310,23 +310,17 @@ public:
 
   static void setEGAttackTime(uint8_t value)
   {
-    soundOff();
     EG::setAttackTime(value);
-    resetPhase();
   }
 
   static void setEGDecayTime(uint8_t value)
   {
-    soundOff();
     EG::setDecayTime(value);
-    resetPhase();
   }
 
   static void setEGSustainLevel(uint8_t value)
   {
-    soundOff();
     EG::setSustainLevel(value);
-    resetPhase();
   }
 
   static void allNotesOff(uint8_t value)

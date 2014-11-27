@@ -2,86 +2,78 @@ require './common'
 require './env_table'
 
 class EG
-  STATE_ATTACK = 0
-  STATE_DECAY = 1
-  STATE_SUSTAIN = 2
-  STATE_RELEASE = 3
-  STATE_IDLE = 4
+  STATE_ATTACK        = 0
+  STATE_DECAY_SUSTAIN = 1
+  STATE_RELEASE       = 3
+  STATE_IDLE          = 4
+  LEVEL16_127         = 32512
+  LEVEL16_190_5       = 48768
 
   def initialize
-    @attack_speed = 255
-    @decay_speed = 255
-    @sustain_level = 127
-    @state = STATE_IDLE
-    @count = 0
-    @level = 0
+    @attack_rate      = $env_table_attack_rate_from_time[0]
+    @decay_rate       = $env_table_decay_rate_from_time[0]
+    @sustain_level_16 = 127
+    @state            = STATE_IDLE
+    @level_16         = 0
+    @count            = 0
   end
 
   def set_attack_time(attack_time)
-    @attack_speed = $env_table_speed_from_time[attack_time]
+    @attack_rate = $env_table_attack_rate_from_time[attack_time]
   end
 
   def set_decay_time(decay_time)
-    @decay_speed = $env_table_speed_from_time[decay_time]
+    @decay_rate = $env_table_decay_rate_from_time[decay_time]
   end
 
   def set_sustain_level(sustain_level)
-    @sustain_level = sustain_level
+    @sustain_level_16 = sustain_level << 8
   end
 
   def note_on
-    if (@level == 127)
-      @state = STATE_DECAY
-      @count = 0
-    else
-      @state = STATE_ATTACK
-      @count = $env_table_attack_inverse[@level] << 8
-    end
+    @state = STATE_ATTACK
   end
 
   def note_off
-    case (@state)
-    when STATE_ATTACK, STATE_DECAY, STATE_SUSTAIN
-      @state = STATE_RELEASE
-      @count = $env_table_decay_inverse[@level] << 8
-    end
+    @state = STATE_RELEASE
   end
 
   def sound_off
     @state = STATE_IDLE
-    @count = 0
-    @level = 0
   end
 
   def clock
+    @count += 1
+    if (@count < EG_UPDATE_INTERVAL)
+      return high_byte(@level_16)
+    end
+    @count = 0
+
     case (@state)
     when STATE_ATTACK
-      @count += @attack_speed
-      @level = $env_table_attack[high_byte(@count)]
-      if (high_byte(@count) == 127)
-        @state = STATE_DECAY
-        @count = 0
+      @level_16 = LEVEL16_190_5 - (((LEVEL16_190_5 - @level_16) * @attack_rate) >> 16)
+      if (@level_16 >= LEVEL16_127)
+        @state = STATE_DECAY_SUSTAIN
+        @level_16 = LEVEL16_127
       end
-    when STATE_DECAY
-      @count += @decay_speed
-      @level = $env_table_decay[high_byte(@count)]
-      @level = high_byte(@level * ((127 - @sustain_level) << 1))
-      @level += @sustain_level
-      if (high_byte(@count) == 254)
-        @state = STATE_SUSTAIN
+    when STATE_DECAY_SUSTAIN
+      if (@level_16 > @sustain_level_16)
+        if (@level_16 <= (32 + @sustain_level_16))
+          @level_16 = @sustain_level_16
+        elsif
+          @level_16 = @sustain_level_16 + (((@level_16 - @sustain_level_16) * @decay_rate) >> 16)
+        end
       end
-    when STATE_SUSTAIN
-      @level = @sustain_level
     when STATE_RELEASE
-      @count += @decay_speed
-      @level = $env_table_decay[high_byte(@count)]
-      if (high_byte(@count) == 254)
+      @level_16 = ((@level_16 * @decay_rate) >> 16)
+      if (@level_16 <= 32)
         @state = STATE_IDLE
+        @level_16 = 0
       end
     when STATE_IDLE
-      @level = 0
+      @level_16 = 0
     end
 
-    return @level
+    return high_byte(@level_16)
   end
 end

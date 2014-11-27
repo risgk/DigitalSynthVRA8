@@ -13,7 +13,7 @@ const uint8_t g_programTable[] = {
   SAWTOOTH, 64, 70,
   TRIANGLE, 52, 64,
   64, ON, 64,
-  16, 96, 127,
+  21, 85, 127,
   64, 64,
 
   // Saw Lead
@@ -21,7 +21,7 @@ const uint8_t g_programTable[] = {
   SAWTOOTH, 64, 70,
   SAWTOOTH, 64, 64,
   64, ON, 64,
-  16, 96, 127,
+  21, 85, 127,
   64, 64,
 
   // Square Lead
@@ -29,7 +29,7 @@ const uint8_t g_programTable[] = {
   SQUARE, 64, 70,
   SQUARE, 64, 64,
   64, OFF, 64,
-  32, 96, 127,
+  42, 106, 127,
   64, 64,
 
   // Synth Pad
@@ -37,7 +37,7 @@ const uint8_t g_programTable[] = {
   SAWTOOTH, 64, 70,
   TRIANGLE, 64, 64,
   0, ON, 127,
-  127, 127, 127,
+  106, 106, 127,
   64, 64,
 
   // Synth Bass
@@ -45,6 +45,6 @@ const uint8_t g_programTable[] = {
   SAWTOOTH, 64, 70,
   SAWTOOTH, 64, 64,
   0, ON, 127,
-  16, 112, 0,
+  21, 85, 0,
   64, 64,
 };
