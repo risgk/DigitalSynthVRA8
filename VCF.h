@@ -42,15 +42,18 @@ public:
       cutoffFrequency = 127;
     }
 
-    const uint8_t* p = m_lpfTable + (uint16_t) (cutoffFrequency * (uint8_t) 4);
-    int8_t b1OverA0 = pgm_read_byte(p++);
-    int8_t b2OverA0 = pgm_read_byte(p++);
-    int8_t a1OverA0 = pgm_read_byte(p++);
-    int8_t a2OverA0 = pgm_read_byte(p++);
+    const uint8_t* p = m_lpfTable + (uint16_t) (cutoffFrequency * (uint8_t) 3);
+    uint8_t b2OverA0 = pgm_read_byte(p++);
+    uint8_t a1OverA0 = pgm_read_byte(p++);
+    uint8_t a2OverA0 = pgm_read_byte(p++);
 
     int8_t x0 = a;
-    int8_t y0 = highByte(((b2OverA0 * x0)   + (b1OverA0 * m_x1) + (b2OverA0 * m_x2) -
-                          (a1OverA0 * m_y1) - (a2OverA0 * m_y2)) << 2);
+    int16_t tmp = -(a2OverA0 * m_y2);
+    tmp += b2OverA0 * x0;
+    tmp += (uint8_t) (b2OverA0 << (uint8_t) 1) * m_x1;
+    tmp += b2OverA0 * m_x2;
+    tmp += a1OverA0 * m_y1;
+    int8_t y0 = highByte(tmp << 1);
     m_x2 = m_x1;
     m_y2 = m_y1;
     m_x1 = x0;

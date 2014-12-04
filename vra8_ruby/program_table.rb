@@ -10,7 +10,7 @@ $program_table = [
   SAWTOOTH, 64,
   SAWTOOTH, 64, 70,
   TRIANGLE, 52, 64,
-  64, ON, 64,
+  85, ON, 42,
   21, 85, 127,
   64, 64,
 
@@ -18,7 +18,7 @@ $program_table = [
   SAWTOOTH, 64,
   SAWTOOTH, 64, 70,
   SAWTOOTH, 64, 64,
-  64, ON, 64,
+  85, ON, 42,
   21, 85, 127,
   64, 64,
 
@@ -26,7 +26,7 @@ $program_table = [
   SQUARE, 64,
   SQUARE, 64, 70,
   SQUARE, 64, 64,
-  64, OFF, 64,
+  85, OFF, 42,
   42, 106, 127,
   64, 64,
 
@@ -34,7 +34,7 @@ $program_table = [
   SAWTOOTH, 64,
   SAWTOOTH, 64, 70,
   TRIANGLE, 64, 64,
-  0, ON, 127,
+  42, ON, 85,
   106, 106, 127,
   64, 64,
 
