@@ -54,7 +54,7 @@
     - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCF
     - Filter Type: LPF, Attenuation Slope: -12 [dB/oct]
-    - Cutoff Frequency: 976.6(0), ..., 971.2(42), ..., 1963.8(85), ..., 3906.3(127) [Hz]
+    - Cutoff Frequency: 488.3(0), ..., 971.2(42), ..., 1963.8(85), ..., 3906.3(127) [Hz]
     - Resonance: Q=0.7(0), Q=1.4(127)
     - Envelope Amount: 0(0), ..., 50.4(64), ..., 100(127) [%]
 - VCA

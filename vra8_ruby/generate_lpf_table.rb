@@ -18,7 +18,7 @@ def generate_lpf_table(name, q)
 
     b2_over_a0   = ((b2 / a0) * 128.0).round.to_i
     a1_over_a0_i = ((a1 / a0) * -128.0).round.to_i
-    a2_over_a0   = ((a2 / a0) * 128.0).round.to_i
+    a2_over_a0   = (b2_over_a0 * 4) + a1_over_a0_i - 128
 
     $file.printf("%4d, %4d, %4d,", b2_over_a0, a1_over_a0_i, a2_over_a0)
     if i == 127
