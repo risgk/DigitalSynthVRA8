@@ -29,7 +29,7 @@ const uint8_t g_programTable[] = {
   SQUARE, 64, 70,
   SQUARE, 64, 64,
   85, OFF, 42,
-  42, 106, 127,
+  42, 85, 127,
   64, 64,
 
   // Synth Pad
