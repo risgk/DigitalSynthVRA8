@@ -40,6 +40,7 @@ class EG
 
   def sound_off
     @state = STATE_IDLE
+    @level_16 = 0
   end
 
   def clock
