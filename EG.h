@@ -48,6 +48,7 @@ public:
   static void soundOff()
   {
     m_state = STATE_IDLE;
+    m_level16 = 0;
   }
 
   static uint8_t clock()
