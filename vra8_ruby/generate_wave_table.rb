@@ -53,18 +53,23 @@ end
 
 FREQ_MAX = 8819  # refs "freq_table.rb"
 
+def max_from_i(i)
+  max = 128 / (i + 1)
+  max = 64 if max == 128
+  max = max - 1 if max % 2 == 1
+  return max
+end
+
 def generate_wave_tables(name)
   wave_table_sels = (0..(FREQ_MAX / 256))
   $file.printf("$wave_tables_%s = [\n", name)
   wave_table_sels.each do |i|
-    max = 128 / (i + 1)
-    max = 64 if max == 128
-    $file.printf("  $wave_table_%s_m%d,\n", name, max)
+    $file.printf("  $wave_table_%s_m%d,\n", name, max_from_i(i))
   end
   $file.printf("]\n\n")
 end
 
-overtones = (0..(FREQ_MAX / 256)).map { |i| 128 / (i + 1) }.map { |i| i == 128 ? 64 : i }.uniq
+overtones = (0..(FREQ_MAX / 256)).map { |i| max_from_i(i) }.uniq
 
 overtones.each do |max|
   generate_wave_table_sawtooth(max)
