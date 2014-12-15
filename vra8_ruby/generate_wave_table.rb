@@ -9,7 +9,7 @@ def generate_wave_table(max, name)
     (1..max).each do |k|
       level += yield(t, k)
     end
-    level = (level * 64).round.to_i
+    level = (level * 56).round.to_i
     $file.printf("%+4d,", level)
 
     if t == 255
