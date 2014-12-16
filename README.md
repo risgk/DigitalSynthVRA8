@@ -42,14 +42,17 @@
 ## Synth Modules
 
 - VCO 1
-    - Waveform: Sawtooth(0), Square(1), Triangle(2), Sine(3)
+    - Waveform: Sawtooth(0), Square(1), Triangle(2), Sine(3),  
+      Pulse-25%(4), Pulse-12.5%(5), Pseudo-Triangle(6)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
 - VCO 2
-    - Waveform: Sawtooth(0), Square(1), Triangle(2)
+    - Waveform: Sawtooth(0), Square(1), Triangle(2), Sine(3),  
+      Pulse-25%(4), Pulse-12.5%(5), Pseudo-Triangle(6)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
     - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCO 3
-    - Waveform: Sawtooth(0), Square(1), Triangle(2)
+    - Waveform: Sawtooth(0), Square(1), Triangle(2), Sine(3),  
+      Pulse-25%(4), Pulse-12.5%(5), Pseudo-Triangle(6)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
     - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCF
