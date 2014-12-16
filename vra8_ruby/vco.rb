@@ -24,6 +24,8 @@ class VCO
       @wave_tables = $wave_tables_square
     when TRIANGLE
       @wave_tables = $wave_tables_triangle
+    when SINE
+      @wave_tables = $wave_tables_sine
     end
   end
 

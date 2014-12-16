@@ -51,6 +51,16 @@ def generate_wave_table_triangle(max)
   end
 end
 
+def generate_wave_table_sine(max)
+  generate_wave_table(max, "sine") do |t, k|
+    if k == 1
+      Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / (k ** 2.0)
+    else
+      0.0
+    end
+  end
+end
+
 FREQ_MAX = 8819  # refs "freq_table.rb"
 
 def max_from_i(i)
@@ -83,8 +93,22 @@ overtones.each do |max|
   generate_wave_table_triangle(max)
 end
 
+generate_wave_table_sine(1)
+
 generate_wave_tables("sawtooth")
 generate_wave_tables("square")
 generate_wave_tables("triangle")
+
+def generate_wave_tables_sine
+  name = "sine"
+  wave_table_sels = (0..(FREQ_MAX / 256))
+  $file.printf("$wave_tables_%s = [\n", name)
+  wave_table_sels.each do |i|
+    $file.printf("  $wave_table_%s_m%d,\n", name, 1)
+  end
+  $file.printf("]\n\n")
+end
+
+generate_wave_tables_sine
 
 $file.close
