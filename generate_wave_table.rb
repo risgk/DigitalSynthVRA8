@@ -1,6 +1,6 @@
 require './common'
 
-$file = File::open("waveTable.h", "w")
+$file = File::open("WaveTable.h", "w")
 
 $file.printf("#pragma once\n\n")
 
@@ -81,6 +81,16 @@ def generate_wave_tables(name)
   $file.printf("};\n\n")
 end
 
+def generate_wave_tables_sine
+  name = "Sine"
+  wave_table_sels = (0..(FREQ_MAX / 256))
+  $file.printf("const uint8_t* g_waveTables%s[] = {\n", name)
+  wave_table_sels.each do |i|
+    $file.printf("  g_waveTable%sM%d,\n", name, 1)
+  end
+  $file.printf("};\n\n")
+end
+
 overtones = (0..(FREQ_MAX / 256)).map { |i| max_from_i(i) }.uniq
 
 overtones.each do |max|
@@ -100,17 +110,6 @@ generate_wave_table_sine(1)
 generate_wave_tables("Sawtooth")
 generate_wave_tables("Square")
 generate_wave_tables("Triangle")
-
-def generate_wave_tables_sine
-  name = "Sine"
-  wave_table_sels = (0..(FREQ_MAX / 256))
-  $file.printf("const uint8_t* g_waveTables%s[] = {\n", name)
-  wave_table_sels.each do |i|
-    $file.printf("  g_waveTable%sM%d,\n", name, 1)
-  end
-  $file.printf("};\n\n")
-end
-
 generate_wave_tables_sine
 
 $file.close
