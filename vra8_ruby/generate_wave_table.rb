@@ -9,7 +9,7 @@ def generate_wave_table(max, name)
     (1..max).each do |k|
       level += yield(t, k)
     end
-    level = (level * 72).round.to_i
+    level = (level * 80).round.to_i
     $file.printf("%+4d,", level)
 
     if t == 255
@@ -54,7 +54,7 @@ end
 def generate_wave_table_sine(max)
   generate_wave_table(max, "sine") do |t, k|
     if k == 1
-      Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / (k ** 2.0)
+      Math::sin((2.0 * Math::PI) * (t / 256.0) * k)
     else
       0.0
     end
