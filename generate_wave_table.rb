@@ -1,6 +1,6 @@
 require './common'
 
-$file = File::open("waveTable.h", "w")
+$file = File::open("WaveTable.h", "w")
 
 $file.printf("#pragma once\n\n")
 
@@ -11,7 +11,7 @@ def generate_wave_table(max, name)
     (1..max).each do |k|
       level += yield(t, k)
     end
-    level = (level * 64).round.to_i
+    level = (level * 80).round.to_i
     $file.printf("%+4d,", level)
 
     if t == 255
@@ -27,14 +27,14 @@ end
 
 def generate_wave_table_sawtooth(max)
   generate_wave_table(max, "Sawtooth") do |t, k|
-    Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / k
+    (2.0 / Math::PI) * Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / k
   end
 end
 
 def generate_wave_table_square(max)
   generate_wave_table(max, "Square") do |t, k|
     if k % 2 == 1
-      2.0 * Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / k
+      (4.0 / Math::PI) * Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / k
     else
       0.0
     end
@@ -44,9 +44,19 @@ end
 def generate_wave_table_triangle(max)
   generate_wave_table(max, "Triangle") do |t, k|
     if k % 4 == 1
-      (4.0 / Math::PI) * Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / (k ** 2.0)
+      (8.0 / (Math::PI ** 2)) * Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / (k ** 2.0)
     elsif k % 4 == 3
-      (4.0 / Math::PI) * -Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / (k ** 2.0)
+      (8.0 / (Math::PI ** 2)) * -Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / (k ** 2.0)
+    else
+      0.0
+    end
+  end
+end
+
+def generate_wave_table_sine(max)
+  generate_wave_table(max, "Sine") do |t, k|
+    if k == 1
+      Math::sin((2.0 * Math::PI) * (t / 256.0) * k)
     else
       0.0
     end
@@ -55,18 +65,33 @@ end
 
 FREQ_MAX = 8819  # refs "FreqTable.h"
 
+def max_from_i(i)
+  max = 128 / (i + 1)
+  max = 64 if max == 128
+  max = max - 1 if max % 2 == 1
+  return max
+end
+
 def generate_wave_tables(name)
   wave_table_sels = (0..(FREQ_MAX / 256))
   $file.printf("const uint8_t* g_waveTables%s[] = {\n", name)
   wave_table_sels.each do |i|
-    max = 128 / (i + 1)
-    max = 64 if max == 128
-    $file.printf("  g_waveTable%sM%d,\n", name, max)
+    $file.printf("  g_waveTable%sM%d,\n", name, max_from_i(i))
   end
   $file.printf("};\n\n")
 end
 
-overtones = (0..(FREQ_MAX / 256)).map { |i| 128 / (i + 1) }.map { |i| i == 128 ? 64 : i }.uniq
+def generate_wave_tables_sine
+  name = "Sine"
+  wave_table_sels = (0..(FREQ_MAX / 256))
+  $file.printf("const uint8_t* g_waveTables%s[] = {\n", name)
+  wave_table_sels.each do |i|
+    $file.printf("  g_waveTable%sM%d,\n", name, 1)
+  end
+  $file.printf("};\n\n")
+end
+
+overtones = (0..(FREQ_MAX / 256)).map { |i| max_from_i(i) }.uniq
 
 overtones.each do |max|
   generate_wave_table_sawtooth(max)
@@ -80,8 +105,11 @@ overtones.each do |max|
   generate_wave_table_triangle(max)
 end
 
+generate_wave_table_sine(1)
+
 generate_wave_tables("Sawtooth")
 generate_wave_tables("Square")
 generate_wave_tables("Triangle")
+generate_wave_tables_sine
 
 $file.close

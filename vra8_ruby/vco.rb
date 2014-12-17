@@ -1,6 +1,7 @@
 require './common'
 require './freq_table'
 require './wave_table'
+require './wave_table_2'
 
 class VCO
   def initialize
@@ -24,6 +25,14 @@ class VCO
       @wave_tables = $wave_tables_square
     when TRIANGLE
       @wave_tables = $wave_tables_triangle
+    when SINE
+      @wave_tables = $wave_tables_sine
+    when PULSE_25
+      @wave_tables = $wave_tables_pulse_25
+    when PULSE_12
+      @wave_tables = $wave_tables_pulse_12
+    when PSEUDO_TRI
+      @wave_tables = $wave_tables_pseudo_tri
     end
   end
 

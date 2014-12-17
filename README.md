@@ -1,6 +1,6 @@
-# Digital Synth VRA8 3.2.0
+# Digital Synth VRA8 4.0.0
 
-2014-12-14 ISGK Instruments  
+2014-12-17 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## Concept
@@ -42,14 +42,17 @@
 ## Synth Modules
 
 - VCO 1
-    - Waveform: Sawtooth(0), Square(1), Triangle(2)
+    - Waveform: Sawtooth(0), Square(1), Triangle(2), Sine(3),  
+      Pulse-25%(4), Pulse-12.5%(5), Pseudo-Triangle(6)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
 - VCO 2
-    - Waveform: Sawtooth(0), Square(1), Triangle(2)
+    - Waveform: Sawtooth(0), Square(1), Triangle(2), Sine(3),  
+      Pulse-25%(4), Pulse-12.5%(5), Pseudo-Triangle(6)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
     - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCO 3
-    - Waveform: Sawtooth(0), Square(1), Triangle(2)
+    - Waveform: Sawtooth(0), Square(1), Triangle(2), Sine(3),  
+      Pulse-25%(4), Pulse-12.5%(5), Pseudo-Triangle(6)
     - Coarse Tune: -64(0), ..., 0(64), ..., +63(127) [semitone]
     - Fine Tune: -9.375(58), 0(64), +9.375(70) [cent]
 - VCF
@@ -77,8 +80,8 @@
 
 ## MIDI Implementation Chart
 
-      [Virtual Analog Synthesizer]                                    Date: 2014-12-14       
-      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 3.2.0         
+      [Virtual Analog Synthesizer]                                    Date: 2014-12-17       
+      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 4.0.0         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function...                   | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+

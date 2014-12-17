@@ -3,6 +3,7 @@
 #include "Common.h"
 #include "FreqTable.h"
 #include "WaveTable.h"
+#include "WaveTable2.h"
 
 template <uint8_t T>
 class VCO
@@ -31,6 +32,18 @@ public:
       break;
     case TRIANGLE:
       m_waveTables = g_waveTablesTriangle;
+      break;
+    case SINE:
+      m_waveTables = g_waveTablesSine;
+      break;
+    case PULSE_25:
+      m_waveTables = g_waveTablesPulse25;
+      break;
+    case PULSE_12:
+      m_waveTables = g_waveTablesPulse12;
+      break;
+    case PSEUDO_TRI:
+      m_waveTables = g_waveTablesPseudoTri;
       break;
     }
   }
