@@ -68,7 +68,7 @@ FREQ_MAX = 8819  # refs "FreqTable.h"
 def max_from_i(i)
   max = 128 / (i + 1)
   max = 64 if max == 128
-  max = max - 1 if max % 2 == 1
+  max = max - 1 if max % 2 == 0
   return max
 end
 
