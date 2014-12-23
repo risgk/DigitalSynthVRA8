@@ -25,14 +25,14 @@ end
 
 def generate_wave_table_sawtooth(max)
   generate_wave_table(max, "sawtooth") do |t, k|
-    (2.0 / Math::PI) * Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / k
+    (2.0 / Math::PI) * Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k) / k
   end
 end
 
 def generate_wave_table_square(max)
   generate_wave_table(max, "square") do |t, k|
     if k % 2 == 1
-      (4.0 / Math::PI) * Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / k
+      (4.0 / Math::PI) * Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k) / k
     else
       0.0
     end
@@ -42,9 +42,9 @@ end
 def generate_wave_table_triangle(max)
   generate_wave_table(max, "triangle") do |t, k|
     if k % 4 == 1
-      (8.0 / (Math::PI ** 2)) * Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / (k ** 2.0)
+      (8.0 / (Math::PI ** 2)) * Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k) / (k ** 2.0)
     elsif k % 4 == 3
-      (8.0 / (Math::PI ** 2)) * -Math::sin((2.0 * Math::PI) * (t / 256.0) * k) / (k ** 2.0)
+      (8.0 / (Math::PI ** 2)) * -Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k) / (k ** 2.0)
     else
       0.0
     end
@@ -54,7 +54,7 @@ end
 def generate_wave_table_sine(max)
   generate_wave_table(max, "sine") do |t, k|
     if k == 1
-      Math::sin((2.0 * Math::PI) * (t / 256.0) * k)
+      Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k)
     else
       0.0
     end
