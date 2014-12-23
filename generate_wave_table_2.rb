@@ -75,7 +75,7 @@ end
 
 def lpf(ffta, k)
   a = ffta.clone
-  (k + 1 .. (N / 2) - 1).each do |i|
+  (k + 1 .. (N / 2)).each do |i|
     a[i] = 0.0
     a[N - i] = 0.0
   end
