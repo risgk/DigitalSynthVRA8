@@ -1,7 +1,5 @@
 require './common'
 
-N = 256.0
-
 $pulse_25 = [
    +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,
    +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,
@@ -70,14 +68,16 @@ def fft(a)
 end
 
 def ifft(ffta)
-  fft(ffta.map {|i| i.conj }).map {|i| i.conj }.map {|i| i / N }.map {|i| i.real.round }
+  n = ffta.size
+  fft(ffta.map {|i| i.conj }).map {|i| i.conj }.map {|i| i / n }.map {|i| i.real.round }
 end
 
 def lpf(ffta, k)
+  n = ffta.size
   a = ffta.clone
-  (k + 1 .. (N / 2)).each do |i|
+  (k + 1 .. (n / 2)).each do |i|
     a[i] = 0.0
-    a[N - i] = 0.0
+    a[n - i] = 0.0
   end
   return a
 end
