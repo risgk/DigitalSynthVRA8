@@ -91,11 +91,11 @@ $file = File::open("wave_table_2.rb", "w")
 def generate_wave_table(max, name, ffta)
   $file.printf("$wave_table_%s_m%d = [\n  ", name, max)
   a = ifft(lpf(ffta, max))
-  a.each_with_index do |level, t|
+  a.each_with_index do |level, n|
     $file.printf("%+4d,", level)
-    if t == 255
+    if n == 255
       $file.printf("\n")
-    elsif t % 16 == 15
+    elsif n % 16 == 15
       $file.printf("\n  ")
     else
       $file.printf(" ")

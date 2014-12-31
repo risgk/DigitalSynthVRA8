@@ -6,17 +6,17 @@ $file.printf("#pragma once\n\n")
 
 def generate_wave_table(max, name)
   $file.printf("const uint8_t g_waveTable%sM%d[] PROGMEM = {\n  ", name, max)
-  (0..255).each do |t|
+  (0..255).each do |n|
     level = 0
     (1..max).each do |k|
-      level += yield(t, k)
+      level += yield(n, k)
     end
     level = (level * 80).round.to_i
     $file.printf("%+4d,", level)
 
-    if t == 255
+    if n == 255
       $file.printf("\n")
-    elsif t % 16 == 15
+    elsif n % 16 == 15
       $file.printf("\n  ")
     else
       $file.printf(" ")
@@ -26,15 +26,15 @@ def generate_wave_table(max, name)
 end
 
 def generate_wave_table_sawtooth(max)
-  generate_wave_table(max, "Sawtooth") do |t, k|
-    (2.0 / Math::PI) * Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k) / k
+  generate_wave_table(max, "Sawtooth") do |n, k|
+    (2.0 / Math::PI) * Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k) / k
   end
 end
 
 def generate_wave_table_square(max)
-  generate_wave_table(max, "Square") do |t, k|
+  generate_wave_table(max, "Square") do |n, k|
     if k % 2 == 1
-      (4.0 / Math::PI) * Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k) / k
+      (4.0 / Math::PI) * Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k) / k
     else
       0.0
     end
@@ -42,11 +42,11 @@ def generate_wave_table_square(max)
 end
 
 def generate_wave_table_triangle(max)
-  generate_wave_table(max, "Triangle") do |t, k|
+  generate_wave_table(max, "Triangle") do |n, k|
     if k % 4 == 1
-      (8.0 / (Math::PI ** 2)) * Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k) / (k ** 2.0)
+      (8.0 / (Math::PI ** 2)) * Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k) / (k ** 2.0)
     elsif k % 4 == 3
-      (8.0 / (Math::PI ** 2)) * -Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k) / (k ** 2.0)
+      (8.0 / (Math::PI ** 2)) * -Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k) / (k ** 2.0)
     else
       0.0
     end
@@ -54,9 +54,9 @@ def generate_wave_table_triangle(max)
 end
 
 def generate_wave_table_sine(max)
-  generate_wave_table(max, "Sine") do |t, k|
+  generate_wave_table(max, "Sine") do |n, k|
     if k == 1
-      Math::sin((2.0 * Math::PI) * ((t + 0.5) / 256.0) * k)
+      Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k)
     else
       0.0
     end
