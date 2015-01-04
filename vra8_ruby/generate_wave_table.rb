@@ -2,12 +2,12 @@ require './common'
 
 $file = File::open("wave_table.rb", "w")
 
-def generate_wave_table(max, name)
+def generate_wave_table(max, name, amp)
   $file.printf("$wave_table_%s_m%d = [\n  ", name, max)
   (0..255).each do |n|
     level = 0
     (1..max).each do |k|
-      level += yield(n, k)
+      level += amp * yield(n, k)
     end
     level = (level * 80).round.to_i
     $file.printf("%+4d,", level)
@@ -24,13 +24,13 @@ def generate_wave_table(max, name)
 end
 
 def generate_wave_table_sawtooth(max)
-  generate_wave_table(max, "sawtooth") do |n, k|
+  generate_wave_table(max, "sawtooth", 1.0) do |n, k|
     (2.0 / Math::PI) * Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k) / k
   end
 end
 
 def generate_wave_table_square(max)
-  generate_wave_table(max, "square") do |n, k|
+  generate_wave_table(max, "square", 1.0 / Math::sqrt(3.0)) do |n, k|
     if k % 2 == 1
       (4.0 / Math::PI) * Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k) / k
     else
@@ -40,7 +40,7 @@ def generate_wave_table_square(max)
 end
 
 def generate_wave_table_triangle(max)
-  generate_wave_table(max, "triangle") do |n, k|
+  generate_wave_table(max, "triangle", 1.0) do |n, k|
     if k % 4 == 1
       (8.0 / (Math::PI ** 2)) * Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k) / (k ** 2.0)
     elsif k % 4 == 3
@@ -52,7 +52,7 @@ def generate_wave_table_triangle(max)
 end
 
 def generate_wave_table_sine(max)
-  generate_wave_table(max, "sine") do |n, k|
+  generate_wave_table(max, "sine", Math::sqrt(2.0) / Math::sqrt(3.0)) do |n, k|
     if k == 1
       Math::sin((2.0 * Math::PI) * ((n + 0.5) / 256.0) * k)
     else

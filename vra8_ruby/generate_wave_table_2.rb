@@ -57,7 +57,9 @@ $pseudo_tri = [
    -15,  -15,  -15,  -15,  -15,  -15,  -15,  -15,   -5,   -5,   -5,   -5,   -5,   -5,   -5,   -5,
 ]
 
-# refs http://d.hatena.ne.jp/ku-ma-me/20111124/p1#20111124f1
+# refs http://d.hatena.ne.jp/ku-ma-me/20111124/p1
+# Ruby で FFT (高速フーリエ変換) を書いてみた - まめめも
+# by ku-ma-me
 def fft(a)
   n = a.size
   return a if n == 1
@@ -67,9 +69,9 @@ def fft(a)
   a1.zip(a2).flatten
 end
 
-def ifft(ffta)
+def ifft(ffta, amp)
   n = ffta.size
-  fft(ffta.map {|i| i.conj }).map {|i| i.conj }.map {|i| i / n }.map {|i| i.real.round }
+  fft(ffta.map {|i| i.conj }).map {|i| i.conj }.map {|i| i * amp / n }.map {|i| i.real.round }
 end
 
 def lpf(ffta, k)
@@ -88,9 +90,9 @@ $fft_pseudo_tri = fft($pseudo_tri)
 
 $file = File::open("wave_table_2.rb", "w")
 
-def generate_wave_table(max, name, ffta)
+def generate_wave_table(max, name, amp, ffta)
   $file.printf("$wave_table_%s_m%d = [\n  ", name, max)
-  a = ifft(lpf(ffta, max))
+  a = ifft(lpf(ffta, max), amp)
   a.each_with_index do |level, n|
     $file.printf("%+4d,", level)
     if n == 255
@@ -105,15 +107,15 @@ def generate_wave_table(max, name, ffta)
 end
 
 def generate_wave_table_pulse_25(max)
-  generate_wave_table(max, "pulse_25", $fft_pulse_25)
+  generate_wave_table(max, "pulse_25", 1.0 / Math::sqrt(3.0), $fft_pulse_25)
 end
 
 def generate_wave_table_pulse_12(max)
-  generate_wave_table(max, "pulse_12", $fft_pulse_12)
+  generate_wave_table(max, "pulse_12", 1.0 / Math::sqrt(3.0), $fft_pulse_12)
 end
 
 def generate_wave_table_pseudo_tri(max)
-  generate_wave_table(max, "pseudo_tri", $fft_pseudo_tri)
+  generate_wave_table(max, "pseudo_tri", 1.0, $fft_pseudo_tri)
 end
 
 FREQ_MAX = 8819  # refs "freq_table.rb"
