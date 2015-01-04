@@ -1,6 +1,6 @@
-# Digital Synth VRA8 4.2.0
+# Digital Synth VRA8 5.0.0
 
-2014-12-24 ISGK Instruments  
+2015-01-04 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## Concept
@@ -80,8 +80,8 @@
 
 ## MIDI Implementation Chart
 
-      [Virtual Analog Synthesizer]                                    Date: 2014-12-24       
-      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 4.2.0         
+      [Virtual Analog Synthesizer]                                    Date: 2015-01-04       
+      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 5.0.0         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function...                   | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
