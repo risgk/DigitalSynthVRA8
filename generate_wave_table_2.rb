@@ -1,4 +1,5 @@
 require './common'
+require './fft/fft'
 
 $pulse_25 = [
    +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,
@@ -56,18 +57,6 @@ $pseudo_tri = [
    -35,  -35,  -35,  -35,  -35,  -35,  -35,  -35,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,
    -15,  -15,  -15,  -15,  -15,  -15,  -15,  -15,   -5,   -5,   -5,   -5,   -5,   -5,   -5,   -5,
 ]
-
-# refs http://d.hatena.ne.jp/ku-ma-me/20111124/p1
-# Ruby で FFT (高速フーリエ変換) を書いてみた - まめめも
-# by ku-ma-me
-def fft(a)
-  n = a.size
-  return a if n == 1
-  w = Complex.polar(1, -2 * Math::PI / n)
-  a1 = fft((0 .. n / 2 - 1).map {|i| a[i] + a[i + n / 2] })
-  a2 = fft((0 .. n / 2 - 1).map {|i| (a[i] - a[i + n / 2]) * (w ** i) })
-  a1.zip(a2).flatten
-end
 
 def ifft(ffta, amp)
   n = ffta.size
