@@ -1,7 +1,3 @@
-# refs http://d.hatena.ne.jp/ku-ma-me/20111124/p1
-# Ruby で FFT (高速フーリエ変換) を書いてみた - まめめも
-# by Yusuke Endoh
-
 def fft(a)
   n = a.size
   return a if n == 1
