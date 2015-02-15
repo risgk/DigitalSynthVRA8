@@ -1,9 +1,10 @@
+# refs http://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm
+# Cooley–Tukey FFT algorithm - Wikipedia, the free encyclopedia
+
 def fft(a)
   ditfft2(a, a.size, 1)
 end
 
-# refs http://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm
-# Cooley–Tukey FFT algorithm - Wikipedia, the free encyclopedia
 def ditfft2(x, n, s)
   result = []
   if n == 1 then
@@ -18,4 +19,19 @@ def ditfft2(x, n, s)
     end
   end
   result
+end
+
+def ifft(ffta, amp)
+  n = ffta.size
+  fft(ffta.map {|i| i.conj }).map {|i| i.conj }.map {|i| i * amp / n }.map {|i| i.real.round }
+end
+
+def lpf_fft(ffta, k)
+  n = ffta.size
+  a = ffta.clone
+  (k + 1 .. (n / 2)).each do |i|
+    a[i] = 0.0
+    a[n - i] = 0.0
+  end
+  return a
 end

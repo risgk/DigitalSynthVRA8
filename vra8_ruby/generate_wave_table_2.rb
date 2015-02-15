@@ -1,5 +1,5 @@
 require './common'
-require './fft/fft'
+require './fft'
 
 $pulse_25 = [
    +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,  +80,
@@ -58,21 +58,6 @@ $pseudo_tri = [
    -15,  -15,  -15,  -15,  -15,  -15,  -15,  -15,   -5,   -5,   -5,   -5,   -5,   -5,   -5,   -5,
 ]
 
-def ifft(ffta, amp)
-  n = ffta.size
-  fft(ffta.map {|i| i.conj }).map {|i| i.conj }.map {|i| i * amp / n }.map {|i| i.real.round }
-end
-
-def lpf(ffta, k)
-  n = ffta.size
-  a = ffta.clone
-  (k + 1 .. (n / 2)).each do |i|
-    a[i] = 0.0
-    a[n - i] = 0.0
-  end
-  return a
-end
-
 $fft_pulse_25 = fft($pulse_25)
 $fft_pulse_12 = fft($pulse_12)
 $fft_pseudo_tri = fft($pseudo_tri)
@@ -81,7 +66,7 @@ $file = File::open("wave_table_2.rb", "w")
 
 def generate_wave_table(max, name, amp, ffta)
   $file.printf("$wave_table_%s_m%d = [\n  ", name, max)
-  a = ifft(lpf(ffta, max), amp)
+  a = ifft(lpf_fft(ffta, max), amp)
   a.each_with_index do |level, n|
     $file.printf("%+4d,", level)
     if n == 255
