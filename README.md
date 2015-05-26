@@ -35,8 +35,7 @@
 ## VRA8 CTRL Features
 
 - Parameter Editor (MIDI Controller) for VRA8, HTML5 App
-- Please enable Web MIDI API of Google Chrome
-    - `chrome://flags/#enable-web-midi`
+- We recommend Google Chrome, which implements Web MIDI API
 - Recommending [loopMIDI](http://www.tobias-erichsen.de/software/loopmidi.html) (virtual loopback MIDI cable) to connect VRA8
 
 ## Synth Modules
