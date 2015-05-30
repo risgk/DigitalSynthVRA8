@@ -1,6 +1,6 @@
-# Digital Synth VRA8 5.1.1
+# Digital Synth VRA8 5.1.2
 
-2015-02-26 ISGK Instruments  
+2015-05-30 ISGK Instruments  
 [https://github.com/risgk/DigitalSynthVRA8](https://github.com/risgk/DigitalSynthVRA8)
 
 ## Concept
@@ -35,8 +35,7 @@
 ## VRA8 CTRL Features
 
 - Parameter Editor (MIDI Controller) for VRA8, HTML5 App
-- Please enable Web MIDI API of Google Chrome
-    - `chrome://flags/#enable-web-midi`
+- We recommend Google Chrome, which implements Web MIDI API
 - Recommending [loopMIDI](http://www.tobias-erichsen.de/software/loopmidi.html) (virtual loopback MIDI cable) to connect VRA8
 
 ## Synth Modules
@@ -80,8 +79,8 @@
 
 ## MIDI Implementation Chart
 
-      [Virtual Analog Synthesizer]                                    Date: 2015-02-26       
-      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 5.1.1         
+      [Virtual Analog Synthesizer]                                    Date: 2015-05-30       
+      Model  Digital Synth VRA8       MIDI Implementation Chart       Version: 5.1.2         
     +-------------------------------+---------------+---------------+-----------------------+
     | Function...                   | Transmitted   | Recognized    | Remarks               |
     +-------------------------------+---------------+---------------+-----------------------+
